@@ -2,9 +2,9 @@ let mysql = require('mysql2');
 
 var connection = mysql.createPool({
     host     : 'hostname',
-    user     : 'username',
-    password : 'password',
-    database : 'database',
+    user     : 'u486454746_dcou',
+    password : '$Harshad9898H',
+    database : 'u486454746_doc',
     connectionLimit : 100,
     charset: 'utf8mb4'
   });
