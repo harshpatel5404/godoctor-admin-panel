@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Add%> <%= lan.Package %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Add%> <%= lan.Package %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="lab_signup_form" novalidate="" action="/lab/add_lab_package_data" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                  <div class="col-12 form-group text-center">
+                                    <img id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                  </div>
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%= lan.Package %> <%= lan.Logo %></label>
+                                    <input class="form-control docin" style="height: 47px;" type="file" name="logo" accept="image/*" onchange="showPreview(event)" required>
+                                  </div>
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%= lan.Package %> <%=lan.Title%></label>
+                                    <input class="form-control docin" type="text" name="title" placeholder="<%=lan.Enter%> <%= lan.Package %> <%=lan.Title%>" required>
+                                  </div>
+                                  <div class="col-12 form-group">
+                                    <label class="col-form-label"><%= lan.Package %> <%=lan.Subtitle%></label>
+                                    <input class="form-control docin" type="text" name="subtitle" placeholder="<%=lan.Enter%> <%= lan.Package %> <%=lan.Subtitle%>" required>
+                                  </div>
+                                  <div class="col-12 form-group">
+                                    <label class="col-form-label"><%= lan.Description %></label>
+                                    <textarea class="form-control docin" name="description" style="width: 100%; height: 150px;" required></textarea>
+                                  </div>
+
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%= lan.Home_Collect_Extra_Price %></label>
+                                    <input class="form-control docin" type="number" name="home_extra_price" placeholder="<%=lan.Enter%> <%= lan.Home_Collect_Extra_Price %>" required>
+                                  </div>
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%= lan.Fasting_Required %></label>
+                                    <input class="form-control docin" type="text" name="fasting_require" placeholder="<%=lan.Enter%> <%= lan.Fasting_Required %>" required>
+                                  </div>
+
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%= lan.Test_Report_Time %></label>
+                                    <input class="form-control docin" type="text" name="test_report_time" placeholder="<%=lan.Enter%> <%= lan.Test_Report_Time %>" required>
+                                  </div>
+
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%= lan.Sample_Type %></label>
+                                    <select class="custome_select_create form-control docin" multiple="multiple" name="sample_type" required>
+                                    </select>
+                                  </div>
+
+                                  <!-- <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label">Sample Type</label>
+                                    <select class="custome_multiple_select col-sm-12 docin" id="aadd_hos" name="hospital_list" multiple="multiple" required>
+                                        <% category.forEach((data) => { %>
+                                            <option value="<%= data.id %>"> <%= data.name %></option>
+                                        <% }) %>
+                                    </select>
+                                  </div> -->
+
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%=lan.Category%> <%=lan.List%></label>
+                                    <select class="custome_multiple_select col-sm-12 docin" id="aadd_hos" name="category_list" multiple="multiple" required>
+                                      <% category.forEach((data) => { %>
+                                        <option value="<%= data.id %>"> <%= data.name %></option>
+                                      <% }) %>
+                                    </select>
+                                  </div>
+
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <label class="col-form-label"><%= lan.Package_Type %></label>
+                                    <select class="js-example-basic-single docin" id="lab_pack_type" name="package_type" data-add="<%= lan.Add %>" data-package="<%= lan.Package %>" data-name="<%= lan.Name %>" data-price="<%= lan.Price %>" data-enter="<%= lan.Enter %>" required>
+                                      <option value selected disabled><%=lan.Select%> <%= lan.Package_Type %></option>
+                                      <option value="Individual"><%= lan.Individual %></option>
+                                      <option value="Package"><%= lan.Package %></option>
+                                    </select>
+                                  </div>
+
+                                  <div class="col-12 mt-3" id="addmorep">
+                                  </div>
+                                  
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                    <div class="d-flex mb-2 mt-4">
+                                      <div class="icon-state switch-outline">
+                                        <label class="switch">
+                                          <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                        </label>
+                                      </div>
+                                      <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                    </div>
+                                  </div>
+                                  <div class="text-center">
+                                    <p class="text-danger d-none mt-3" id="detail_error"><%= lan.Please_Enter_All_Detail %>.</p>
+                                    <p class="text-danger d-none mt-1" id="detail_email_error"><%= lan.This_Email_Id_Already_Registered %>.</p>
+                                    <p class="text-danger d-none mt-1" id="detail_phone_error"><%= lan.This_Phone_No_Already_Registered %>.</p>
+                                    <p class="text-danger d-none mt-1" id="detail_zone_error"><%= lan.Location_Not_In_Zone %></p>
+                                  </div>
+                                </div>
+                                <div class="text-end mt-5">
+                                  <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <script src="https://maps.googleapis.com/maps/api/js?key=<%= general.google_map_key %>&callback=initMap&v=weekly" defer></script>
+        <script src="../../js/map_address.js"></script>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

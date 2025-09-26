@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Add%> <%=lan.Lab%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Add%> <%=lan.Lab%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="lab_signup_form" novalidate="" action="/lab/add_lab_data" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                  <div class="col-12 form-group text-center">
+                                    <img id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                  </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <label class="col-form-label"><%= lan.Lab_Logo %></label>
+                                      <input class="form-control docin" style="height: 47px;" type="file" name="logo" accept="image/*" onchange="showPreview(event)" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Lab%> <%=lan.Name%></label>
+                                        <input class="form-control docin" type="text" name="name" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control docin" id="lab_email" type="email" name="email" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="js-example-basic-single docin" id="lab_code" name="country_code" required>
+                                                    <option value selected disabled><%=lan.Select%> <%=lan.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                                <input class="form-control docin" id="lab_number" type="number" name="phone" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="row">
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Password%></label>
+                                                <input class="form-control docin" type="password" name="password"  required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%= lan.Lab_Code %></label>
+                                                <input class="form-control docin" type="text" name="lab_code" placeholder="<%=lan.Enter%> <%= lan.Lab_Code %>" required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%= lan.License_Number %></label>
+                                                <input class="form-control docin" type="text" name="license_number" placeholder="<%=lan.Enter%> <%= lan.License_Number %>" required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%= lan.Commission %></label>
+                                                <input class="form-control docin" type="number" name="commission" placeholder="<%=lan.Enter%> <%= lan.Commission %>" required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Latitude%></label>
+                                                <input class="form-control docin" id="location_latitude" type="number" name="latitude"  required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Longitude%></label>
+                                                <input class="form-control docin" id="location_longitude" type="number" name="longitude"  required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <div id="address-map" style="height: 70vh; width: 100%;"></div>
+                                        <p class="mt-2 f-w-600"><%= lan.Click_Map_Location %></p>
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%= lan.Description %></label>
+                                        <textarea class="form-control docin" name="description" style="width: 100%; height: 150px;" required></textarea>
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%= lan.Address %></label>
+                                        <input class="form-control docin" type="text" name="address" placeholder="<%=lan.Enter%> License Number" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <div class="d-flex mb-2 mt-4">
+                                            <div class="icon-state switch-outline">
+                                              <label class="switch">
+                                                <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                              </label>
+                                            </div>
+                                            <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_email_error"><%=lan.This_Email_Alread_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_phone_error"><%=lan.This_Mobile_No_Alread_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_zone_error"><%=lan.Your_Location_Not_in_Zone%>.</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="lab_add_signup_btn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <script src="https://maps.googleapis.com/maps/api/js?key=<%= general.google_map_key %>&callback=initMap&v=weekly" defer></script>
+        <script src="../../js/map_address.js"></script>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

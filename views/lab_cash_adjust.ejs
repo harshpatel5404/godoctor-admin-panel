@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .hand-hover {
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Cash_Management %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Cash_Management %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="container-fluid dashboard-2">
+            <div class="row">
+
+              <div class="col-lg-3 col-md-6 box-col-3">
+                <div class="card profit-card">
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <p class="square-after f-w-600 header-text-primary"><%= lan.Total_Balance %><i class="fa fa-circle"> </i></p>
+                        <h4 class="invosymbol"><%= cash.cash_amount%></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pb-3">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <div class="profit-wrapper header-text-success"></div>
+                        </div>
+                    </div>
+                    <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                      <div class="shap-block">
+                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 box-col-3 hand-hover">
+                <div class="card visitor-card" id="labccatwab" data-casa="<%= cash.cash_amount%>">
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <p class="square-after f-w-600 header-text-info"><%= lan.Transferable_Balance %><i class="fa fa-circle"> </i></p>
+                        <h4 class="invosymbol"><%= cash.cash_amount%></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pb-3">
+                    <div class="d-flex">
+                        <div class="flex-grow-1 align-items-center">
+                          <div class="profit-wrapper header-text-info icon-bg-info"><i class="fa fa-arrow-up f-12"></i></div>
+                          <h6 class="header-text-info f-12 f-w-500"><%= lan.Click_to_Transfer %></h6>
+                        </div>
+                    </div>
+                    <div class="right-side icon-right-info"><i class="fa fa-money"></i>
+                      <div class="shap-block">
+                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="col-lg-3 col-md-6 box-col-3 hand-hover" href="/lab/cash_history">
+                <div class="card sell-card" id="dwpareq" >
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <p class="square-after f-w-600 header-text-success"><%= lan.Cash_History %><i class="fa fa-circle"> </i></p>
+                        <h4 class="invosymbol"><%= cash.success_cash%></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pb-3 pt-4">
+                    <div class="d-flex">
+                        <div class="flex-grow-1 align-items-center">
+                          <div class="profit-wrapper header-text-success icon-bg-success"><i class="fa fa-arrow-up f-12"></i></div>
+                          <h6 class="header-text-success f-12 f-w-500"><%= lan.Click_to_See_History %></h6>
+                        </div>
+                    </div>
+                    <div class="right-side icon-right-success"><i class="fa fa-money"></i>
+                      <div class="shap-block">
+                        <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              
+            </div>
+          </div>
+
+          
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%= lan.Proof_Image %></th>
+                                            <th><%= lan.Amount %></th>
+                                            <th><%= lan.Payment_Type %></th>
+                                            <th><%= lan.Status %></th>
+                                            <th><%= lan.Date %></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% cash_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td class="p-1">
+                                                    <% if(data.proof_image == ''){ %>
+                                                      <img class="p-0" width="50px" height="50px" src="../images/dashboard/default/profile.png" alt="image">
+                                                    <% } else { %>
+                                                        <a href="../../<%= data.proof_image %>" target="_blank"><img class="p-0" width="50px" height="50px" src="../../<%= data.proof_image %>" alt="image" onerror="this.src='../../images/dashboard/default/profile.png'"></a>
+                                                    <% }; %>
+                                                </td>
+                                                <td><%= data.amount %></td>
+                                                <td><%= data.payment_type %></td>
+                                                <td>
+                                                    <% if (data.status == '2') { %>
+                                                        <% if (data.c_status == '1') { %>
+                                                            <span class="badge badge-secondary"><%=lan.Pending%></span>
+                                                        <% } else if (data.c_status == '2') { %>
+                                                            <span class="badge badge-success"><%=lan.Approve%></span>
+                                                        <% } else if (data.c_status == '3') { %>
+                                                            <span class="badge badge-danger"><%=lan.Reject%></span>
+                                                        <% } else { %>
+                                                            -
+                                                        <% }; %>
+                                                    <% } %>
+                                                </td>
+                                                <td><%= data.date %></td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+
+
+        <div class="modal fade" id="paymentsucc" tabindex="-1" role="dialog" aria-labelledby="paymentsucc" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Transfer_Cash_Amount %></h5>
+                        <button class="btn-close" id="lbreportcashcan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form  class="needs-validation" id="dwawform" novalidate="" action="/lab/withdraw_cash_amount" method="post" enctype="multipart/form-data">
+                      <div class="modal-body">
+                        <div class="row g-3">
+                          <div class="col-12 border-bottom border-gray-10 pb-3">
+                            <span class="f-14 f-w-500"><%= lan.Total_Transferable_Cash_Amount %> : <span class="invosymbol" id="lxtcatot">0</span></span>
+                          </div>
+                          <div class="col-12">
+                            <input class="form-control lcawinput dwinc" id="lwcashimput" type="number" name="cash_amount" placeholder="<%=lan.Enter%> <%=lan.Amount%>" required>
+                            <div class="text-danger mt-0 text-center d-none" id="lcwinperror"><%= lan.Please_enter_valid_amount %></div>
+                          </div>
+                          <div class="col-12 mt-2">
+                            <label class="col-form-label"><%= lan.Select_Payment_Type %></label>
+                            <select class="js-example-basic-single dwinc" name="payment_type" required>
+                              <option value selected disabled><%= lan.Payment_Type_List %></option>
+                              <option value="UPI"><%= lan.UPI %></option>
+                              <option value="Paypal"><%= lan.Paypal %></option>
+                              <option value="BANK Transfer"><%= lan.BANK_Transfer %></option>
+                            </select>
+                          </div>
+                          <div class="col-12 mt-2">
+                            <label class="col-form-label"><%= lan.Upload_Payment_Proof %></label>
+                            <input class="form-control dwinc" type="file" name="cash_proof_img" required>
+                          </div>
+                          <div class="text-center">
+                            <p class="text-danger d-none mt-1 mb-0" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                      <button class="btn btn-primary" type="submit" data-cab="" id="lcabwbtn"><%= lan.Proceed %></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    </body>
+</html>

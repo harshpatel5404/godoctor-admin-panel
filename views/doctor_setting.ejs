@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Setting%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Setting%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form  class="needs-validation" novalidate="" action="/user/user_setting" method="post" enctype="multipart/form-data">
+                      <div class="row">
+
+                        <div class="col-12 mb-3 form-group text-center">
+                          <% if(setting[0].sign_image == ''){ %>
+                            <img class="p-0" width="150px" height="150px" src="../images/dashboard/default/profile.png" alt="image" onerror="this.src='../../images/dashboard/default/profile.png'">
+                          <% } else { %>
+                              <a href="../../<%= setting[0].sign_image %>" target="_blank"><img class="p-0" width="150px" height="150px" src="../../<%= setting[0].sign_image %>" alt="image" onerror="this.src='../../images/profile.png'"></a>
+                          <% }; %>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%= lan.Sign_Image %></label>
+                          <input class="form-control docin" style="height: 47px;" type="file" name="image" accept="image/*" onchange="showPreview(event)">
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Additional%> <%= lan.Patient %> <%=lan.Charge%></label>
+                          <input class="form-control" type="number" name="extra_patient_charge" value="<%=setting[0].extra_patient_charge%>" placeholder="<%=lan.Enter%> <%=lan.Additional%> <%= lan.Patient %> <%=lan.Charge%>" required>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Default%> <%= lan.Chat %> <%=lan.Message%></label>
+                          <input class="form-control" type="text" name="defaultm" value="<%=setting[0].defaultm%>" placeholder="<%=lan.Enter%> <%=lan.Default%> <%=lan.Message%>" required>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%= lan.Per %> <%= lan.Patient %> <%= lan.Time %> (<%= lan.Minute %>)</label>
+                          <input class="form-control doctc" type="number" min="10" value="<%=doctor.per_patient_time%>" name="time_gap" placeholder="<%=lan.Enter%> <%= lan.Per %> <%= lan.Patient %> <%= lan.Time %>">
+                        </div>
+
+                      </div>
+                      <div class="text-end mt-5">
+                        <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

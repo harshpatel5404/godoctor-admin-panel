@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Page%> <%=lan.Management%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Page%> <%=lan.Management%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                          <form  class="needs-validation" novalidate="" action="/settings/pages_data/<%=pages_data[0].id%>" method="post">
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Page%> <%=lan.Title%></label>
+                                        <input class="form-control" type="text" name="title" value="<%=pages_data[0].title%>" placeholder="<%=lan.Enter%> <%=lan.Page%> <%=lan.Title%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Status%></label>
+                                        <select class="js-example-basic-single shitter_input" name="status" required>
+                                            <option value="1" <%= pages_data[0].status == "1" ? "selected" : "" %> ><%=lan.Publish%></option>
+                                            <option value="0" <%= pages_data[0].status == "0" ? "selected" : "" %> ><%=lan.UnPublish%></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Page%> <%=lan.Description%></label>
+                                        <textarea class="form-control" name="paged" rows="15"><%= pages_data[0].description%></textarea>
+                                    </div>
+                                </div>
+                                <div class="text-end mt-3">
+                                  <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button>
+                                </div>
+                          </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

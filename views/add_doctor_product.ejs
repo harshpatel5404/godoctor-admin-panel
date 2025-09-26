@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    <style>
+      .preview-image {
+          border: 2px solid grey;
+          border-radius: 5px; /* Optional: adds rounded corners */
+      }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Add %> <%= lan.Store %> <%= lan.Product %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Add %> <%= lan.Store %> <%= lan.Product %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid search-page">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                          <form  class="needs-validation" novalidate="" action="/user/add_product_data" method="post" enctype="multipart/form-data">
+                              <div class="row">
+                                  <div class="col-12 form-group text-center p-0" id="file-preview-container">
+                                    <img class="m-2 p-1" style="border: 1px solid grey; border-radius: 6px;" id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                  </div>
+                                  <div class="row mt-3">
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Upload%> <%=lan.img%></label>
+                                        <input class="form-control" style="height: 48px;" type="file" name="image" accept="image/*" onchange="showListPreview(event)" multiple required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                      <label class="col-form-label"><%=lan.Subservice%> <%=lan.Name%></label>
+                                      <input class="form-control" type="text" name="product_name" placeholder="<%=lan.Enter%> <%=lan.Subservice%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                      <label class="col-form-label"><%=lan.Subcategory%> <%=lan.List%></label>
+                                      <select class="js-example-basic-single" name="sub_category_id" required>
+                                        <option value selected disabled><%=lan.Select%> <%=lan.Subcategory%> <%=lan.List%></option>
+                                        <% subser_data.forEach(function(sdata){ %>
+                                        <option value="<%=sdata.id%>"><%=sdata.name%> (<%=sdata.sname%>)</option>
+                                        <% }) %>
+                                      </select>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                      <label class="col-form-label"><%=lan.Product%> <%=lan.Description%></label>
+                                      <textarea class="form-control" name="description" rows="5" id=""></textarea>
+                                    </div>
+
+                                    <!-- <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                      <label class="col-form-label"><%=lan.Product%> <%=lan.Price%></label>
+                                      <input class="form-control" type="number" name="price" placeholder="<%=lan.Enter%> <%=lan.Product%> <%=lan.Price%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                      <label class="col-form-label"><%=lan.Offer%> <%=lan.Price%></label>
+                                      <input class="form-control" type="number" name="offer_price" placeholder="<%=lan.Enter%> <%=lan.Offer%> <%=lan.Price%>" required>
+                                    </div> -->
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <label class="col-form-label"><%= lan.Medicine_Type %></label>
+                                      <input class="form-control" type="text" name="pro_type" placeholder="<%= lan.Enter_Medicine_Type_Example %>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <label class="col-form-label"><%= lan.Prescription_Required %></label>
+                                      <select class="js-example-basic-single" name="prescription_require" required>
+                                        <option value selected disabled><%=lan.Select%> <%= lan.Prescription_Status %></option>
+                                        <option value="Required">Required</option>
+                                        <option value="Unrequired">Unrequired</option>
+                                      </select>
+                                    </div>
+                                    
+
+                                    <div class="text-end">
+                                      <a class="btn btn-primary btn-square b-r-10" id="addmppbtn" data-price="<%= lan.Price %>" data-title="<%= lan.Title %>" data-enter="<%= lan.Enter %>" 
+                                        data-base="<%= lan.Base %>" data-price_d="<%= lan.Price_Unit_Examples %>" data-offer="<%= lan.Offer %>" data-discount="<%= lan.Discount %>">
+                                        <%=lan.Add%> <%=lan.Price%> <%=lan.Field%></a>
+                                    </div>
+                                    <div class="col-12" id="addmorep">
+
+                                      <div class="row" id="delmorep">
+                                        <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 form-group">
+                                          <label class="col-form-label"><%=lan.Price%> <%=lan.Title%></label>
+                                          <input class="form-control" type="text" name="price_title" placeholder="<%= lan.Price_Unit_Examples %>" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-2 col-xl-3 form-group">
+                                          <label class="col-form-label">Base <%=lan.Price%></label>
+                                          <input class="form-control" type="number" name="base_price" placeholder="<%=lan.Enter%> Base <%=lan.Price%>" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-2 col-xl-3 form-group">
+                                          <label class="col-form-label"><%= lan.Base %> <%= lan.Price %></label>
+                                          <input class="form-control" type="number" name="price" placeholder="<%=lan.Enter%> <%= lan.Base %> <%= lan.Price %>" required>
+                                        </div>
+                                        <div class="col-sm-11 col-md-6 col-lg-2 col-xl-2 form-group">
+                                          <label class="col-form-label"><%= lan.Discount %></label>
+                                          <input class="form-control" type="number" name="discount" placeholder="<%=lan.Enter%> <%= lan.Discount %>" required>
+                                        </div>
+                                        <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 form-group" style="margin-top: 43px;">
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <div class="d-flex" style="padding-top: 40px;">
+                                        <div class="icon-state switch-outline">
+                                          <label class="switch">
+                                            <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                          </label>
+                                        </div>
+                                        <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div class="text-center">
+                                    <p class="text-danger d-none mt-3" id="sitter_pet_detail"><%=lan.Please_Enter_All_Detail%>.</p>
+                                </div>
+                              </div>
+                              <div class="text-end mt-3">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

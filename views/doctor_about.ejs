@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.About%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%= lan.Dashboard %></li>
+                    <li class="breadcrumb-item active"><%=lan.About%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-end pb-0">
+                            <a class="btn btn-square btn-primary b-r-10" type="button" href="/user/add_about"><%=lan.About%> <%=lan.Add%> / <%=lan.Edit%></a>
+                        </div>
+                        <div class="card-body">
+                          <div class="row col-12">
+
+                            <% if(head_des != ""){ %>
+                            
+                              <% for (let i = 0; i < head_des.length; i++){ %>
+
+                                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 p-r-0 <%= i <= '1' ? 'mt-1' : 'mt-5' %>">
+
+                                    <h5 class="f-18 f-w-600"><%=head_des[i].head%></h5>
+                                    <h5 class="f-16 f-w-400"><%=head_des[i].description%></h5>
+  
+                                    <div class="mt-4">
+                                      <span class="f-18 f-w-500 p-l-15"><%=head_des[i].title%></span>
+                                    </div>
+                                    <% let aboutd = head_des[i].about %>
+                                    <% for (let a = 0; a < aboutd.length; a++){ %>
+                                      <div class="d-flex p-l-15">
+                                        <img class="p-1" id="show_icon" height="35" width="35" src="../../<%=aboutd[a].icon%>" alt="Image">
+                                        <!-- <label class="form-label f-24"><i class="<%=aboutd[a].icon%>"></i></label> -->
+                                        <span class="p-l-15 f-16" style="padding-top: 4px;"><%=aboutd[a].subtitle%></span>
+                                      </div>
+                                    <% }; %>
+
+                                  </div>
+
+                                <% }; %>
+
+                            <% } else { %>
+
+                              <h3><%=lan.About%> <%=lan.Not%> <%=lan.Available%></h3>
+
+                            <% }; %>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

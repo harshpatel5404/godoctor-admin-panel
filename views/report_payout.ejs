@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Payout%> <%=lan.Report%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Payout%> <%=lan.Report%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="col-12 card-header d-flex justify-content-end pb-0  <%= auth.admin_role != 1 ? 'd-none' : '' %>">
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group m-r-20">
+                                <label class="col-form-label"><%= lan.Service %> <%= lan.User %> <%=lan.List%></label>
+                                <select class="js-example-basic-single" id="rpsitter">
+                                    <option value selected disabled><%=lan.Select%> <%= lan.User %></option>
+                                    <% user_list.forEach((data) => { %>
+                                        <option value="<%=data.id%>"><%=data.name%></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row col-12">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Start%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rpstart" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.End%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rpend" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Status%> <%=lan.List%></label>
+                                    <select class="js-example-basic-single" id="rpstatus">
+                                        <option value selected disabled><%=lan.Select%> <%=lan.Status%></option>
+                                        <option value="1"><%=lan.Complete%></option>
+                                        <option value="0"><%=lan.Pending%></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row col-12 mt-3 role" data-role="<%= role%>">
+
+                                <div class="table-responsive theme-scrollbar" id="printcontent">
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none"></th>
+                                                <th><%=lan.Date%></th>
+                                                <th><%=lan.Amount%></th>
+                                                <th><%=lan.Name%></th>
+                                                <th><%=lan.Email%></th>
+                                                <th><%=lan.Payout%> <%=lan.Type%></th>
+                                                <th><%=lan.Status%></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="payout_report">
+                                            <% allservices.forEach((data) => { %>
+                                                <tr>
+                                                    <td class="d-none"></td>
+                                                    <td><%= data.date %></td>
+                                                    <td class="invosymbol"><%= data.amount %></td>
+                                                    <td><%= data.user_name %></td>
+                                                    <td><%= data.user_email %></td>
+                                                    <td>
+                                                        <% if (data.p_type == '1') { %>
+                                                            <span ><%= lan.UPI %></span>
+                                                        <% } else if (data.p_type == '2') { %>
+                                                            <span ><%= lan.Paypal %></span>
+                                                        <% } else if (data.p_type == '3') { %>
+                                                            <span ><%= lan.Bank_Transfer %></span>
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (data.p_status == '1') { %>
+                                                            <span class="btn-success px-3 py-1 b-r-5 f-14 f-w-400"><%= lan.Successful %></span>
+                                                        <% } else { %>
+                                                            <span class="btn-secondary px-3 py-1 b-r-5 f-14 f-w-400"><%= lan.Pending %></span>
+                                                        <% }; %>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mt-4">
+                                <div>
+                                    <div>
+                                        <span class="f-w-500 f-14"><%=lan.Total%> <%=lan.Payout%> :- <span id="prrotal"><%=ptotal%></span></span>
+                                    </div>
+                                    <div>
+                                        <span class="f-w-500 f-14"><%=lan.Total%> <%=lan.Complete%> <%=lan.Amount%> :- <span class="invosymbol" id="prcomplete"><%= parseFloat(sitecom).toFixed(2) %></span></span>
+                                    </div>
+                                    <div>
+                                        <span class="f-w-500 f-14"><%=lan.Total%> <%=lan.Pending%> <%=lan.Amount%> :- <span class="invosymbol" id="prpending"><%= parseFloat(usercom).toFixed(2) %></span></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-block" id="printdata"><%=lan.Print%> <%=lan.Report%></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

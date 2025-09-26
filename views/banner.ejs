@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Banner%> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Banner%> <%=lan.List%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = per != "1" ? per.banner[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header d-flex justify-content-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal"><%=lan.Add%> <%=lan.Banner%></button>
+                        </div>
+                        <% }; %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=lan.Image%></th>
+                                            <th><%=lan.Title%></th>
+                                            <th><%=lan.Sub%> <%=lan.Title%></th>
+                                            <th><%= lan.Department %></th>
+                                            <% let permissions = per != "1" ? per.banner[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=lan.Action%></th>
+                                            <% }; %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% banner_data.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td class="p-1">
+                                                    <% if(data.image == null){ %>
+                                                        <img width="50px" height="50px" src="../images/dashboard/default/profile.png" alt="image">
+                                                    <% } else { %>
+                                                        <img width="50px" height="50px" src="../../<%= data.image %>" alt="image">
+                                                    <% }; %>
+                                                </td>
+                                                <td><%= data.title %></td>
+                                                <td><%= data.sub_title %></td>
+                                                <td><%= data.department_name %></td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                    <li class="edit"> <a data-bs-toggle="modal" data-bs-target="#edit_banner_model" id="edit_banner" data-id="<%= data.id %>" 
+                                                        data-image="<%= data.image %>" data-title="<%= data.title %>" data-subtitle="<%= data.sub_title %>" data-department="<%= data.department %>"><i class="icon-pencil-alt"></i></a></li>
+                                                    <li class="delete"><a href="/settings/delete_banner/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% }; %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal fade" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Add%> <%=lan.Banner%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form  class="needs-validation" novalidate="" action="/settings/add_banner" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-12 text-center">
+                                    <img id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Upload%> <%=lan.img%></label>
+                                    <input class="form-control" style="height: 47px;" type="file" name="image" onchange="showPreview(event)" required>
+                                </div>  
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Title%></label>
+                                    <input class="form-control" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Sub%> <%=lan.Title%></label>
+                                    <input class="form-control" type="text" name="sub_title" placeholder="<%=lan.Enter%> <%=lan.Sub%> <%=lan.Title%>">
+                                </div>
+                                <div class="col-12 pb-3">
+                                    <label class="form-label"><%= lan.Department %></label>
+                                    <select class="js-example-basic-single" name="department" required>
+                                      <option value selected disabled><%= lan.Department %> <%=lan.List%></option>
+                                      <% department_list.forEach(function(services_data){ %>
+                                        <option value="<%=services_data.id%>"><%=services_data.name%></option>
+                                      <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="edit_banner_model" tabindex="-1" role="dialog" aria-labelledby="edit_banner_model" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Edit%> <%=lan.Banner%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form  class="needs-validation" id="banner_edit_form" novalidate="" action="" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-12 text-center">
+                                    <img id="file-preview" class="banner_img" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Upload%> <%=lan.img%></label>
+                                    <input class="form-control" style="height: 47px;" type="file" name="image" onchange="showPreview(event)" >
+                                </div>  
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Title%></label>
+                                    <input class="form-control" id="banner_title" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Sub%> <%=lan.Title%></label>
+                                    <input class="form-control" id="banner_subtitle" type="text" name="sub_title" placeholder="<%=lan.Enter%> <%=lan.Sub%> <%=lan.Title%>">
+                                </div>
+                                <div class="col-12 pb-3">
+                                    <label class="form-label"><%= lan.Department %></label>
+                                    <select class="js-example-basic-single" id="banner_services" name="department" required>
+                                        <option value selected disabled><%= lan.Department %> <%=lan.List%></option>
+                                        <% department_list.forEach(function(services_data){ %>
+                                            <option value="<%=services_data.id%>"><%=services_data.name%></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                            <input class="form-control" id="banner_image"  type="hidden" name="old_img"  >
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

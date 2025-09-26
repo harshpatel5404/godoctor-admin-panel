@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Medicine %> <%=lan.Order%> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Medicine %> <%=lan.Order%> <%=lan.List%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none">#</th>
+                                            <th>#</th>
+                                            <th><%=lan.Booking %> <%=lan.Date%></th>
+                                            <th><%=lan.Customer%> <%=lan.Name%></th>
+                                            <th><%=lan.Price%></th>
+                                            <th><%=lan.Total%> <%=lan.Product%></th>
+                                            <th><%=lan.Status%></th>
+                                            <th><%=lan.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      <% var i = 1 %>
+                                        <% order_list.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"><%= i %></td>
+                                                <td>#<%= data.id %></td>
+                                                <td><%= data.date %></td>
+                                                <td><%= data.cus_name %></td>
+                                                <td class="invosymbol"><%= data.tot_price %></td>
+                                                <td><%= data.tot_product %></td>
+                                                <td>
+                                                  <% if (data.status == '0') { %>
+                                                    <span class="btn-secondary px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Pending%></span>
+                                                  <% } else if (data.status == '1') { %>
+                                                    <span class="btn-info px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Processing%></span>
+                                                  <% } else if (data.status == '2') { %>
+                                                    <span class="btn-primary px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Ready_to_deliver%></span>
+                                                  <% } else if (data.status == '3') { %>
+                                                    <span class="btn-success px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Deliver%></span>
+                                                  <% } else if (data.status == '4') { %>
+                                                    <span class="btn-danger px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Cancelled%></span>
+                                                  <% } %>
+                                                </td>
+                                                <td> 
+                                                  <a class="btn-primary px-3 py-1 b-r-5 f-14 f-w-400" href="/user/order_detail/<%= data.id %>"><%=lan.Details%></a>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

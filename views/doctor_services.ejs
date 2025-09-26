@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <!-- <style>
+        .edbanner {
+            gap: 8px; /* 5px space between edit and delete */
+            align-items: center; /* center align */
+        }
+    </style> -->
+
+    <style>
+        .btn-hover {
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+    </style>
+
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Services%> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Services%> <%=lan.List%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="sitter_services_form" novalidate="" action="/user/edit_services/<%=auth.admin_id%>" method="post" enctype="multipart/form-data">
+                                <div class="row">
+
+                                    <div class="" id="add_services">
+                                        <% let check_one = 0; %>
+                                        <% for (let i = 0; i < hospital_id_list.length;){ %>
+
+                                            <div class="<%- i != 0 ? 'pt-4 mt-5 border-top border-2' : '' %>" id="row_sitter_services">
+                                                <!-- <div class="col-12 text-end">
+                                                </div> -->
+                                                <div class="" id="first_sitter">
+                                                    <% for (let a = 0; a < serd.length;){ %>
+                                                    <% if (hospital_id_list[i] == serd[a].hospital_id){ %>
+                                                        <% if (check_one == 0){ %>
+                                                            <% check_one = 1; %>
+                                                            <div class="row col-12" id="add_doc_hd">
+                                                                <div class="col-12 mb-3">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                                                            <label class="col-form-label"><%=lan.Hospital_Name%></label>
+                                                                            <input class="form-control" type="text" value="<%= serd[a].hospital_name%>" placeholder="<%=lan.Enter%> <%=lan.Service%> <%=lan.Type%>" readonly>
+                                                                        </div>
+                                                                        <!-- <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9 text-end" style="margin-top: 36px;">
+                                                                            <button class="btn btn-square btn-primary b-r-6" id="sitter_add_services" type="button" ><%=lan.Add%></button>
+                                                                        </div> -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Department_Name%></label>
+                                                                    <input class="form-control" type="text" value="<%= serd[a].depart_name%>"  readonly>
+                                                                    <input class="hd_id" type="number" name="hd_id" value="<%= serd[a].id%>" hidden>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Subservice%></label>
+                                                                    <input class="form-control hd_input" type="text" name="subservice" value="<%= serd[a].sub_title%>" placeholder="<%=lan.Enter%> <%=lan.Subservice%>" required>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Clinic_Visit%> <%=lan.Price%></label>
+                                                                    <input class="form-control hd_input" type="number" name="client_vis_price" value="<%= serd[a].client_visit_price != 0 ? serd[a].client_visit_price : '' %>" placeholder="<%=lan.Enter%> <%=lan.Price%>" required>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Video_Consult%> <%=lan.Price%></label>
+                                                                    <input class="form-control hd_input" type="number" name="video_con_price" value="<%= serd[a].video_consult_price != 0 ? serd[a].video_consult_price : '' %>" placeholder="<%=lan.Enter%> <%=lan.Price%>" required>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></label>
+                                                                    <select class="js-example-basic-single hd_input" name="show_type" required>
+                                                                        <option value selected disabled><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></option>
+                                                                        <option value="1" <%= serd[a].show_type == '1' ? 'selected' : '' %>><%=lan.Clinic_Visit%></option>
+                                                                        <option value="2" <%= serd[a].show_type == '2' ? 'selected' : '' %>><%=lan.Video_Consult%></option>
+                                                                        <option value="3" <%= serd[a].show_type == '3' ? 'selected' : '' %>><%=lan.Both%></option>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 d-flex justify-content-between" style="margin-top: 36px;"> -->
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 d-flex justify-content-between">
+                                                                    <div class="row" id="dsimgedit">
+
+                                                                        <% if (serd[a].image == "") { %>
+
+                                                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8" id="maindse" 
+                                                                                data-id="<%=serd[a].id%>" data-edsimg="<%=serd[a].image%>" data-submit="<%=lan.Submit%>" 
+                                                                                data-cancel="<%=lan.Cancel%>" data-status="1">
+
+                                                                                    <input class="form-control mt-3 mb-1" id="hd_img_inp" type="file" accept="image/*">
+                                                                                    <div class="d-flex justify-content-center">
+                                                                                        <span class="badge badge-primary btn-hover p-2" id="updsimg"><%=lan.Submit%></span>
+                                                                                        <% if (serd[a].image != '') { %>
+                                                                                            <span class="badge badge-danger canedsb btn-hover p-2"><%=lan.Cancel%></span>
+                                                                                        <% } %>
+                                                                                    </div>
+                                                                            </div>
+
+                                                                        <% } else { %>
+
+                                                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8 d-flex justify-content-center align-items-end" id="maindse" 
+                                                                                data-id="<%=serd[a].id%>" data-edsimg="<%=serd[a].image%>" data-submit="<%=lan.Submit%>" 
+                                                                                data-cancel="<%=lan.Cancel%>" data-status="2">
+
+                                                                                <img height="70" width="70" id="dsimput" src="../../<%= serd[a].image%>" alt="">
+                                                                                <div class="action m-l-10">
+                                                                                    <div class="edit">
+                                                                                        <a class="edsimgd" >
+                                                                                            <i class="icon-pencil-alt f-16"></i>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        <% } %>
+
+                                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" style="margin-top: 36px;">
+                                                                            <div class="icon-state switch-outline mdscheck">
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="dscheck" <%= serd[a].status == '1' ? 'checked' : '' %>><span class="switch-state bg-success"></span>
+                                                                                </label>
+                                                                                <input type="hidden" id="ds_status" value="<%= serd[a].status%>" name="status">
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <!-- <input class="hd_input" id="hd_data_image" type="number" name="hd_data_image" value="<%= serd[a].image%>"> -->
+                                                                </div>
+                                                            </div>
+
+                                                        <% } else { %>
+
+                                                            <div class="row col-12" id="add_doc_hd">
+                                                                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Department_Name%></label>
+                                                                    <input class="form-control" type="text" value="<%= serd[a].depart_name%>"  readonly>
+                                                                    <input class="hd_id" type="number" name="hd_id" value="<%= serd[a].id%>" hidden>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Subservice%></label>
+                                                                    <input class="form-control hd_input" type="text" name="subservice" value="<%= serd[a].sub_title%>" placeholder="<%=lan.Enter%> Subservice" required>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Clinic_Visit%> <%=lan.Price%></label>
+                                                                    <input class="form-control hd_input" type="number" name="client_vis_price" value="<%= serd[a].client_visit_price != 0 ? serd[a].client_visit_price : '' %>" placeholder="<%=lan.Enter%> <%=lan.Price%>" required>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Video_Consult%> <%=lan.Price%></label>
+                                                                    <input class="form-control hd_input" type="number" name="video_con_price" value="<%= serd[a].video_consult_price != 0 ? serd[a].video_consult_price : '' %>" placeholder="<%=lan.Enter%> <%=lan.Price%>" required>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></label>
+                                                                    <select class="js-example-basic-single hd_input" name="show_type" required>
+                                                                        <option value selected disabled><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></option>
+                                                                        <option value="1" <%= serd[a].show_type == '1' ? 'selected' : '' %>><%=lan.Clinic_Visit%></option>
+                                                                        <option value="2" <%= serd[a].show_type == '2' ? 'selected' : '' %>><%=lan.Video_Consult%></option>
+                                                                        <option value="3" <%= serd[a].show_type == '3' ? 'selected' : '' %>><%=lan.Both%></option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 d-flex justify-content-between">
+                                                                    <div class="row">
+
+                                                                        <% if (serd[a].image == "") { %>
+
+                                                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8" id="maindse" 
+                                                                                data-id="<%=serd[a].id%>" data-edsimg="<%=serd[a].image%>" 
+                                                                                data-submit="<%=lan.Submit%>" data-cancel="<%=lan.Cancel%>" data-status="1">
+
+                                                                                    <input class="form-control mt-3 mb-1" id="hd_img_inp" type="file" accept="image/*">
+                                                                                    <div class="d-flex justify-content-center">
+                                                                                        <span class="badge badge-primary btn-hover p-2 " id="updsimg"><%=lan.Submit%></span>
+                                                                                        <% if (serd[a].image != '') { %>
+                                                                                            <span class="badge badge-danger btn-hover canedsb p-2"><%=lan.Cancel%></span>
+                                                                                        <% } %>
+                                                                                    </div>
+                                                                            </div>
+
+                                                                        <% } else { %>
+
+                                                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8 d-flex justify-content-center align-items-end" id="maindse" 
+                                                                                data-id="<%=serd[a].id%>" data-edsimg="<%=serd[a].image%>" data-submit="<%=lan.Submit%>" 
+                                                                                data-cancel="<%=lan.Cancel%>" data-status="2">
+
+                                                                                <img height="70" width="70" id="dsimput" src="../../<%= serd[a].image%>" alt="">
+                                                                                <div class="action m-l-10">
+                                                                                    <div class="edit">
+                                                                                        <a class="edsimgd" >
+                                                                                            <i class="icon-pencil-alt f-16"></i>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        <% } %>
+
+                                                                        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3" style="margin-top: 36px;">
+                                                                            <div class="icon-state switch-outline mdscheck">
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="dscheck" <%= serd[a].status == '1' ? 'checked' : '' %>><span class="switch-state bg-success"></span>
+                                                                                </label>
+                                                                                <input type="hidden" id="ds_status" value="<%= serd[a].status%>" name="status">
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        <% }; %>
+                                                        <% }; %>
+
+                                                        <% a++; %>
+                                                    <% }; %>
+
+                                                </div>
+                                            </div>
+                                            <% check_one = 0; %>
+                                        <% i++; %>
+                                        <% }; %>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="shitter_detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-3" id="shitter_services_error"><%=lan.Select_Services%>.</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="text-end mt-5">
+                                    <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="add_service_btn" type="submit"><%=lan.Edit%></button> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+
+  </body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Time%> <%=lan.Management%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Time%> <%=lan.Management%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid search-page">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                          <form  class="needs-validation" id="doc_timeu_form" novalidate="" action="/user/add_time_data" method="post">
+                              <div class="row">
+                                
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-5">
+                                  <label class="col-form-label"><%=lan.Select%> <%= lan.Hospital %></label>
+                                  <select class="js-example-basic-single doctc" id="doc_time_per_pat_hos" name="hospital">
+                                      <option value selected disabled><%= lan.Hospital %> <%=lan.List%></option>
+                                      <% dhd_list.forEach(function(data){ %>
+                                      <option value="<%=data.hospital_id%>" <%= time_data.hospital_id == data.hospital_id ? 'selected' : "" %>><%=data.hospital_name%></option>
+                                      <% }); %>
+                                  </select>
+                                </div>
+
+                                <!-- <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-5">
+                                  <label class="col-form-label">Per Patient Time (Minute)</label>
+                                  <input class="form-control doctc" type="number" id="doc_time_per_patient_time" name="time_gap" value="<%= doctor[0].per_patient_time%>">
+                                </div>
+
+                                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-5"> 
+                                   <span class="btn btn-square btn-primary b-r-10" id="doc_time_hos_change" style="margin-top: 36px;">Apply</button>
+                                </div> -->
+
+                                <input type="hidden" id="old_hos" name="old_hosid" value="<%= time_data.hospital_id%>">
+
+                                <div class="col-12">
+                                  <div class="row" id="doc_time_management">
+                                    <% day_list.forEach((day_data, index) => { %>
+                                      <div class="col-12 border-bottom pb-5 form-group">
+                                        <div class="row">
+    
+                                          <div class="col-12 d-flex align-items-center justify-content-center">
+                                            <span class="btn btn-light f-16 f-w-600 disabled mb-3"><%=day_data%></span>
+                                          </div>
+                                          <div class="col-12">
+                                            <div class="row">
+                                              
+                                              <div class="col-sm-3 col-md-4 col-lg-4 text-center">
+                                                <span class="f-16 f-w-500 mb-2"><%= lan.Morning %></span>
+                                                <div class="d-flex justify-content-center flex-wrap">
+                                                  <% ndatelist[index][day_data].Morning.forEach((date_time, ind) => { %>
+                                                    
+                                                    <div class="p-1 time_div b-r-5">
+                                                      <span class="btn btn-square time_box <%= date_time.s == '1' ? 'btn-primary' : 'btn-light' %> <%= date_time.o == '1' ? 'disabled' : '' %>" id="time_btn" data-time="<%=date_time.t%>"><%=date_time.t%></span>
+                                                      <input class="inc" type="hidden" id="time_input" name="<%=day_data%>_Morning" value="<%= date_time.s == '1' ? date_time.t : ''  %>">
+                                                    </div>
+                                                  <% }) %>
+                                                </div>
+                                              </div>
+    
+                                              <div class="col-sm-3 col-md-4 col-lg-4 text-center">
+                                                <span class="f-16 f-w-500 mb-2"><%= lan.Afternoon %></span>
+                                                <div class="d-flex justify-content-center flex-wrap">
+                                                  <% ndatelist[index][day_data].Afternoon.forEach((date_time, ind) => { %>
+    
+                                                    <div class="p-1 time_div">
+                                                      <span class="btn btn-square time_box <%= date_time.s == '1' ? 'btn-primary' : 'btn-light' %> <%= date_time.o == '1' ? 'disabled' : '' %>" id="time_btn" data-time="<%=date_time.t%>"><%=date_time.t%></span>
+                                                      <input class="inc" type="hidden" id="time_input" name="<%=day_data%>_Afternoon" value="<%= date_time.s == '1' ? date_time.t : ''  %>">
+                                                    </div>
+                                                  <% }) %>
+                                                </div>
+                                              </div>
+    
+                                              <div class="col-sm-3 col-md-4 col-lg-4 text-center">
+                                                <span class="f-16 f-w-500 mb-2"><%= lan.Evening %></span>
+                                                <div class="d-flex justify-content-center flex-wrap">
+                                                  <% ndatelist[index][day_data].Evening.forEach((date_time, ind) => { %>
+    
+                                                    <div class="p-1 time_div">
+                                                      <span class="btn btn-square time_box <%= date_time.s == '1' ? 'btn-primary' : 'btn-light' %> <%= date_time.o == '1' ? 'disabled' : '' %>" id="time_btn" data-time="<%=date_time.t%>"><%=date_time.t%></span>
+                                                      <input class="inc" type="hidden" id="time_input" name="<%=day_data%>_Evening" value="<%= date_time.s == '1' ? date_time.t : ''  %>">
+                                                    </div>
+                                                  <% }) %>
+                                                </div>
+                                              </div>
+                                              
+                                            </div>
+                                          </div>
+    
+                                        </div>
+                                      </div>
+                                    <% }) %>
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div class="text-center">
+                                <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                              </div>
+                              </form>
+                              <div class="text-end mt-3">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="doc_time_mam_btn" type="submit"><%=lan.Edit%></button> 
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

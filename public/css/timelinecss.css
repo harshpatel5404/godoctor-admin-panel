@@ -1,0 +1,116 @@
+ul, li{
+    list-style: none;
+    padding: 0;
+}
+
+.containertime{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+.wrappertime{
+    /* background: #eaf6ff; */
+    /* padding: 2rem; */
+    border-radius: 15px;
+}
+.sessionstime{
+    margin-top: 1rem;
+    border-radius: 12px;
+    position: relative;
+}
+
+.mtllast{
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+    &:last-child{
+        border: 0px;
+        padding-bottom: 0;
+    }
+    &:before{
+        content: '';
+        width: 15px;
+        height: 15px;
+        background: white;
+        border: 1px solid #4e5ed3;
+        box-shadow: 3px 3px 0px #bab5f8;
+        box-shadow: 3px 3px 0px #bab5f8;
+        border-radius: 50%;
+        position: absolute;
+        left: -10px;
+        top: 0px;
+    }
+}
+
+.mtl{
+    padding-bottom: 1.5rem;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+    &:last-child{
+        border: 0px;
+        padding-bottom: 0;
+    }
+    &:before{
+        content: '';
+        width: 15px;
+        height: 15px;
+        background: white;
+        border: 1px solid #4e5ed3;
+        box-shadow: 3px 3px 0px #bab5f8;
+        box-shadow: 3px 3px 0px #bab5f8;
+        border-radius: 50%;
+        position: absolute;
+        left: -10px;
+        top: 0px;
+    }
+}
+
+.mtl1 {
+    padding-bottom: 1.5rem;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 30px;
+    margin-left: 10px;
+}
+
+.mtl1:last-child {
+    border-left: none;
+    padding-bottom: 0;
+}
+
+.mtl1 .timeline-icon {
+    position: absolute;
+    left: -9px;
+    top: 0px;
+    color: #4e5ed3;
+    background: white;
+    border-radius: 50%;
+    font-size: 20px;
+    z-index: 1;
+}
+
+.mtll1 {
+    position: relative;
+    padding-left: 30px;
+    margin-left: 10px;
+}
+
+.mtll1:last-child {
+    border-left: none;
+    padding-bottom: 0;
+}
+
+.mtll1 .timeline-icon {
+    position: absolute;
+    left: -9px;
+    top: 0px;
+    color: #4e5ed3;
+    background: white;
+    border-radius: 50%;
+    font-size: 20px;
+    z-index: 1;
+}
+
+

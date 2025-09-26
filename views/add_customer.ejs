@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Add%> <%= lan.Patient %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Add%> <%= lan.Patient %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="customer_signup_form" novalidate="" action="/customer/add_customer" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                  <div class="col-12 form-group text-center">
+                                    <img id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                  </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <label class="col-form-label"><%=lan.Profile%> <%=lan.Image%></label>
+                                      <input class="form-control" id="cus_pro_image" style="height: 47px;" type="file" name="image" accept="image/*" onchange="showPreview(event)" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control" id="customet_name" type="text" name="Name" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control" id="customet_email" type="text" name="Email" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="js-example-basic-single" id="customet_code" name="country_code" required>
+                                                    <option value selected disabled><%=lan.Select%> <%=lan.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                              <input class="form-control" id="customet_number" type="number" name="phone" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Password%></label>
+                                        <input class="form-control" id="customet_pass" type="password" name="Password" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <div class="d-flex mb-2 mt-4">
+                                            <div class="icon-state switch-outline">
+                                              <label class="switch">
+                                                <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                              </label>
+                                            </div>
+                                            <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                      <p class="text-danger d-none mt-3" id="customer_details_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-3" id="customer_email_error"><%=lan.This_Email_Alread_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="customer_phoneno_error"><%=lan.This_Mobile_No_Alread_Registered%>.</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="cus_sign_btn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

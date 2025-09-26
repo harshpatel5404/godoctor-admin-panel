@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Store %> <%=lan.Setting%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Store %> <%=lan.Setting%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form  class="needs-validation" id="store_sd_form" novalidate="" action="/user/update_product_setting" method="post" enctype="multipart/form-data">
+                      <div class="row">
+
+                        <div class="col-12 mb-3 form-group text-center">
+                            <% if(ssd.image == ''){ %>
+                                <img class="p-0" id="file-preview" width="150px" height="150px" src="../images/dashboard/default/profile.png" alt="image">
+                            <% } else { %>
+                                <a href="../../<%= ssd.image %>" target="_blank"><img class="p-0" id="file-preview" width="150px" height="150px" src="../../<%= ssd.image %>" alt="image"></a>
+                            <% }; %>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%= lan.Store %> <%= lan.Image %></label>
+                          <input class="form-control <%= psetting == '' ? 'ssc' : ''  %>" style="height: 47px;" type="file" name="image" accept="image/*" onchange="showPreview(event)" required>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%= lan.Store %> <%= lan.Address %></label>
+                          <input class="form-control ssc" type="text" id="sname" name="sname" value="<%=ssd.name%>" placeholder="<%=lan.Enter%> <%= lan.Store %> <%= lan.Address %>" required>
+                          <input type="hidden" id="esname" value="<%=ssd.name%>">
+                        </div>
+
+                        <div class="col-12 form-group">
+                          <label class="col-form-label"><%= lan.Store %> <%= lan.Address %></label>
+                          <input class="form-control ssc" type="text" name="saddress" value="<%=ssd.address%>" placeholder="<%=lan.Enter%> <%= lan.Store %> <%= lan.Address %>" required>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                            <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                            <div class="row">
+                                <div class="col-4">
+                                    <select class="js-example-basic-single ssc" id="sccode" name="country_code" required>
+                                        <option value selected disabled><%=lan.Country%></option>
+                                        <% CountryCode.forEach((data, x) => { %>
+                                          <option value="<%= data %>" <%= ssd.country_code == data ? 'selected' : "" %>> <%= nameCode[x] %> <%= data %> </option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                                <div class="col-8">
+                                    <input class="form-control ssc" id="sphone" type="number" name="phone" value="<%=ssd.phone%>" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                </div>
+                                <input type="hidden" id="esccode" value="<%=ssd.country_code%>">
+                                <input type="hidden" id="esphone" value="<%=ssd.phone%>">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                            <div class="d-flex" style="margin-top: 40px;">
+                                <div class="icon-state switch-outline">
+                                  <label class="switch">
+                                    <input type="checkbox" name="status" <%= ssd.status == "1" ? 'checked' : "" %>><span class="switch-state bg-success"></span>
+                                  </label>
+                                </div>
+                                <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                            <p class="text-danger d-none mt-1" id="detail_sname_error">This Store Name Alread Registered.</p>
+                            <p class="text-danger d-none mt-1" id="detail_phone_error"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                        </div>
+
+                      </div>
+                    </form>
+                      <div class="text-end mt-5">
+                        <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="<%= psetting == '' ? 'store_d_check' : 'editstore_d_check'  %>" type="submit"><%=lan.Submit%></button> 
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

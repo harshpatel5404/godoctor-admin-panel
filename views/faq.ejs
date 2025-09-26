@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.FAQ%> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.FAQ%> <%=lan.List%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = per != "1" ? per.faq[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header d-flex justify-content-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_faq"><%=lan.Add%> <%=lan.FAQ%></button>
+                        </div>
+                        <% } %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=lan.Image%></th>
+                                            <th><%=lan.Name%></th>
+                                            <% let permissions = per != "1" ? per.faq[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=lan.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% faq_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.title%></td>
+                                                <td><%= data.description %></td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                    <li class="edit"> <a data-bs-toggle="modal" data-bs-target="#edit_faq_model" id="edit_faq" data-id="<%=data.id%>" 
+                                                        data-title="<%=data.title%>" data-des="<%=data.description%>"><i class="icon-pencil-alt"></i></a></li>
+                                                    <li class="delete"><a href="/settings/delete_faq/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal fade" id="add_faq" tabindex="-1" role="dialog" aria-labelledby="add_faq" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Add%> <%=lan.FAQ%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form  class="needs-validation" novalidate="" action="/settings/add_faq" method="post">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Title%></label>
+                                    <input class="form-control" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Description%></label>
+                                    <textarea class="form-control" type="text" name="description" placeholder="<%=lan.Enter%> <%=lan.Description%>" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="edit_faq_model" tabindex="-1" role="dialog" aria-labelledby="edit_faq_model" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Add%> <%=lan.FAQ%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="edit_faq_form" class="needs-validation" novalidate="" action="" method="post">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Title%></label>
+                                    <input id="faq_title" class="form-control" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Description%></label>
+                                    <textarea id="faq_description" class="form-control" type="text" name="description" placeholder="<%=lan.Enter%> <%=lan.Description%>" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

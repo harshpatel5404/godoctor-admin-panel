@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3> <%=lan.Edit%> <%=lan.Hospital%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%=lan.Hospital%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-end pb-0">
+                        <button class="btn btn-square btn-primary b-r-10" id="add_other_himage" type="button"><%=lan.Add%> <%=lan.Image%></button>
+                    </div>
+                  <div class="card-body">
+                    <div class="row">
+                          <form  class="needs-validation" id="wcbfinfom" novalidate="" action="/hospital/edit_hospital_data/<%=hospital.id%>" method="post" enctype="multipart/form-data">
+
+                            <div class="col-12 text-center" id="file-preview-container">
+                                <div class="row" id="image-grid">
+                                  <% if (hospital.image[0] != '') { %>
+                                    <% hospital.image.forEach(function(img, i){ %>
+                                      <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 form-group" id="main_pimage">
+                                        <img class="m-2 p-1" id="show_pimage" width="150" height="150" src="../../<%=img%>" alt="image">
+                                        <div class="d-flex">
+                                          <input class="form-control" id="pimage_hinput" style="height: 48px;" type="file" accept="image/*" name="image">
+                                          <input class="img_check_p" type="hidden" id="del_img_val" value="<%=img%>">
+                                          <i class="icon-trash f-18 mt-3 m-l-10" id="delete_himage" style="color: red;"></i>
+                                        </div>
+                                      </div>
+                                    <% }) %>
+                                  <% }; %>
+                                </div>
+                                <input type="hidden" id="hos_id" value="<%=hospital.id%>">
+                              </div>
+
+                            <div class="row mt-4">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="col-12 form-group">
+                                        <label class="form-label"><%=lan.Name%></label>
+                                        <input class="form-control checkaddhos" type="text" name="name" value="<%=hospital.name%>" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="form-label"><%=lan.Email%></label>
+                                        <input class="form-control checkaddhos" type="email" id="ehemail" name="email" value="<%=hospital.email%>" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="form-label"><%=lan.Country%> <%=lan.Code%></label>
+                                        <select class="js-example-basic-single checkaddhos" id="ehccode" name="country_code" required>
+                                            <option value selected disabled><%=lan.Code%> <%=lan.List%></option>
+                                            <% CountryCode.forEach((data, x) => { %>
+                                                <option value="<%= data %>" <%= hospital.country_code == data ? 'selected' : '' %>> <%= nameCode[x] %> <%= data %> </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                    <input type="text" id="old_hos_email" value="<%=hospital.email%>" hidden>
+                                    <input type="text" id="old_hos_ccode" value="<%=hospital.country_code%>" hidden>
+                                    <input type="text" id="old_hos_phone" value="<%=hospital.phone%>" hidden>
+                                    <div class="col-12 form-group">
+                                        <label class="form-label"><%=lan.Mobile%> <%=lan.No%>.</label>
+                                        <input class="form-control checkaddhos" type="number" id="ehphone" name="phone" value="<%=hospital.phone%>" placeholder="<%=lan.Enter%> <%=lan.Mobile%> <%=lan.No%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Latitude%></label>
+                                        <input class="form-control checkaddhos" id="edit_location_latitude" type="text" value="<%=hospital.latitude%>" name="latitude"  required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Longitude%></label>
+                                        <input class="form-control checkaddhos" id="edit_location_longitude" type="text" value="<%=hospital.longitude%>" name="longitude"  required>
+                                    </div>
+                                    <input type="text" id="lod_latitude" value="<%=hospital.latitude%>" hidden>
+                                    <input type="text" id="lod_longitude" value="<%=hospital.longitude%>" hidden>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-4 text-center">
+                                  <div id="address-map" style="height: 60vh; width: 100%;"></div>
+                                  <p class="mt-2 f-w-600"><%=lan.Click_anywhere_on_the_map_to_get_your_location%></p>
+                              </div>
+                                
+                            </div>
+    
+                            <div class="col-12 form-group">
+                                <label class="form-label"><%=lan.Address%></label>
+                                <input class="form-control checkaddhos" type="text" name="address" value="<%=hospital.address%>" placeholder="<%=lan.Enter%> <%=lan.Address%>" required>
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" style="margin-top: 20px;">
+                              <div class="d-flex">
+                                <div class="icon-state switch-outline">
+                                  <label class="switch">
+                                    <input type="checkbox" name="status" <%= hospital.status == '1' ? 'checked' : '' %>><span class="switch-state bg-success"></span>
+                                  </label>
+                                </div>
+                                <label class="form-label m-l-10"><%=lan.Status%></label>
+                              </div>
+                            </div>
+                            
+                            <input type="text" id="lod_latitude" value="<%=hospital.latitude%>" hidden>
+                            <input type="text" id="lod_longitude" value="<%=hospital.longitude%>" hidden>
+                          </form>
+                          <div class="text-center">
+                            <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                            <p class="text-danger d-none mt-1" id="detail_email_error"><%=lan.This_Email_Alread_Registered%>.</p>
+                            <p class="text-danger d-none mt-1" id="detail_phone_error"><%=lan.This_Mobile_No_Alread_Registered%>.</p>
+                            <p class="text-danger d-none mt-1" id="detail_zone_error"><%= lan.Your_Location_Not_in_Zone %>.</p>
+                          </div>
+                        </div>
+
+                        <div class="text-end mt-5">
+                            <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="edit_hospital_btn" type="submit"><%=lan.Submit%></button> 
+                        </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <script src="https://maps.googleapis.com/maps/api/js?key=<%= general.google_map_key %>&callback=initMap&v=weekly" defer></script>
+        <script src="../../js/map_address_edit.js"></script>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

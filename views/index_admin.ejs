@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .hand-hover {
+          cursor: pointer;
+        }
+        .mainbnstyle{
+            padding: .25rem;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title pb-2">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Dashboard%></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+
+          <%
+            let patient = 0, doc_booking = 0, doctor = 0, medi_booking = 0, lab = 0, lab_booking = 0;
+                  
+            if (per !== "1" && per) {
+              patient = (per.patient && per.patient[0]) || "1";
+              doc_booking = (per.doc_booking && per.doc_booking[0]) || "1";
+              doctor = (per.doctor && per.doctor[0]) || "1";
+              medi_booking = (per.medi_booking && per.medi_booking[0]) || "1";
+              lab = (per.lab && per.lab[0]) || "1";
+              lab_booking = (per.lab_booking && per.lab_booking[0]) || "1";
+            } else {
+              patient = doc_booking = doctor = medi_booking = lab = lab_booking = "1";
+            }
+          %>
+
+
+          <div class="container-fluid dashboard-2">
+            <div class="row">
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <a class="card profit-card hand-hover" href="<%= patient == '1' ? '/customer/view' : '' %>">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-primary"><%= lan.Total_Patient %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_cus%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1 align-items-center">
+                                <div class="profit-wrapper header-text-secondary"></div>
+                            </div>
+                        </div>
+                        <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <a class="card sell-card hand-hover" href="<%= doc_booking == '1' ? '/booking/list' : '' %>">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-success"><%= lan.Total_Doctor_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_doc_appint%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1 align-items-center">
+                                <div class="profit-wrapper header-text-success"></div>
+                            </div>
+                        </div>
+                        <div class="right-side icon-right-success"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <a class="card visitor-card hand-hover" href="<%= doctor == '1' ? '/doctor/list' : '' %>">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-info"><%= lan.Total_Doctor %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_doc%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1 align-items-center">
+                                <div class="profit-wrapper header-text-secondary"></div>
+                            </div>
+                        </div>
+                        <div class="right-side icon-right-info"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <a class="card sell-card hand-hover" href="<%= medi_booking == '1' ? '/user/order_list' : '' %>">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-secondary"><%= lan.Total_Medicine_Order %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_medi_order%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1 align-items-center">
+                                <div class="profit-wrapper header-text-secondary"></div>
+                            </div>
+                        </div>
+                        <div class="right-side icon-right-secondary"><i class="fa fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <a class="card profit-card hand-hover" href="<%= lab == '1' ? '/lab/list' : '' %>">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-primary"><%= lan.Total_Lab %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_lab%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1 align-items-center">
+                                <div class="profit-wrapper header-text-secondary"></div>
+                            </div>
+                        </div>
+                        <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <a class="card sell-card hand-hover" href="<%= lab_booking == '1' ? '/lab/appoint/list' : '' %>">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-success"><%= lan.Total_Lab_Booking %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_lab_appoint%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1 align-items-center">
+                                <div class="profit-wrapper header-text-success"></div>
+                            </div>
+                        </div>
+                        <div class="right-side icon-right-success"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="card" id="indpagerole" data-indexr="<%= auth.admin_role%>">
+                  <div class="card-header pb-0">
+                    <h4><%= lan.Commission_Chart %></h4>
+                  </div>
+                  <div class="card-body">
+                    <div id="adm-column-chart"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <% if (doc_booking == '1') { %>
+          <% if (doc_appoint.length > 0 || order_list.length > 0 || bl.length > 0) { %>
+          <div class="container-fluid">
+            <div class="row">
+
+              <% if (doc_appoint.length > 0) { %>
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                    <h4><%= lan.Latest_Doctor_Appointment %></h4>
+                    <a href="/booking/list"><%= lan.View_All %></a>
+                  </div>
+                  <div class="card-block row">
+                    <div class="col-sm-12 col-lg-12 col-xl-12">
+                      <div class="table-responsive theme-scrollbar">
+                        <table class="table table-responsive theme-scrollbar-sm">
+                          <thead>
+                            <tr>
+                              <th scope="col">#<%= lan.Id %></th>
+                              <th scope="col"><%= lan.Image %></th>
+                              <th scope="col"><%= lan.Customer_Name %></th>
+                              <th scope="col"><%= lan.Driver_Name %></th>
+                              <th scope="col"><%= lan.Date_Time %></th>
+                              <th scope="col"><%= lan.Total_Price %></th>
+                              <th scope="col"><%= lan.Payment_Status %></th>
+                              <th scope="col"><%= lan.Appointment_Type %></th>
+                              <th scope="col"><%= lan.Status %></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% doc_appoint.forEach((data) => { %>
+                            <tr>
+                              <th scope="row"><a href="/booking/details/<%= data.id %>">#<%= data.id %></a></th>
+                              <td class="p-1">
+                                  <% if(data.cus_image == null || data.cus_image == ''){ %>
+                                      <img class="p-0" width="50px" height="50px" src="../images/profile.png" alt="image">
+                                  <% } else { %>
+                                      <a href="../../<%= data.cus_image %>" target="_blank"><img class="p-0" width="50px" height="50px" src="../../<%= data.cus_image %>" alt="image" onerror="this.src='../../images/profile.png'"></a>
+                                  <% }; %>
+                              </td>
+                              <td><%= data.name %></td>
+                              <td><%= data.doc_name %></td>
+                              <td><%= data.appointment_date %> <%= data.appointment_time %></td>
+                              <td class="invosymbol"><%= data.tot_price %></td>
+                              <td>
+                                  <% if (data.tot_price == data.paid_amount) { %>
+                                      <span class="btn-success px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.Paid%></span>
+                                  <% } else { %>
+                                      <span class="btn-warning px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.Unpaid%></span>
+                                  <% } %>
+                              </td>
+                              <td>
+                                  <% if (data.show_type == '1') { %>
+                                      <span class="btn-success px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.In_Person%></span>
+                                  <% } else { %>
+                                      <span class="btn-primary px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.Video%> <%=lan.Visit%></span>
+                                  <% } %>
+                              </td>
+                              <td>
+                                  <span class="<%=data.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="lbstatusid<%= data.id %>"><%=data.status_type.s%></span>
+                              </td>
+                            </tr>
+                            <% }) %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+              <% } %>
+
+              <% if (medi_booking == '1') { %>
+              <% if (order_list.length > 0) { %>
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                    <h4><%= lan.Latest_Medicine_Order %></h4>
+                    <a href="/user/order_list">View All</a>
+                  </div>
+                  <div class="card-block row">
+                    <div class="col-sm-12 col-lg-12 col-xl-12">
+                      <div class="table-responsive theme-scrollbar">
+                        <table class="table table-responsive theme-scrollbar-sm">
+                          <thead>
+                            <tr>
+                              <th scope="col">#<%= lan.ID %></th>
+                              <th scope="col"><%= lan.Booking_Date %></th>
+                              <th scope="col"><%= lan.Customer_Name %></th>
+                              <th scope="col"><%= lan.Price %></th>
+                              <th scope="col"><%= lan.Status %></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% order_list.forEach((data) => { %>
+                            <tr>
+                              <th scope="row"><a href="/user/order_detail/<%= data.id %>">#<%= data.id %></a></th>
+                              <td><%= data.date %></td>
+                              <td><%= data.cus_name %></td>
+                              <td class="invosymbol"><%= data.tot_price %></td>
+                              <td>
+                                <% if (data.status == '0') { %>
+                                  <span class="btn-secondary px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Pending%></span>
+                                <% } else if (data.status == '1') { %>
+                                  <span class="btn-info px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Processing%></span>
+                                <% } else if (data.status == '2') { %>
+                                  <span class="btn-primary px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Ready_to_deliver%></span>
+                                <% } else if (data.status == '3') { %>
+                                  <span class="btn-success px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Deliver%></span>
+                                <% } else if (data.status == '4') { %>
+                                  <span class="btn-danger px-3 py-1 b-r-5 f-14 f-w-400"><%=lan.Cancelled%></span>
+                                <% } %>
+                              </td>
+                            </tr>
+                            <% }); %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+              <% } %>
+
+              <% if (lab_booking == '1') { %>
+              <% if (bl.length > 0) { %>
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                    <h4><%= lan.Latest_Lab_Appointment %></h4>
+                    <a href="/lab/appoint/list">View All</a>
+                  </div>
+                  <div class="card-block row">
+                    <div class="col-sm-12 col-lg-12 col-xl-12">
+                      <div class="table-responsive theme-scrollbar">
+                        <table class="table table-responsive theme-scrollbar-sm">
+                          <thead>
+                            <tr>
+                              <th scope="col">#<%= lan.ID %></th>
+                              <th scope="col"><%= lan.Date_Time %></th>
+                              <th scope="col"><%= lan.Customer_Name %></th>
+                              <th scope="col"><%= lan.Total_Price %></th>
+                              <th scope="col"><%= lan.Payment_Status %></th>
+                              <th scope="col"><%= lan.Status %></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% bl.forEach((data) => { %>
+                            <tr>
+                              <th scope="row"><a href="/lab/booking_details/<%= data.id %>">#<%= data.id %></a></th>
+                              <td><%= data.book_date %> <%= data.book_time %></td>
+                              <td><%= data.cus_name %></td>
+                              <td class="invosymbol"><%= data.tot_price %></td>
+                              <td id="lcashtd<%= data.id %>">
+                                  <% if (data.tot_price == data.paid_amount) { %>
+                                      <span class="btn-success px-3 b-r-5 f-14 f-w-400" style="padding: .25rem;"><%=lan.Paid%></span>
+                                  <% } else { %>
+                                      <span class="btn-warning px-3 b-r-5 f-14 f-w-400" style="padding: .25rem;"><%=lan.Unpaid%></span>
+                                  <% } %>
+                              </td>
+                              <td>
+                                  <span class="<%=data.status_title.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="lbstatusid<%= data.id %>"><%=data.status_title.s%></span>
+                              </td>
+                            </tr>
+                            <% }); %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+              <% } %>
+
+            </div>
+          </div>
+          <% } %>
+
+
+
+          
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+
+        <%- include('./partials/script'); -%>
+        <script src="../../js/chart/apex-chart/apex-chart.js" defer></script>
+        <script src="../../js/chart/apex-chart/stock-prices.js" defer></script>
+        <script src="../../js/chart/apex-chart/chart-custom.js" defer></script>
+  </body>
+</html>

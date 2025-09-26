@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .hand-hover {
+          cursor: pointer;
+        }
+        .mainbnstyle{
+            padding: .25rem;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title pb-2">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Dashboard%></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+
+
+
+          <div class="container-fluid dashboard-2">
+            <div class="row">
+              
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="row">
+
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <a class="card profit-card hand-hover" href="/lab/appoint/list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-primary"><%= lan.Total_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_doc_appint%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card sell-card" href="/booking/list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-success"><%= lan.Total_Pending_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_pending%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-success"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card visitor-card" href="/doctor/list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-info"><%= lan.Total_Accepted_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_accepted%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-info"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card sell-card" href="/user/order_list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-secondary"><%= lan.Total_Assign_User_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_collector%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-secondary"><i class="fa fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card profit-card" href="/lab/list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-primary"><%= lan.Total_Ongoing_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_ongoiong%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card sell-card" href="/lab/appoint/list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-success"><%= lan.Total_In_Progress_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_in_progress%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-success"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card visitor-card" href="/doctor/list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-info"><%= lan.Total_Completed_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_completed%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-info"><i class="fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card sell-card" href="/user/order_list">
+                      <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="flex-grow-1">
+                            <p class="square-after f-w-600 header-text-secondary"><%= lan.Total_Cancelled_Appointment %><i class="fa fa-circle"> </i></p>
+                            <h4><%= das[0].tot_cancelled%></h4>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-2 pb-4">
+                        <div class="right-side icon-right-secondary"><i class="fa fa fa-money"></i>
+                          <div class="shap-block">
+                            <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+                <div class="card" id="indpagerole" data-indexr="<%= auth.admin_role%>">
+                  <div class="card-header pb-0">
+                    <h4><%= lan.Earning_Chart %> ( <%= lan.Total_Earning %> : <span class="invosymbol"><%= das[0].tot_earning%></span> )</h4>
+                  </div>
+                  <div class="card-body p-0" style="padding: 30px 30px 30px 15px !important;">
+                    <div id="lab-area-spaline"></div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+           <% if (bl.length > 0) { %>
+          <div class="container-fluid">
+            <div class="row">
+
+              <% if (bl.length > 0) { %>
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                    <h4><%= lan.Latest_Lab_Appointment %></h4>
+                    <a href="/lab/appoint/list"><%= lan.View_All %></a>
+                  </div>
+                  <div class="card-block row">
+                    <div class="col-sm-12 col-lg-12 col-xl-12">
+                      <div class="table-responsive theme-scrollbar">
+                        <table class="table table-responsive theme-scrollbar-sm">
+                          <thead>
+                            <tr>
+                              <th scope="col">#<%= lan.ID %></th>
+                              <th scope="col"><%= lan.Date_Time %></th>
+                              <th scope="col"><%= lan.Customer_Name %></th>
+                              <th scope="col"><%= lan.Collector %></th>
+                              <th scope="col"><%= lan.Total_Price %></th>
+                              <th scope="col"><%= lan.Payment_Method %></th>
+                              <th scope="col"><%= lan.Payment_Status %></th>
+                              <th scope="col"><%= lan.Status %></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% bl.forEach((data) => { %>
+                              <tr>
+                                <th scope="row"><a href="/lab/booking_details/<%= data.id %>">#<%= data.id %></a></th>
+                                <td><%= data.book_date %> <%= data.book_time %></td>
+                                <td><%= data.cus_name %></td>
+                                <td class="p-1" id="collectrd<%= data.id %>">
+                                    <% if(data.home_extra_price > 0 && data.status == 2 && data.home_col_status == '1' && auth.admin_role != 1) { %>
+                                        <select class="js-example-basic-single" id="labcollist" style="height: 10px !important; " required>
+                                            <option value selected disabled><%=lan.User%> <%=lan.List%></option>
+                                            <% user_list.forEach((ul) => { %>
+                                                <option value="<%=ul.id%>"><%=ul.name%></option>
+                                            <% }); %>   
+                                        </select>
+                                    <% } else { %>
+                                        <%= data.home_c_user != '' ? data.home_c_user : '-' %>
+                                    <% } %>
+                                </td>
+                                <td class="invosymbol"><%= data.tot_price %></td>
+                                <td>
+                                    <%= data.payment_name %>
+                                    <%= data.payment_name != '' && data.wallet_amount > 0 ? ' & ' : '' %>
+                                    <%= data.wallet_amount > 0 > 0 ? lan.Wallet : '' %>
+                                </td>
+                                <td id="lcashtd<%= data.id %>">
+                                    <% if (data.tot_price == data.paid_amount) { %>
+                                        <span class="btn-success px-3 b-r-5 f-14 f-w-400" style="padding: .25rem;"><%=lan.Paid%></span>
+                                    <% } else { %>
+                                        <span class="btn-warning px-3 b-r-5 f-14 f-w-400" style="padding: .25rem;"><%=lan.Unpaid%></span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <span class="<%=data.status_title.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="lbstatusid<%= data.id %>"><%=data.status_title.s%></span>
+                                </td>
+                              </tr>
+                            <% }) %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+
+            </div>
+          </div>
+          <% } %>
+
+
+
+          
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+
+        <%- include('./partials/script'); -%>
+        <script src="../../js/chart/apex-chart/apex-chart.js" defer></script>
+        <script src="../../js/chart/apex-chart/stock-prices.js" defer></script>
+        <script src="../../js/chart/apex-chart/chart-custom.js" defer></script>
+  </body>
+</html>

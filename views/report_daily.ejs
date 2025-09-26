@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Daily%> <%=lan.Report%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Daily%> <%=lan.Report%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row col-12">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Select%> <%=lan.Date%></label>
+                                    <input class="form-control" id="report_d_date" value="<%=today%>" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group <%= auth.admin_role != 1 ? 'd-none' : '' %>">
+                                    <label class="col-form-label"><%= lan.User %> <%=lan.List%></label>
+                                    <select class="js-example-basic-single" id="report_d_sl">
+                                        <option value selected disabled><%=lan.Select%> <%= lan.User %></option>
+                                        <% user_list.forEach((data) => { %>
+                                            <option value="<%=data.id%>"><%=data.name%></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row col-12 role" data-role="<%= role%>">
+                                <div class="table-responsive theme-scrollbar">
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none"></th>
+                                                <th><%=lan.Services%></th>
+                                                <th><%=lan.Value%></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% list.forEach(function(data, index){ %>
+                                                <% const Key = Object.keys(daily_list)[index]; %>
+                                                <tr>
+                                                    <td class="d-none"></td>
+                                                    <td><%=data%></td>
+                                                    <td id="s<%=index%>"><%= daily_list[Key]%></td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .mainbnstyle{
+            padding: .25rem;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                    <h3><%= lan.Service_Booking_List %></h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%= lan.Dashboard %></li>
+                        <li class="breadcrumb-item active"><%= lan.Service_Booking_List %></li>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none">#</th>
+
+                                            <th>#<%= lan.ID %></th>
+                                            <th><%= lan.Image %></th>
+                                            <th><%= lan.Customer %> <%= lan.Name %></th>
+                                            <th><%= lan.Date_Time %></th>
+                                            <th><%= lan.Total_Price %></th>
+                                            <th><%= lan.Payment_Method %></th>
+                                            <th><%= lan.Payment_Status %></th>
+                                            <th><%= lan.Appointment_Type %></th>
+                                            <th><%= lan.Status %></th>
+                                            <th><%= lan.Action %></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% al.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"><%= i %></td>
+                                                <td>#<%= data.id %></td>
+                                                <td class="p-1">
+                                                    <% if(data.cus_image == null || data.cus_image == ''){ %>
+                                                        <img class="p-0" width="50px" height="50px" src="../images/profile.png" alt="image">
+                                                    <% } else { %>
+                                                        <a href="../../<%= data.cus_image %>" target="_blank"><img class="p-0" width="50px" height="50px" src="../../<%= data.cus_image %>" alt="image" onerror="this.src='../../images/profile.png'"></a>
+                                                    <% }; %>
+                                                </td>
+                                                <td><%= data.name %></td>
+                                                <td><%= data.appointment_date %> <%= data.appointment_time %></td>
+                                                <td class="invosymbol"><%= data.tot_price %></td>
+                                                <td>
+                                                    <%= data.payment_name %>
+                                                    <%= data.payment_name != '' && data.wallet_amount > 0 ? ' & ' : '' %>
+                                                    <%= data.wallet_amount > 0 > 0 ? 'Wallet' : '' %>
+                                                </td>
+                                                <td>
+                                                    <% if (data.tot_price == data.paid_amount) { %>
+                                                        <span class="btn-success px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.Paid%></span>
+                                                    <% } else { %>
+                                                        <span class="btn-warning px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.Unpaid%></span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <% if (data.show_type == '1') { %>
+                                                        <span class="btn-success px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.In_Person%></span>
+                                                    <% } else { %>
+                                                        <span class="btn-primary px-3 b-r-5 f-14 f-w-400 mainbnstyle"><%=lan.Video%> <%=lan.Visit%></span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <span class="<%=data.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="lbstatusid<%= data.id %>"><%=data.status_type.s%></span>
+                                                </td>
+                                                <td>
+                                                    <a class="dropbtn btn-primary px-3 py-1 b-r-5 f-14 f-w-400" href="/booking/details/<%= data.id %>"><%=lan.Details%></a>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%=lan.Subcategory%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%=lan.Subcategory%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid search-page">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                          <form  class="needs-validation" novalidate="" action="/user/edit_subservice_data/<%=subdata.id%>" method="post" enctype="multipart/form-data">
+                              <div class="row">
+                                  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center form-group">
+                                    <img id="file-preview" width="150" height="150" src="../../<%=subdata.image%>" alt="image">
+                                  </div>
+                                  <div class="row mt-3">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Upload%> <%=lan.img%></label>
+                                        <input class="form-control pet_input_check" style="height: 47px;" type="file" name="image" accept="image/*" onchange="showPreview(event)">
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Category%> <%=lan.List%></label>
+                                        <select class="js-example-basic-single" name="service_id" required>
+                                            <option value selected disabled><%=lan.Category%> <%=lan.List%></option>
+                                            <% scategory.forEach(function(sdata){ %>
+                                              <option value="<%=sdata.id%>" <%= subdata.category_id == sdata.id ? 'selected' : '' %>><%=sdata.name%></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Subcategory%> <%=lan.Name%></label>
+                                        <input class="form-control pet_input_check" type="text" name="name" value="<%=subdata.name%>" placeholder="<%=lan.Enter%> <%=lan.Subcategory%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <div class="d-flex" style="padding-top: 40px;">
+                                            <div class="icon-state switch-outline">
+                                              <label class="switch">
+                                                <input type="checkbox" name="status" <%= subdata.status == '1' ? 'checked' : '' %>><span class="switch-state bg-success"></span>
+                                              </label>
+                                            </div>
+                                            <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                        </div>
+                                    </div>
+
+                                  </div>
+                                  <div class="text-center">
+                                    <p class="text-danger d-none mt-3" id="sitter_pet_detail"><%=lan.Please_Enter_All_Detail%>.</p>
+                                </div>
+                              </div>
+                              <div class="text-end mt-3">
+                                  <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

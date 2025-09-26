@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3> <%=lan.Add%> <%=lan.Hospital%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Add%> <%=lan.Hospital%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                          <form class="needs-validation" id="add_hospital_form" novalidate="" action="/hospital/add_hospital_data" method="post" enctype="multipart/form-data">
+
+                            <div class="col-12 form-group text-center p-0" id="file-preview-container">
+                                <img class="m-2 p-1" id="file-preview" style="border: 1px solid grey; border-radius: 6px;" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            
+                            <div class="row">
+                              
+                              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                  <div class="col-12 form-group">
+                                      <label class="form-label"><%=lan.image%></label>
+                                      <input class="form-control checkaddhos" style="height: 47px;" type="file" name="image" accept="image/*" onchange="showListPreview(event)" accept="image/*" multiple required>
+                                  </div>
+          
+                                  <div class="col-12 form-group">
+                                      <label class="form-label"><%=lan.Name%></label>
+                                      <input class="form-control checkaddhos" type="text" name="name" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                  </div>
+                                    <div class="col-12 form-group">
+                                        <label class="form-label"><%=lan.Email%></label>
+                                        <input class="form-control checkaddhos" id="add_hos_email" type="email" name="email" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="form-label"><%=lan.Country%> <%=lan.Code%></label>
+                                        <select class="js-example-basic-single checkaddhos" id="add_hos_phonecode" name="country_code" required>
+                                            <option value selected disabled><%=lan.Code%> <%=lan.List%></option>
+                                            <% CountryCode.forEach((data, x) => { %>
+                                                <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="form-label"><%= lan.Mobile %> <%= lan.No %>.</label>
+                                        <input class="form-control checkaddhos" type="number" id="add_hos_phone" name="phone" placeholder="<%=lan.Enter%> <%= lan.Mobile %> <%= lan.No %>." required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Latitude%></label>
+                                        <input class="form-control checkaddhos" id="location_latitude" type="text" name="latitude"  required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Longitude%></label>
+                                        <input class="form-control checkaddhos" id="location_longitude" type="text" name="longitude"  required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-4 text-center">
+                                  <div id="address-map" style="height: 68vh; width: 100%;"></div>
+                                  <p class="mt-2 f-w-600"><%=lan.Click_anywhere_on_the_map_to_get_your_location%></p>
+                              </div>
+                                
+                            </div>
+    
+                            <div class="col-12 form-group">
+                                <label class="form-label"><%=lan.Address%></label>
+                                <input class="form-control checkaddhos" type="text" name="address" placeholder="<%=lan.Enter%> <%=lan.Address%>" required>
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" style="margin-top: 20px;">
+                              <div class="d-flex">
+                                <div class="icon-state switch-outline">
+                                  <label class="switch">
+                                    <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                  </label>
+                                </div>
+                                <label class="form-label m-l-10"><%=lan.Status%></label>
+                              </div>
+                            </div>
+                          </form>
+                          <div class="text-center">
+                            <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                            <p class="text-danger d-none mt-1" id="detail_email_error"><%=lan.This_Email_Alread_Registered%>.</p>
+                            <p class="text-danger d-none mt-1" id="detail_phone_error"><%=lan.This_Mobile_No_Alread_Registered%>.</p>
+                            <p class="text-danger d-none mt-1" id="detail_zone_error"><%=lan.Your_Location_Not_in_Zone%></p>
+                          </div>
+    
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="add_hospital_btn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <script src="https://maps.googleapis.com/maps/api/js?key=<%= general.google_map_key %>&callback=initMap&v=weekly" defer></script>
+        <script src="../../js/map_address.js"></script>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

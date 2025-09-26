@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    <link rel="stylesheet" type="text/css" href="../../css/vendors/dropzone.css">
+    <link rel="stylesheet" type="text/css" href="../../css/vendors/aos.css">
+    <link rel="stylesheet" type="text/css" href="../../css/vendors/photoswipe.css">
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Gallery%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Gallery%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="dropzone dropzone-primary" id="multiFileUpload gallery_form" action="/user/add_gallery" method="post" >
+                                <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
+                                  <h6><%= lan.Drop_files_here_or_click_to_upload %>.</h6><span class="note needsclick"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <% if(gallery_data != ""){ %>
+                <div class="col-sm-12">
+                  <div class="card">
+                    <div class="card-body">
+
+                      <div class="row gallery my-gallery" id="aniimated-thumbnials" itemscope="">
+                        <% gallery_data.forEach(( data, index ) => { %>
+                          <figure class="reveal col-xl-3 col-sm-6 box-col-33 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" itemprop="associatedMedia" itemscope=""><a href="../../<%=data.image%>" itemprop="contentUrl" data-size="1600x950"><img class="img-thumbnail" src="../../<%=data.image%>" itemprop="thumbnail" alt="Image description"></a>
+                            <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                          </figure>
+                        <% }) %> 
+                      </div>
+
+
+                      <!-- <div class="row gallery grid my-gallery" id="aniimated-thumbnials">
+                            <% let round_check = 1; %>
+                            <% gallery_data.forEach(( data, index ) => { %>
+                              <% let index_no = index + parseFloat(1) %>
+
+                              <% if(round_check == "1"){ %>
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="fade-down"><a href="../../<%=data.image%>" data-size="1600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 2; %>
+
+                              <% } else if(round_check == "2"){ %>
+                                
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="fade-up"><a href="../../<%=data.image%>" data-size="1600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 3; %>
+
+                              <% } else if(round_check == "3"){ %>
+
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="zoom-out-down"><a href="../../<%=data.image%>" data-size="1600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 4; %>
+
+                              <% } else if(round_check == "4"){ %>
+
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="zoom-out-up"><a href="../../<%=data.image%>" data-size="11600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 5; %>
+
+                              <% } else if(round_check == "5"){ %>
+
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="flip-left"><a href="../../<%=data.image%>" data-size="1600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 6; %>
+
+                                <% } else if(round_check == "6"){ %>
+
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="flip-down"><a href="../../<%=data.image%>" data-size="1600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 7; %>
+
+                              <% } else if(round_check == "7"){ %>
+
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="fade-up"><a href="../../<%=data.image%>" data-size="1600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 8; %>
+
+                              <% } else if(round_check == "8"){ %>
+
+                                <figure class="grid-item col-sm-3 chech_gallery" id="gallery_mouse" data-imgid="<%=data.id%>" data-aos="zoom-out"><a href="../../<%=data.image%>" data-size="1600x950"><img class="img-thumbnail gallery_img" src="../../<%=data.image%>" alt="Image description"></a>
+                                  <figcaption><%=lan.Image%> <%=index_no%></figcaption>
+                                  <i class="icon-trash gallery_delete_btn d-none" id="gallery_delete_click"></i>
+                                </figure>
+                                <% round_check = 1; %>
+
+                              <% }; %>
+                            <% }) %> 
+                        </div> -->
+                        
+                        
+                        
+                    <% }; %>
+
+                        
+
+                        <!-- <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">()
+                          <div class="pswp__bg"></div>
+                          <div class="pswp__scroll-wrap">
+                            <div class="pswp__container">
+                              <div class="pswp__item"></div>
+                              <div class="pswp__item"></div>
+                              <div class="pswp__item"></div>
+                            </div>
+                            <div class="pswp__ui pswp__ui--hidden">
+                              <div class="pswp__top-bar">
+                                <div class="pswp__counter"></div>
+                                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                                <button class="pswp__button pswp__button--share" title="Share"></button>
+                                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                                <div class="pswp__preloader">
+                                  <div class="pswp__preloader__icn">
+                                    <div class="pswp__preloader__cut">
+                                      <div class="pswp__preloader__donut"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                                <div class="pswp__share-tooltip"></div>
+                              </div>
+                              <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                              <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                              <div class="pswp__caption">
+                                <div class="pswp__caption__center"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                        
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <script src="../../js/dropzone/cdn_dropzone.js"></script>
+        <script src="../../js/isotope.pkgd.js"></script>
+        <script src="../../js/photoswipe/photoswipe.min.js"></script>
+        <script src="../../js/photoswipe/photoswipe-ui-default.min.js"></script>
+        <script src="../../js/photoswipe/photoswipe.js"></script>
+        <script src="../../js/animation/scroll-reveal/scrollreveal.min.js"></script>
+        <script src="../../js/modernizr.js"></script>
+        <script src="../../js/animation/scroll-reveal/reveal-custom.js"></script>
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

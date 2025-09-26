@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('partials/head'); -%>
+    
+    <style>
+        /* .mainsprice{
+            font-weight: 400;
+            color: rgb(73, 73, 73);
+        } */
+        .hand-hover {
+            cursor: pointer;
+        }
+        .img_footer{
+            position: absolute;
+            bottom: 0;
+            width: 81%;
+            height: 25px;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            font-size: 12px;
+            color: #000;
+            line-height: 25px;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        .svgimgstyle{
+            background-color:rgb(194, 224, 253); 
+            width: 50px; 
+            height: 50px;
+            border-radius: 36px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .itemmixcenter{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .itemcenter{
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                    <h3><%= lan.Appointment_Detail %></h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                        <li class="breadcrumb-item active"><%= lan.Appointment_Detail %></li>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+
+
+                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex align-items-center">
+                                                <span class="f-w-500 f-16"><%= lan.Status %> :- <span class="<%=appoint.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="ladstatus"><%=appoint.status_type.s%></span></span>
+                                            </div>
+
+                                            <% if (auth.admin_role != 1) { %>
+
+                                            <% if (appoint.status != 3 && appoint.status != 4 && appoint.status != 5) { %>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" id="ladmdiv">
+                                                <div class="row d-flex justify-content-end">
+                                                    <div class="col-6">
+                                                        <select class="js-example-basic-single" id="ladschenge" data-id="<%=appoint.id%>">
+                                                            <option value selected disabled><%=lan.Status%> <%=lan.List%></option>
+                                                            <% if (appoint.status == 1) { %>
+                                                            <option value="1" <%= appoint.status == "1" ? 'selected' : '' %>><%=lan.Pending%></option>
+                                                            <% }; %>
+                                                            <option value="2" <%= appoint.status == "2" ? 'selected' : '' %>><%=lan.Check_In %></option>
+                                                            <option value="3" <%= appoint.status == "3" ? 'selected' : '' %>><%=lan.Check_Out %></option>
+                                                            <option value="4" <%= appoint.status == "4" ? 'selected' : '' %>><%=lan.Completed%></option>
+                                                            <% if (appoint.status == 1) { %>
+                                                            <option value="5" <%= appoint.status == "5" ? 'selected' : '' %>><%=lan.Canceled%></option>
+                                                            <% }; %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="ladcindiv">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                                                        <input class="form-control" id="ladcinfield" type="number" placeholder="<%= lan.Enter_Start_Otp %>">
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="ladcinbtn"><%=lan.Check_In %></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="dacoutdiv">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                                                        <input class="form-control" id="ladcoutfield" type="number" placeholder="<%= lan.Enter_End_Otp %>">
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="ladcoutbtn"><%=lan.Check_Out %></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <% if (appoint.status == 1) { %>
+                                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="larfcanceld">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9">
+                                                            <select class="js-example-basic-single" id="dacanreasl">
+                                                                <option value selected disabled><%= lan.Cancel_Reason %> <%=lan.List%></option>
+                                                                <% cr.forEach((data, i) => { %>
+                                                                    <option value="<%=data.id%>" data-title="<%=data.title%>"><%=data.title%></option>
+                                                                <% }); %>
+                                                            </select>
+                                                            <div class="text-danger mt-0 text-center d-none" id="clapcanreas"><%= lan.Select_Cancel_Reason %>.</div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                                            <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="dacansubbtn"><%=lan.Submit%></span>
+                                                        </div>
+                                                        <div class="col-12 d-none" id="lacaninp">
+                                                           <input class="form-control mt-2" id="canothreason" type="text" placeholder="<%= lan.Enter_Other_Reason %>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% }; %>
+ 
+                                            <% }; %>
+
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 <%= appoint.status != 3 ? 'd-none' : '' %>" id="ladcashdiv">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+                                                        <div class="text-primary mt-0 text-center"><%= lan.Collect_Cash_Message %></div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-0">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="daccashbtn"><%= lan.Cash_Collected %></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }; %>
+
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 <%= appoint.status != 5 ? 'd-none' : '' %>" id="docancelreas">
+                                                <div class="text-danger mt-0 text-center" id="docanreasn"><%= appoint.cancel_reason == "" ? appoint.cancel_title : appoint.cancel_reason %></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                                        <div>
+                                            <span class="f-w-500 f-14">#<%= lan.ID %> :- <span class="f-w-400"><%=appoint.id%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Date %> :- <span class="f-w-400"><%=appoint.book_date%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Appointment_Date %> :- <span class="f-w-400"><%=appoint.appointment_date%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Appointment_Time %> :- <span class="f-w-400"><%=appoint.appointment_time%></span></span>
+                                        </div>
+                                        <% if (appoint.transactionId != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Transaction_ID %> :- <span class="f-w-400"><%=appoint.transactionId%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Payment %> <%= lan.Status %> :- <span class="<%= appoint.tot_price == appoint.paid_amount ? 'btn-success' : 'btn-warning' %> px-3 py-1 b-r-5 f-14 f-w-400"><%= appoint.tot_price == appoint.paid_amount ? lan.Paid : lan.Unpaid %></span></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                                        <% if (appoint.show_type_price > 0) { %>
+                                        <div>
+                                            <span class="f-w-500 f-14"><%= lan.Service_Price %> :- <span class="invosymbol f-w-400"><%=appoint.show_type_price%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.additional_price > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Additional_Price %> :- <span class="invosymbol f-w-400"><%=appoint.additional_price%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.coupon_amount > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Coupon_Amount %> :- <span class="invosymbol f-w-400">-<%=appoint.coupon_amount%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.doctor_commission > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Doctor_Commission %> :- <span class="invosymbol f-w-400"><%=appoint.doctor_commission%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.site_commisiion > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Service_Fee_Tax %> :- <span class="invosymbol f-w-400"><%= appoint.site_commisiion %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.payment_name != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Payment %> (<%=appoint.payment_name%>) :- <span class="invosymbol f-w-400"><%= appoint.cash_amount > 0 ? appoint.cash_amount : appoint.online_amount %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.wallet_amount > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Wallet_Payment %> :- <span class="invosymbol f-w-400"><%= appoint.wallet_amount %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.tot_price > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Total_Price %> :- <span class="invosymbol f-w-400"><%= appoint.tot_price %></span></span>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                    <% if (appoint.additional_note != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Additional_Note %> :- <span class="f-w-400"><%=appoint.additional_note%></span></span>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="<% appoint == 1 ? 'd-flex flex-column flex-md-row justify-content-md-between' : '' %>">
+                                                <h6><%= lan.Service_Details %></h6>
+                                                <% if (appoint == 1 && appoint.timecount > 0) { %>
+                                                <div id="dvadatamd">
+                                                    <span class="f-w-500 f-14"><%= lan.Join_Video_Call %> - <span class="f-w-400 text-primary"  id="davidtimer"
+                                                    data-times="<%= appoint.timecount %>"><%= timecount.hour %>:<%= timecount.minute %>:<%= timecount.second %></span><%= lan.Left %></span>
+                                                </div>
+                                                <% } %>
+                                            </div>
+                                            <div class="col-12">
+                                                <hr style="height: 3px;">
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 d-flex justify-content-center align-items-center">
+                                                <% if (sebservice.image == '' || sebservice.image == null) { %>
+                                                    <img class="b-r-5" height="120" width="120" src="../../images/dashboard/default/profile.png" alt="Image">
+                                                <% } else { %>
+                                                    <img class="b-r-5" height="120" width="120" src="../../<%= sebservice.image%>" alt="Image">
+                                                <% } %>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9">
+                                                <div class="mt-1">
+                                                    <span class="f-w-500 f-14"><%=sebservice.sub_title%></span>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <span class="f-w-500"><i class="fa fa-calendar"></i> <%=appoint.appointment_date%> <%=appoint.appointment_time%></span>
+                                                </div>
+                                                <div class="border border-gray-10 mt-2 b-r-8 py-3 px-4 mt-3">
+                                                    <div class="row">
+                                                        <div class="col-2 d-flex justify-content-center align-items-center">
+                                                            <div class="b-r-8 py-2 px-3" style="background-color: rgb(230, 230, 230);">
+                                                                <i class="fa fa-hospital-o f-22"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <div style="margin-top: 1px;">
+                                                                <span class="f-w-500"><%=appoint.appointment_date%> <%=appoint.appointment_time%></span>
+                                                            </div>
+                                                            <% if (sebservice.show_type == '1') { %>
+                                                                <div style="margin-top: 2px;">
+                                                                    <span class="f-w-500"><%= lan.In_Person_Appointment %></span>
+                                                                </div>
+                                                            <% } else { %>
+                                                                <div style="margin-top: 2px;">
+                                                                    <span class="f-w-500"><%= lan.In_Video_Appointment %></span>
+                                                                </div>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+    
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h6><%= lan.Hospital_Details %></h6>
+                                            <div class="col-12">
+                                                <hr style="height: 3px;">
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 d-flex justify-content-center align-items-center">
+                                                <% if (hospital.image == '' || hospital.image == null) { %>
+                                                    <img class="b-r-5" height="120" width="120" src="../../images/dashboard/default/profile.png" alt="Image">
+                                                <% } else { %>
+                                                    <img class="b-r-5" height="120" width="120" src="../../<%= hospital.image%>" alt="Image">
+                                                <% } %>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9">
+                                                <div class="mt-2">
+                                                    <span class="f-w-500 f-14"><%= lan.Name %> :- <span class="f-w-400"><%=hospital.name%></span></span>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <span class="f-w-500 f-14"><%= lan.Email %> :- <span class="f-w-400"><%=hospital.email%></span></span>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <span class="f-w-500 f-14"><%= lan.Phone_Number %> :- <span class="f-w-400"><%=hospital.country_code%> <%=hospital.phone%></span></span>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <span class="f-w-500 f-14"><%= lan.Address %> :- <span class="f-w-400"><%=hospital.address%></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="ladhuldiv">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6><%= lan.Appointment_Checklist %></h6>
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <% family_member.forEach((fdata, i) => { %>
+                                            <div class="col-auto text-center">
+                                                <div class="p-1 b-r-5 hand-hover dafm <%= i == 0 ? 'b-primary' : 'border border-gray' %>" id="damainfms" data-fid="<%= fdata.id %>" data-id="<%= appoint.id %>">
+                                                    <img class="b-r-5" height="80" width="80" src="../../<%= fdata.profile_image %>" alt="Image">
+                                                </div>
+                                                <span class="f-14"><%= fdata.name %></span>
+                                            </div>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-1">
+                                        <div class="row" id="dafmmfow" data-fid="<%=family_member[0].id%>" data-id="<%=appoint.id%>" data-s="<%=appoint.status%>" data-enter="<%=lan.Enter%>" data-das="<%= appoint.status != 2 ? '0' : '1' %>">
+
+                                            <div class="col-auto p-r-0 mt-2 <%= auth.admin_role != 1 ? ( appoint.status != 2 ? 'disabled' : '' ) : '' %>" id="davitphy">
+                                                <div class="p-2 b-r-5 d-flex align-items-center border border-gray-10 hand-hover">
+                                                    <i class="fa fa-check-circle f-22 m-r-10 <%= vp == 1 ? 'text-success' : 'text-dark'%>" id="davptsu"></i>
+                                                    <div>
+                                                        <span class="f-w-500 f-12"><%= lan.Vitals_Physical_Info %></span>
+                                                        <p class="f-w-400 f-12 m-0"><%= lan.Vitals_Physical_Info %></p>
+                                                    </div>
+                                                    <i class="fa fa-plus-square-o f-20 m-l-10"></i>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-auto p-r-0 mt-2 <%= auth.admin_role != 1 ? ( appoint.status != 2 ? 'disabled' : '' ) : '' %>" id="dadrpres">
+                                                <div class="p-2 b-r-5 d-flex align-items-center border border-gray-10 hand-hover">
+                                                    <i class="fa fa-check-circle f-22 m-r-10 <%= dp == 1 ? 'text-success' : 'text-dark'%>" id="dasepr"></i>
+                                                    <div>
+                                                        <span class="f-w-500 f-12"><%= lan.Drugs_Prescription_Info %></span>
+                                                        <p class="f-w-400 f-12 m-0"><%= lan.Medications_Prescribed %></p>
+                                                    </div>
+                                                    <i class="fa fa-plus-square-o f-20 m-l-10"></i>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-auto p-r-0 mt-2 <%= auth.admin_role != 1 ? ( appoint.status != 2 ? 'disabled' : '' ) : '' %>" id="dadiagtest">
+                                                <div class="p-2 b-r-5 d-flex align-items-center border border-gray-10 hand-hover">
+                                                    <i class="fa fa-check-circle f-22 m-r-10 <%= dt == 1 ? 'text-success' : 'text-dark'%>" id="dadite"></i>
+                                                    <div>
+                                                        <span class="f-w-500 f-12"><%= lan.Diagnosis_Tests %></span>
+                                                        <p class="f-w-400 f-12 m-0"><%= lan.Medical_Tests_Diagnostic %></p>
+                                                    </div>
+                                                    <i class="fa fa-plus-square-o f-20 m-l-10"></i>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-auto m-l-10 b-r-5 d-flex align-items-center border border-gray-10 hand-hover mt-2 <%= auth.admin_role != 1 ? ( appoint.status != 2 ? 'disabled' : '' ) : '' %>" id="dapatiin">
+                                                <i class="fa fa-list-ul f-20 m-r-10"></i>
+                                                <span class="f-w-500 f-14"><%= lan.Patient_Info %></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+
+
+
+                    <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6><%= lan.Customer_Details %></h6>
+                                        <% if (auth.admin_role != 1) { %>
+                                        <a class="p-1 b-r-5 px-3" href="/chat/list" style="background-color: rgb(190, 190, 255) !important;">
+                                             <i class="fa fa-comments f-16" style="color: blue;"></i>
+                                        </a>
+                                        <% } %>
+                                    </div>
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <% if (customer.image == '' || customer.image == null) { %>
+                                            <img class="b-r-5" height="130" width="130" src="../../images/dashboard/default/profile.png" alt="Image">
+                                        <% } else { %>
+                                            <img class="b-r-5" height="130" width="130" src="../../<%= customer.image%>" alt="Image">
+                                        <% } %>
+                                    </div>
+                                    <div style="margin-top: 8px;">
+                                        <span class="f-w-500 f-14"><i class="fa fa-user"></i> <%= customer.name%></span>
+                                    </div>
+                                    <div style="margin-top: 4px;">
+                                        <span class="f-w-500 f-14"><i class="fa fa-envelope"></i> <%= customer.email%></span>
+                                    </div>
+                                    <div style="margin-top: 4px;">
+                                        <span class="f-w-500 f-14"><i class="fa fa-phone"></i> <%= customer.country_code%> <%= customer.phone%></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6><%= lan.Department_Details %></h6>
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <% if (sebservice.depart_image == '' || sebservice.depart_image == null) { %>
+                                            <img class="b-r-5" height="130" width="130" src="../../images/dashboard/default/profile.png" alt="Image">
+                                        <% } else { %>
+                                            <img class="b-r-5" height="130" width="130" src="../../<%= sebservice.depart_image%>" alt="Image">
+                                        <% } %>
+                                        <div style="margin-top: 6px;">
+                                            <span class="f-w-500 f-14"><%= sebservice.department_name%></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card <%= appoint.treatment_time.start_time == '' ? 'd-none' : '' %>" id="datottimediv">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6><%= lan.Appointment_Start_End_Time %></h6>
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="<%= appoint.treatment_time.start_time == '' ? 'd-none' : '' %>" id="damainstartt">
+                                            <span class="f-w-500 f-14"><%= lan.Start_Time %> </span>
+                                            <p class="f-w-400" id="dasttext"><%=appoint.treatment_time.start_time%></p>
+                                        </div>
+                                        <div class="<%= appoint.treatment_time.end_time == '' ? 'd-none' : '' %>" id="damainentt">
+                                            <span class="f-w-500 f-14"><%= lan.End_Time %> </span>
+                                            <p class="f-w-400 mb-0" id="daettext"><%=appoint.treatment_time.end_time%></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal fade" id="diagnosistestmodal" tabindex="-1" role="dialog" aria-labelledby="diagnosistestmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Diagnosis_Tests %></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-2">
+                            <div class="col-12" id="dadiagtestlist">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%= lan.Close %></button>
+                        <% if (auth.admin_role != 1) { %>
+                        <button class="btn btn-primary" type="submit" id="dadiagnobtn"><%= lan.Submit %></button>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="modal fade bd-example-modal-lg" id="drugprescrimodel" tabindex="-1" role="dialog" aria-labelledby="drugprescrimodel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Durgs & prescription Info</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-2">
+                        <form class="needs-validation" id="aaa" action="" method="post">
+                            <div class="row g-2" id="aaa">
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <label class="col-form-label">Medicine <%=lan.List%></label>
+                                    <select class="js-example-basic-single" name="medicine" required>
+                                    <option value selected disabled><%=lan.Select%> Medicine</option>
+                                        <% medicine.forEach(function(sdata){ %>
+                                            <option value="<%= sdata.id%>"><%= sdata.name%></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <label class="col-form-label">Types</label>
+                                    <input class="form-control pet_input_check" type="text" name="types" placeholder="Types (syrup, tablet)" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label">Frequency</label>
+                                    <input class="form-control pet_input_check" type="number" name="frequency" placeholder="Frequency (1+0+1)" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label">Dosage</label>
+                                    <input class="form-control pet_input_check" type="text" name="dosage" placeholder="Dosage (100mg, 200mg)" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label">Days</label>
+                                    <input class="form-control pet_input_check" type="text" name="days" placeholder="Days (2 days etc)" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="col-form-label">Time</label>
+                                    <input class="form-control pet_input_check" type="text" name="time" placeholder="<%=lan.Enter%> Time" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="col-form-label">Instructions</label>
+                                    <input class="form-control pet_input_check" type="text" name="instructions" placeholder="<%=lan.Enter%> Instructions" required>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                        <button class="btn btn-primary" type="submit" data-id="<%=appoint.id%>" data-fid="" data-s="<%=appoint.status%>" id="uppetiheal"><%=lan.Submit%></button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="modal fade" id="virphymodal" tabindex="-1" role="dialog" aria-labelledby="virphymodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Patient_Health_Concerns %></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-2">
+                        <% if (auth.admin_role != 1) { %>
+                            <form class="needs-validation" id="vpformid" action="" method="post">
+                                <div class="row g-2" id="virphydata">
+                                </div>
+                            </form>
+                        <% } else { %>
+                            <div class="row g-2" id="virphydata">
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close %></button>
+                        <% if (auth.admin_role != 1) { %>
+                        <button class="btn btn-primary" type="submit" data-id="<%=appoint.id%>" data-fid="" data-s="<%=appoint.status%>" id="uppetiheal"><%=lan.Submit %></button>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="pet_hel_concern" tabindex="-1" role="dialog" aria-labelledby="pet_hel_concern" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Patient_Health_Concerns %></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                <img class="b-r-5" height="110" width="100" id="dafmprofile" src="../../images/dashboard/default/profile.png" alt="">
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-3 col-xl-9">
+                                <span class="f-w-500 f-14"><%= lan.Patient_Name %></span>
+                                <p class="f-w-400 mb-1" id="dafnamefield">--</p>
+                                <div class="border border-gray-10 p-2 mt-2 b-r-5">
+                                    <span class="f-w-500 f-14"><%= lan.Gender %> : <span class="f-w-400" id="dafgender">--</span></span>
+                                    <div><span class="f-w-500 f-14"><%= lan.Age %> : <span class="f-w-400" id="dafage">0</span></span></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-0">
+                                <hr style="height: 3px;">
+                            </div>
+
+                            <span class="f-w-500 f-14 mt-0"><%= lan.Note %> :- <span class="f-w-400" id="dafnote">0</span></span>
+                            
+                            <div class="row mt-3" id="dafmpetidoc">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close %></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <%- include('partials/footer'); -%>
+    <%- include('partials/script'); -%>
+
+    </body>
+</html>

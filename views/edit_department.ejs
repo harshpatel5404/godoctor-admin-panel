@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%=lan.Department%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%=lan.Department%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <form  class="needs-validation" novalidate="" action="/department/edit_department_data/<%=department_list.id%>" method="post" enctype="multipart/form-data">
+                          <div class="row">
+    
+                            <div class="col-12">
+                                <div class="text-center form-group">
+                                    <% if(department_list.image == null) { %>
+                                        <img id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                    <% } else { %>
+                                      <a href="../../<%=department_list.image%>" target="_blank"><img id="file-preview" width="150" height="150" src="../../<%=department_list.image%>" alt="image"></a>
+                                    <% }; %>
+                                </div>
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="form-label"><%=lan.Image%></label>
+                                <input class="form-control" style="height: 47px;" type="file" name="image" accept="image/*" onchange="showPreview(event)">
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="form-label"><%=lan.Name%></label>
+                                <input class="form-control" type="text" value="<%=department_list.name%>" name="name" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" style="margin-top: 20px;">
+                              <div class="d-flex">
+                                <div class="icon-state switch-outline">
+                                  <label class="switch">
+                                    <input type="checkbox" name="status" <%= department_list.status == "1" ? 'checked': '' %>><span class="switch-state bg-success"></span>
+                                  </label>
+                                </div>
+                                <label class="form-label m-l-10"><%=lan.Status%></label>
+                              </div>
+                            </div>
+    
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

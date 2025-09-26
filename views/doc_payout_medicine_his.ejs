@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .hand-hover {
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                    <h3><%= lan.Payout_History %></h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                        <li class="breadcrumb-item active"><%= lan.Payout_History %></li>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="container-fluid dashboard-2">
+            <div class="row">
+
+              <div class="col-lg-3 col-md-6 box-col-3">
+                <div class="card profit-card hand-hover">
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <p class="square-after f-w-600 header-text-primary"><%= lan.Pending_Payout_Amount %><i class="fa fa-circle"> </i></p>
+                        <h4 class="invosymbol"><%= doctor[0].medicine_payout %></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pb-3">
+                    <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                      <div class="shap-block">
+                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 box-col-3">
+                <div class="card visitor-card hand-hover">
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <p class="square-after f-w-600 header-text-info"><%= lan.Withdrawable_Amount %><i class="fa fa-circle"> </i></p>
+                        <h4 class="invosymbol"><%= doctor[0].success_medicine_payout %></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pb-3">
+                    <div class="right-side icon-right-info"><i class="fa fa-money"></i>
+                      <div class="shap-block">
+                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+
+
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none">#</th>
+                                            <th><%= lan.Appointment_Id %></th>
+                                            <th><%= lan.Amount %></th>
+                                            <th><%= lan.Payment_Type %></th>
+                                            <th><%= lan.Status %></th>
+                                            <th><%= lan.Date %></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% let i = 1; for (const data of payout_list) { %>
+                                      <tr>
+                                        <td class="d-none"><%= i++ %></td>
+                                        <td class="<%= data.order_id ? 'py-3' : 'p-1' %>">
+                                          <% if (data.order_id) { %>
+                                            #<%= data.order_id %>
+                                          <% } else { %>
+                                            <% if (data.p_status === '1') { %>
+                                              <a class="alampaya" href="../../<%= data.image %>" target="_blank">
+                                                <img class="alampayimg" width="50" height="50" src="../../<%= data.image %>"  onerror="this.src='../../images/dashboard/default/profile.png'"  alt="image">
+                                              </a>
+                                            <% } else { %>
+                                              -
+                                            <% } %>
+                                          <% } %>
+                                        </td>
+                                        <td>
+                                          <span class="<%= data.status === '1' ? 'text-success' : 'text-danger' %>">
+                                            <%= data.status === '1' ? '+' : '-' %><span class="invosymbol"><%= data.amount %></span>
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <%= data.p_type === '1' ? lan.UPI : data.p_type === '2' ? lan.Paypal : data.p_type === '3' ? lan.Bank_Transfer : '-' %>
+                                        </td>
+                                        <td>
+                                          <% if (data.status === '2') { %>
+                                            <span class="badge <%= data.p_status === '1' ? 'badge-success' : 'badge-danger' %>">
+                                              <%= data.p_status === '1' ? lan.Successful : lan.Pending %>
+                                            </span>
+                                          <% } else { %>
+                                            -
+                                          <% } %>
+                                        </td>
+                                        <td><%= data.date %></td>
+                                      </tr>
+                                    <% } %>
+                                  </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    </body>
+</html>

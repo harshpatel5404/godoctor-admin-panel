@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('partials/head'); -%>
+    
+    <link rel="stylesheet" href="../../css/timelinecss.css">
+    <style>
+        /* .mainsprice{
+            font-weight: 400;
+            color: rgb(73, 73, 73);
+        } */
+        .hand-hover {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body onload="startTime()">
+    <%- include('partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                    <h3><%= lan.Lab %> <%= lan.Booking %> <%= lan.Detail %></h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                        <li class="breadcrumb-item active"><%= lan.Lab %> <%= lan.Booking %> <%= lan.Detail %></li>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+
+
+                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex align-items-center">
+                                                <span class="f-w-500 f-16"><%= lan.Status %> :- <span class="<%=appoint.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="ladstatus"><%=appoint.status_type.s%></span></span>
+                                            </div>
+
+                                            <% if (auth.admin_role != 1) { %>
+                                            <% if (appoint.status != 6 && appoint.status != 7) { %>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" id="ladsnall">
+                                                <div class="row d-flex justify-content-end">
+                                                    <div class="col-6">
+                                                        <select class="js-example-basic-single" id="lowbdetails" data-id="<%=appoint.id%>" data-cas="<%=appoint.cash_amount%>">
+                                                            <option value selected disabled><%=lan.Status%> <%=lan.List%></option>
+                                                            <% if (appoint.status == 1) { %>
+                                                            <option value="1" <%= appoint.status == "1" ? 'selected' : '' %>><%=lan.Pending%></option>
+                                                            <% }; %>
+                                                            <option value="2" <%= appoint.status == "2" ? 'selected' : '' %>><%=lan.Accepted%></option>
+                                                            <% if (appoint.home_extra_price > 0 && appoint.home_col_status == 1) { %>
+                                                            <option value="3" <%= appoint.status == "3" ? 'selected' : '' %>><%=lan.Assign%> <%=lan.User%></option>
+                                                            <% }; %>
+                                                            <option value="4" <%= appoint.status == "4" ? 'selected' : '' %>><%=lan.Ongoing%></option>
+                                                            <option value="5" <%= appoint.status == "5" ? 'selected' : '' %>><%=lan.In_Progress%></option>
+                                                            <option value="6" <%= appoint.status == "6" ? 'selected' : '' %>><%=lan.Completed%></option>
+                                                            <option value="7" <%= appoint.status == "7" ? 'selected' : '' %>><%=lan.Canceled%></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }; %>
+
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="ladhoul">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9">
+                                                        <select class="js-example-basic-single" id="ladhulsmuser" data-id="<%=appoint.id%>">
+                                                            <option value selected disabled><%= lan.Home_Collect %> <%=lan.User%> <%=lan.List%></option>
+                                                            <% user_list.forEach((data, i) => { %>
+                                                                <option value="<%=data.id%>"><%=data.name%></option>
+                                                            <% }); %>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" id="ladhulsmbtn"><%=lan.Submit%></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="ladotpdiv">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                                                        <input class="form-control " id="otpinfield" type="number" placeholder="Enter Otp">
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="ladinotpbtn"><%=lan.In_Progress%></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <% if (appoint.status == 1) { %>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="larfcanceld">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9">
+                                                        <select class="js-example-basic-single" id="ladcansel">
+                                                            <option value selected disabled><%= lan.Cancel_Reason %> <%=lan.List%></option>
+                                                            <% cr.forEach((data, i) => { %>
+                                                                <option value="<%=data.id%>" data-title="<%=data.title%>"><%=data.title%></option>
+                                                            <% }); %>
+                                                        </select>
+                                                        <div class="text-danger mt-0 text-center d-none" id="clapcanreas"><%= lan.Select_Cancel_Reason %>.</div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="lacanbtn"><%=lan.Submit%></span>
+                                                    </div>
+                                                    <div class="col-12 d-none" id="lacaninp">
+                                                       <input class="form-control mt-2" id="canothreason" type="text" placeholder="<%= lan.Enter_Other_Reason %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }; %>
+                                            
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="ladcashdiv">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+                                                        <div class="text-primary mt-0 text-center"><%= lan.Collect_Cash_Message %>.</div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-0">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="ladcashbtn"><%= lan.Cash_Collected %></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }; %>
+                                            
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 <%= appoint.status != 7 ? 'd-none' : '' %>" id="lacancelreas">
+                                                <div class="text-danger mt-0 text-center" id="ladcanreasn"><%= appoint.cancel_reason == "" ? appoint.cancel_title : appoint.cancel_reason %></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                                        <div>
+                                            <span class="f-w-500 f-14">#<%= lan.ID %> :- <span class="f-w-400"><%=appoint.id%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Date %> :- <span class="f-w-400"><%=appoint.date%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Book_Date %> :- <span class="f-w-400"><%=appoint.book_date%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Book_Time %> :- <span class="f-w-400"><%=appoint.book_time%></span></span>
+                                        </div>
+                                        <% if (appoint.transactionId != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Transaction_ID %> :- <span class="f-w-400"><%=appoint.transactionId%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Payment_Status %> :- <span class="<%= appoint.tot_price == appoint.paid_amount ? 'btn-success' : 'btn-warning' %> px-3 py-1 b-r-5 f-14 f-w-400"><%= appoint.tot_price == appoint.paid_amount ? lan.Paid : lan.Unpaid %></span></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                                        <% if (appoint.tot_package_price > 0) { %>
+                                        <div>
+                                            <span class="f-w-500 f-14"><%= lan.Package_Charge %> :- <span class="invosymbol f-w-400"><%=appoint.tot_package_price%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.coupon_amount > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Coupon_Amount %> :- <span class="invosymbol f-w-400">-<%=appoint.coupon_amount%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.home_extra_price > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Home_Collection_Fee %> :- <span class="invosymbol f-w-400"><%=appoint.home_extra_price%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.site_commission > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Service_Fee_Tax %> :- <span class="invosymbol f-w-400"><%= appoint.site_commission %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.payment_name != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Payment %> (<%=appoint.payment_name%>) :- <span class="invosymbol f-w-400"><%= appoint.cash_amount > 0 ? appoint.cash_amount : appoint.online_amount %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.wallet_amount > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Wallet_Payment %> :- <span class="invosymbol f-w-400"><%= appoint.wallet_amount %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.tot_price > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Total_Price %> :- <span class="invosymbol f-w-400"><%= appoint.tot_price %></span></span>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                    <% if (appoint.message != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Additional_Note %> :- <span class="f-w-400"><%=appoint.message%></span></span>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>  
+
+
+
+                        <div class="card">
+                            <div class="card-body row">
+                                <h6><%= lan.Test %> & <%= lan.Package %> <%= lan.Details %></h6>
+                                <div class="col-12">
+                                    <hr style="height: 3px;">
+                                </div>
+                                <div class="col-sm-12 col-lg-12 col-xl-12">
+
+                                    <% appoint.package_id.forEach((data, index) => { %>
+                                        <hr class="mt-4 mb-4 <%- index == 0 ? 'd-none' : '' %>" style="height: 3px;">
+                                        <div class="mb-3 row">
+                                            <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2 text-center">
+                                                 <% if (data.logo == '' || data.logo == null) { %>
+                                                    <img class="b-r-10" height="80" width="80" src="../../images/dashboard/default/profile.png" alt="Logo">
+                                                <% } else { %>
+                                                    <img class="b-r-10" height="80" width="80" src="../../<%=data.logo%>" alt="Logo">
+                                                <% } %>
+                                            </div>
+                                            <div class="col-sm-12 col-md-9 col-lg-10 col-xl-10">
+                                                <div>
+                                                    <span class="f-w-400 f-14"><%=data.title%></span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="f-w-400 f-14"><%=data.subtitle%></span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="f-w-400 f-14"><%= lan.Includes %> <%=data.tot_package_name%> <%= lan.Tests %></span> &nbsp; & &nbsp; 
+                                                    <span class="f-w-500 f-14"><%= lan.Package_Price %> :- <span class="invosymbol f-w-400"><%=data.tot_package_price%><span class="p-r-10"> X <%=data.f.length%></span>=<span class="invosymbol p-l-10"><%=data.tot_package_price * data.f.length;%></span></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="table-responsive theme-scrollbar">
+                                            <table class="table table-bordered checkbox-td-width">
+                                              <tbody>
+                                                <% data.f.forEach((df) => { %>
+                                                    <tr>
+                                                        <td class="text-center p-2 w-10">
+                                                            <% if (df.id.profile_image == '' || df.id.profile_image == null) { %>
+                                                                <img class="b-r-25" height="70" width="70" src="../../uploads/lab_package/1744283663148pexels-ferdinandstudio-1104035.jpg" alt="Image">
+                                                            <% } else { %>
+                                                                <img class="b-r-10" height="70" width="70" src="../../<%=df.id.profile_image%>"
+                                                                onerror="this.onerror=null; this.src='../../uploads/lab_package/1744283663148pexels-ferdinandstudio-1104035.jpg'" alt="Image">
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <span><%= df.id.name%></span>
+                                                        </td>
+                                                        <td style="width: 45%;">
+                                                            <div>
+                                                                <span class="f-w-500 f-14"><%= lan.Date %> :- <span class="f-w-400" id="lafmd<%=df.id.id%>"><%= df.d %></span></span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="f-w-500 f-14"><%= lan.Total_Report %> :- <span class="f-w-400" id="lafmo<%=df.id.id%>"><%= df.r.length %></span></span>
+                                                            </div>
+                                                            <div>
+                                                                <!-- <% let comment = df.c.length > 40 ? df.c.slice(0, 40) + '...' : df.c %> -->
+                                                                <span class="f-w-500 f-14"><%= lan.Comment %> :- <span class="f-w-400" id="lafmc<%=df.id.id%>"><%= df.c %></span></span>
+                                                            </div>
+                                                        </td>
+                                                        <% if (auth.admin_role != 1) { %>
+                                                        <td class="w-10 mainlaup" data-id="<%=appoint.id%>" data-pid="<%=data.pid%>" data-fid="<%=df.id.id%>" data-d="<%=lan.Delete%>">
+                                                            <div>
+
+                                                                <button class="btn btn-success px-3 py-1 b-r-5 f-14 f-w-400 <%= appoint.status != 5 ? 'd-none' : '' %> larupload lrubtn1"
+                                                                    id="ladfmidupre" data-bs-toggle="modal" data-bs-target="#uploadreport">
+                                                                    <%= lan.Upload_Report %></button>
+                                                                <!-- <span class="btn-success px-3 py-1 b-r-5 f-14 f-w-400 <%= appoint.status != 5 ? 'd-none' : '' %> hand-hover larupload lrubtn1" 
+                                                                    id="ladfmidupre" data-bs-toggle="modal" data-bs-target="#uploadreport">Report</span> -->
+                                                                
+
+                                                                <button class="btn btn-success px-3 py-1 b-r-5 f-14 f-w-400 disabled <%= appoint.status != 5 ? '' : 'd-none' %> hand-hover larupload lrubtn2"
+                                                                    id="ladfmidupre">
+                                                                    <%= lan.Upload_Report %></button>
+                                                                <!-- <span class="btn-success px-3 py-1 b-r-5 f-14 f-w-400 disabled <%= appoint.status != 5 ? '' : 'd-none' %> hand-hover larupload lrubtn2" 
+                                                                    id="ladfmidupre">Upload</span> -->
+                                                                
+                                                            </div>
+                                                            <div class="mt-2 <%= appoint.status != 5 ? 'd-none' : (df.r.length == 0 ? 'd-none' : '') %> larcancel text-center" id="ladfrdel<%=df.id.id%>"
+                                                                data-bs-toggle="modal" data-bs-target="#lardelete">
+                                                                <button class="btn btn-danger px-3 py-0 b-r-5 f-14 f-w-400 hand-hover"><%= lan.Delete %></button>
+                                                                <!-- <span class="btn-danger px-3 py-1 b-r-5 f-14 f-w-400 hand-hover"><%= lan.Delete %></span> -->
+                                                            </div>  
+                                                        </td>
+                                                        <% }; %>  
+                                                    </tr>
+                                                <% }); %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                    <% }); %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h6><%= lan.Patient_Details %></h6>
+                                            <div class="col-12">
+                                                <hr style="height: 3px;">
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 d-flex justify-content-center align-items-center">
+                                                <% if (customer.image == '' || customer.image == null) { %>
+                                                    <img class="b-r-5" height="120" width="120" src="../../images/dashboard/default/profile.png" alt="Image">
+                                                <% } else { %>
+                                                    <img class="b-r-5" height="120" width="120" src="../../<%= customer.image%>" alt="Image">
+                                                <% } %>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9">
+                                                <div class="mt-2">
+                                                    <span class="f-w-500 f-14"><%= lan.Name %> :- <span class="f-w-400"><%=customer.name%></span></span>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <span class="f-w-500 f-14"><%= lan.Email %> :- <span class="f-w-400"><%=customer.email%></span></span>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <span class="f-w-500 f-14"><%= lan.Phone_Number %> :- <span class="f-w-400"><%=customer.country_code%> <%=customer.phone%></span></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <% if (Object.entries(address) != '') { %>
+                                                <hr style="height: 3px;">
+                                                <div class="mt-1">
+                                                    <span class="f-w-500 f-14"><%= lan.Address %> :- <span class="f-w-400"><%=address.house_no%>, <%=address.address%></span></span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="f-w-500 f-14"><%= lan.Landmark %> :- <span class="f-w-400"><%=address.landmark%>, <%=address.address_as%></span></span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="f-w-500 f-14"><%= lan.Phone_Number %> :- <span class="f-w-400"><%=address.country_code%> <%=address.phone%></span></span>
+                                                </div>
+                                                <% }; %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                                <div class="card <%= appoint.home_c_user == '' && appoint.home_c_email == '' && appoint.home_c_ccode == '' && appoint.home_c_phone == '' ? 'd-none' : '' %>" id="ladhuldiv">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h6><%= lan.Home_Collect_User %></h6>
+                                            <div class="col-12">
+                                                <hr style="height: 3px;">
+                                            </div>
+                                            <div class="col-12">
+                                                <div>
+                                                    <span class="f-w-500 f-14"><%= lan.Name %> :- <span class="f-w-400" id="ladhulname"><%=appoint.home_c_user%></span></span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="f-w-500 f-14"><%= lan.Email %> :- <span class="f-w-400" id="ladhulemail"><%=appoint.home_c_email%></span></span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="f-w-500 f-14"><%= lan.Phone_Number %> :- <span class="f-w-400" id="ladhulcphone"><%=appoint.home_c_ccode%> <%=appoint.home_c_phone%></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6 class=""><%= lan.Category %></h6>
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <% if (category.image == '' || category.image == null) { %>
+                                            <img class="b-r-5" height="130" width="130" src="../../images/dashboard/default/profile.png" alt="Image">
+                                        <% } else { %>
+                                            <img class="b-r-5" height="130" width="130" src="../../<%= category.image%>" alt="Image">
+                                        <% } %>
+                                        <div style="margin-top: 4px;">
+                                            <span class="f-w-500 f-14"><%= category.name%></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    
+                                    <div class="containertime">
+                                        <div class="wrappertime">
+                                            
+                                            <%
+                                                const homs = appoint.home_col_status;
+                                                const statusList = appoint.status_list || [];
+                                                const steps = [
+                                                    { label: lan.Pending, index: 0, min: 1 },
+                                                    { label: lan.Accepted, index: 1, min: 2 },
+                                                    ...(homs == 1 ? [{ label: lan.Assign + ' ' + lan.User, index: 2, min: 3 }] : []),
+                                                    { label: lan.Ongoing, index: homs == 1 ? 3 : 2, min: 4 },
+                                                    { label: lan.In_Progress, index: homs == 1 ? 4 : 3, min: 5 },
+                                                    { label: lan.Completed, index: homs == 1 ? 5 : 4, min: 6 },
+                                                    { label: lan.Canceled, index: 6, min: 7, exact: true }
+                                                ];
+                                            %>
+
+                                            <ul class="sessionstime">
+                                                <% steps.forEach((step, i) => {
+                                                    const show = step.exact ? appoint.status === step.min : appoint.status >= step.min;
+                                                    const spml = step.exact ? 'd-none' : (step.min == 6 || step.min == 7 ? 'mtllast' : 'mtl' );
+                                                    const cls = show ? (step.min == 6 || step.min == 7 ? 'mtll1' : 'mtl1' ) : spml;
+                                                    <!-- const cls = show ? (step.min == 6 || step.min == 7 ? 'mtll1' : 'mtl1' ) : (step.exact ? 'd-none' : 'mtl'); -->
+                                                    const icon = show ? '<i class="fa fa-check-circle timeline-icon"></i>' : '';
+                                                    const time = show && statusList[step.index] ? statusList[step.index].t : '--';
+                                                %>
+                                                    <li class="<%- cls %>" id="lastatus<%= step.min %>">
+                                                        <%- icon %>
+                                                        <div class="f-w-400"><%= time %></div>
+                                                        <p class="f-w-500 f-14"><%= step.label %></p>
+                                                    </li>
+                                                <% }); %>
+                                            </ul>
+
+
+
+                                        </div>
+                                    </div> 
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
+
+
+
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+
+
+        <div class="modal fade" id="uploadreport" tabindex="-1" role="dialog" aria-labelledby="uploadreport" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Upload_Report %></h5>
+                        <button class="btn-close" id="lbreportclose" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label"><%= lan.Upload_Report %></label>
+                                <input class="form-control" id="lbfileupload" type="file" name="title" style="height: 46px;" multiple required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%= lan.Description %></label>
+                                <textarea class="form-control" id="lrbdescription" rows="4"></textarea>
+                            </div>
+                            <input type="hidden" id="laompid" value="">
+                            <input type="hidden" id="laomfid" value="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                        <button class="btn btn-primary" type="submit" data-id="<%=appoint.id%>" data-s="2" id="uplbreport"><%=lan.Submit%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="lardelete" tabindex="-1" role="dialog" aria-labelledby="lardelete" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Delete_Report %></h5>
+                        <button class="btn-close" id="lbreportc" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3 vlarinmodel">
+                           
+                        </div>
+                        <input type="hidden" id="ladromapid" value="">
+                        <input type="hidden" id="ladrompid" value="">
+                        <input type="hidden" id="ladromfid" value="">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <%- include('partials/footer'); -%>
+    <%- include('partials/script'); -%>
+    </body>
+</html>

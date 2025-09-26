@@ -1,0 +1,1086 @@
+ <!-- tap on top starts-->
+ <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+ <!-- tap on tap ends-->
+ <!-- Loader starts-->
+ <div class="loader-wrappers" id="page-loader">
+   <div class="dot"></div>
+   <div class="dot"></div>
+   <div class="dot"></div>
+   <div class="dot"></div>
+   <div class="dot"></div>
+</div>
+<style>
+.loader-wrappers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Dot style with colorful gradient and shadow */
+.dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: bounce 1s infinite ease-in-out;
+}
+
+/* Individual colorful dots */
+.dot:nth-child(1) {
+    background: #ff4d4d; /* red */
+}
+.dot:nth-child(2) {
+    background: #ff9933; /* orange */
+    animation-delay: 0.1s;
+}
+.dot:nth-child(3) {
+    background: #ffd11a; /* yellow */
+    animation-delay: 0.2s;
+}
+.dot:nth-child(4) {
+    background: #33cc33; /* green */
+    animation-delay: 0.3s;
+}
+.dot:nth-child(5) {
+    background: #3399ff; /* blue */
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-12px);
+        opacity: 0.7;
+    }
+}
+</style>
+
+ <!-- Loader ends-->
+ <!-- page-wrapper Start-->
+ <div class="compact-wrapper page-wrapper" id="pageWrapper">
+   <!-- Page Header Start-->
+   <div class="page-header">
+     <div class="row m-0 header-wrapper">
+       <div class="col-auto p-0 header-logo-wrapper">
+         <div class="toggle-sidebar"><i class="middle sidebar-toggle status_toggle" data-feather="grid"> </i></div>
+         <div class="logo-header-main">
+          <% if(general.light_image == null){ %>
+            <a href="index.html"><img class="for-light img-100 img-fluid" src="../assets/images/logo/logo2.png" alt=""><img class="for-dark img-fluid" src="../assets/images/logo/logo.png" alt=""></a>
+          <% } else { %>
+            <a href="index.html"><img class="for-light img-100 img-fluid" src="../../<%=general.light_image%>" alt=""><img class="for-dark img-fluid" src="../../<%=general.dark_image%>" alt=""></a>
+          <% }; %>
+        </div>
+       </div>
+       <div class="col horizontal-wrapper left-header ps-0">
+       </div>
+       <div class="col-6 nav-right p-0 pull-right right-header">
+         <ul class="nav-menus">
+           <li></li>
+           <li>
+            <div class="mode" id="dark_mode"><i class="fa fa-moon-o"></i></div>
+           </li>
+           
+           <li class="maximize"><a href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize-2"></i></a></li>
+           <li class="language-nav">
+             <div class="translate_wrapper">
+               <div class="current_lang">
+                 <div class="lang"><i data-feather="globe"></i></div>
+               </div>
+               <div class="more_lang">
+                <div class="lang" id="en" data-value="en"><i class="flag-icon flag-icon-us"></i><span class="lang-txt">English<span> (US)</span></span></div>
+                <div class="lang" id="in" data-value="in"><i class="flag-icon flag-icon-in"></i><span class="lang-txt">Hindi</span></div>
+                <div class="lang" id="de" data-value="de"><i class="flag-icon flag-icon-de"></i><span class="lang-txt">Deutsch</span></div>
+                <div class="lang" id="pt" data-value="pt"><i class="flag-icon flag-icon-pt"></i><span class="lang-txt">Portugu&ecirc;s<span> (BR)</span></span></div>
+                <div class="lang" id="es" data-value="es"><i class="flag-icon flag-icon-es"></i><span class="lang-txt">Espa&ntilde;ol</span></div>
+                <div class="lang" id="fr" data-value="fr"><i class="flag-icon flag-icon-fr"></i><span class="lang-txt">Fran&ccedil;ais</span></div>
+                <div class="lang" id="cn" data-value="cn"><i class="flag-icon flag-icon-cn"></i><span class="lang-txt">&#x7B80;&#x4F53;&#x4E2D;&#x6587;</span></div>
+                <div class="lang" id="ae" data-value="ae"><i class="flag-icon flag-icon-ae"></i><span class="lang-txt">&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629; <span> (ae)</span></span></div>
+               </div>
+             </div>
+             <input type="hidden" id="hidden_lang" value="<%=land%>">
+           </li>
+           <li class="onhover-dropdown profile-nav">
+             <div class="account-user"><i data-feather="user"></i></div>
+             <ul class="onhover-show-div profile-dropdown">
+               <li><a href="/settings/profile"><i data-feather="user"></i><span><%=lan.Account%></span></a></li>
+               <li><a href="/logout"><i data-feather="log-in"> </i><span><%=lan.Log_Out%></span></a></li>
+             </ul>
+           </li>
+         </ul>
+       </div>
+       <script class="result-template" type="text/x-handlebars-template">
+         <div class="ProfileCard u-cf">                        
+         <div class="ProfileCard-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0 feather feather-airplay"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg></div>
+         <div class="ProfileCard-details">
+         <div class="ProfileCard-realName">{{name}}</div>
+         </div>
+         </div>
+       </script>
+     </div>
+   </div>
+   <!-- Page Header Ends-->
+   <!-- Page Body Start-->
+   <div class="page-body-wrapper">
+     <!-- Page Sidebar Start-->
+     <div class="sidebar-wrapper">
+       <div>
+         <div class="logo-wrapper mt-2" style="padding-top: 10px !important;">
+            <% if(general.light_image == null){ %>
+              <a href="/index">
+                <img class="for-light img-50 img-fluid" src="../../images/dashboard/default/profile.png" alt="">
+                <span class="text-white f-20 f-w-700 pt-5"><%= general.title %></span>
+              </a>
+            <% } else { %>
+              <a href="/index">
+                <img class="for-light img-fluid" style="height: 40px; width: 130px;" src="../../<%=general.light_image%>" alt="">
+              </a>
+            <% }; %>
+            <div class="back-btn"><i data-feather="grid"></i></div>
+            <div class="icon-box-sidebar toggle-sidebar"><i class="middle sidebar-toggle status_toggle" data-feather="grid"> </i></div>
+         </div>
+         <div class="logo-icon-wrapper"><a href="index.html">
+             <div class="icon-box-sidebar"><i data-feather="grid"></i></div></a></div>
+         <nav class="sidebar-main">
+           <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+           <div id="sidebar-menu">
+             <ul class="sidebar-links" id="simple-bar">
+               <li class="back-btn">
+                 <div class="text-end mobile-back"><span><%=lan.Back%></span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+               </li>
+               <li class="menu-box"> 
+                 <ul>
+                  <% if(auth.admin_role == "1"){ %>
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/index">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 22V18C16 15.7909 14.2091 14 12 14C9.79086 14 8 15.7909 8 18V22M21 10.1503V17.9668C21 20.1943 19.2091 22 17 22H7C4.79086 22 3 20.1943 3 17.9668V10.1503C3 8.93937 3.53964 7.7925 4.46986 7.02652L9.46986 2.90935C10.9423 1.69689 13.0577 1.69688 14.5301 2.90935L19.5301 7.02652C20.4604 7.7925 21 8.93937 21 10.1503Z" stroke="#fff" stroke-width="1.5"/>
+                      </svg>
+                    </i><span><%=lan.Dashboard%></span></a></li>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 11V17" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M11 14H5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M19 12H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M17 16H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M14 6H18C20.2091 6 22 7.79086 22 10V18C22 20.2091 20.2091 22 18 22H6C3.79086 22 2 20.2091 2 18V10C2 7.79086 3.79086 6 6 6H10M14 6V4C14 2.89543 13.1046 2 12 2C10.8954 2 10 2.89543 10 4V6M14 6C14 7.10457 13.1046 8 12 8C10.8954 8 10 7.10457 10 6" stroke="#fff" stroke-width="1.5"/>
+                        </svg>
+                      </i><span><span><%= lan.Booking %></span></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/booking/list"><%= lan.Doctor_Booking %></a></li>
+                          <li><a class="lan-4" href="/lab/appoint/list"><%= lan.Lab_Booking %></a></li>
+                          <li><a class="lan-4" href="/user/order_list"><%= lan.Medicine_Booking %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.doc_booking[0] == "1" || per.lab_booking[0] == "1" || per.medi_booking[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 11V17" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M11 14H5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M19 12H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M17 16H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M14 6H18C20.2091 6 22 7.79086 22 10V18C22 20.2091 20.2091 22 18 22H6C3.79086 22 2 20.2091 2 18V10C2 7.79086 3.79086 6 6 6H10M14 6V4C14 2.89543 13.1046 2 12 2C10.8954 2 10 2.89543 10 4V6M14 6C14 7.10457 13.1046 8 12 8C10.8954 8 10 7.10457 10 6" stroke="#fff" stroke-width="1.5"/>
+                          </svg>
+                        </i><span><%= lan.Booking %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.doc_booking[0] == "1") { %>
+                              <li><a class="lan-4" href="/booking/list"><%= lan.Doctor_Booking %></a></li>
+                            <% }; %>
+                            <% if (per.lab_booking[0] == "1") { %>
+                              <li><a class="lan-4" href="/lab/appoint/list"><%= lan.Lab_Booking %></a></li>
+                            <% }; %>
+                            <% if (per.medi_booking[0] == "1") { %>
+                              <li><a class="lan-4" href="/user/order_list"><%= lan.Medicine_Booking %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <ellipse cx="12" cy="17.5" rx="7" ry="3.5" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          <circle cx="12" cy="7" r="4" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        </svg>
+                      </i><span><%= lan.Patient %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/customer/add"><%= lan.Add_Patient %></a></li>
+                          <li><a class="lan-4" href="/customer/view"><%= lan.Patient_List %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.patient[0] == "1" || per.patient[1] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="12" cy="17.5" rx="7" ry="3.5" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          </svg>
+                        </i><span><%= lan.Patient %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.patient[1] == "1") { %>
+                              <li><a class="lan-4" href="/customer/add"><%= lan.Add_Patient %></a></li>
+                            <% }; %>
+                            <% if (per.patient[0] == "1") { %>
+                              <li><a class="lan-4" href="/customer/view"><%= lan.Patient_List %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 12H16M8 16H16M21 10.1503V17.9668C21 20.1943 19.2091 22 17 22H7C4.79086 22 3 20.1943 3 17.9668V10.1503C3 8.93937 3.53964 7.7925 4.46986 7.02652L9.46986 2.90935C10.9423 1.69689 13.0577 1.69688 14.5301 2.90935L19.5301 7.02652C20.4604 7.7925 21 8.93937 21 10.1503Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      <span><%= lan.Department %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/department/add"><%= lan.Add_Department %></a></li>
+                          <li><a class="lan-4" href="/department/list"><%= lan.Department_List %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.department[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 12H16M8 16H16M21 10.1503V17.9668C21 20.1943 19.2091 22 17 22H7C4.79086 22 3 20.1943 3 17.9668V10.1503C3 8.93937 3.53964 7.7925 4.46986 7.02652L9.46986 2.90935C10.9423 1.69689 13.0577 1.69688 14.5301 2.90935L19.5301 7.02652C20.4604 7.7925 21 8.93937 21 10.1503Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        <span><%= lan.Department %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.department[1] == "1") { %>
+                              <li><a class="lan-4" href="/department/add"><%= lan.Add_Department %></a></li>
+                            <% }; %>
+                            <% if (per.department[0] == "1") { %>
+                              <li><a class="lan-4" href="/department/list"><%= lan.Department_List %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 12V16M16 12V16M12 10V18M16.1804 22H7.81965C5.5109 22 3.6393 20.214 3.6393 18.0108V13.133C3.6393 12.4248 3.34447 11.7456 2.81969 11.2448C1.60381 10.0845 1.76187 8.16205 3.15251 7.19692L9.54124 2.763C11.0071 1.74567 12.9929 1.74567 14.4588 2.763L20.8475 7.19691C22.2381 8.16205 22.3962 10.0845 21.1803 11.2448C20.6555 11.7456 20.3607 12.4248 20.3607 13.133V18.0108C20.3607 20.214 18.4891 22 16.1804 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>                
+                      <span><%= lan.Store_Category %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/store_category/add"><%= lan.Add_Category %></a></li>
+                          <li><a class="lan-4" href="/store_category/list"><%= lan.Category_List %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.store_category[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 12V16M16 12V16M12 10V18M16.1804 22H7.81965C5.5109 22 3.6393 20.214 3.6393 18.0108V13.133C3.6393 12.4248 3.34447 11.7456 2.81969 11.2448C1.60381 10.0845 1.76187 8.16205 3.15251 7.19692L9.54124 2.763C11.0071 1.74567 12.9929 1.74567 14.4588 2.763L20.8475 7.19691C22.2381 8.16205 22.3962 10.0845 21.1803 11.2448C20.6555 11.7456 20.3607 12.4248 20.3607 13.133V18.0108C20.3607 20.214 18.4891 22 16.1804 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>                
+                        <span><%= lan.Store_Category %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.store_category[1] == "1") { %>
+                              <li><a class="lan-4" href="/store_category/add"><%= lan.Add_Category %></a></li>
+                            <% }; %>
+                            <% if (per.store_category[0] == "1") { %>
+                              <li><a class="lan-4" href="/store_category/list"><%= lan.Category_List %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 22V6C4 3.79086 5.79086 2 8 2H16C18.2091 2 20 3.79086 20 6V22M9 22V17C9 15.3431 10.3431 14 12 14C13.6569 14 15 15.3431 15 17V22" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M12 5V11" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M15 8H9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M2 22H22" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      <span><%= lan.Hospital %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/hospital/add"><%= lan.Add_Hospital %></a></li>
+                          <li><a class="lan-4" href="/hospital/list"><%= lan.Hospital_List %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.hospital[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M4 22V6C4 3.79086 5.79086 2 8 2H16C18.2091 2 20 3.79086 20 6V22M9 22V17C9 15.3431 10.3431 14 12 14C13.6569 14 15 15.3431 15 17V22" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M12 5V11" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M15 8H9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M2 22H22" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        <span><%= lan.Hospital %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.hospital[1] == "1") { %>
+                              <li><a class="lan-4" href="/hospital/add"><%= lan.Add_Hospital %></a></li>
+                            <% }; %>
+                            <% if (per.hospital[0] == "1") { %>
+                              <li><a class="lan-4" href="/hospital/list"><%= lan.Hospital_List %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+                      
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <ellipse cx="10" cy="17.5" rx="7" ry="3.5" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          <circle cx="10" cy="7" r="4" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M15.0448 10.2496C14.7228 10.7485 14.3287 11.1965 13.8774 11.5791C14.2319 11.6901 14.609 11.75 15.0001 11.75C17.0712 11.75 18.7501 10.0711 18.7501 8C18.7501 6.04423 17.2529 4.43814 15.3421 4.26539C15.6083 4.78435 15.8011 5.34718 15.9068 5.94016C16.6979 6.28887 17.2501 7.07995 17.2501 8C17.2501 9.22771 16.2668 10.2258 15.0448 10.2496Z" fill="#fff"/>
+                          <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M18.9997 17.5563C18.9896 18.1705 18.8148 18.7605 18.5009 19.3108C18.8693 19.2095 19.2144 19.092 19.5312 18.96C20.1284 18.7112 20.6606 18.3959 21.055 18.0073C21.452 17.6162 21.7501 17.1064 21.7501 16.4999C21.7501 15.8935 21.452 15.3836 21.055 14.9925C20.6606 14.604 20.1284 14.2887 19.5312 14.0399C18.5086 13.6138 17.1907 13.3394 15.7495 13.2683C16.7517 13.7774 17.5702 14.4169 18.1352 15.1442C18.4329 15.2274 18.7072 15.3215 18.9543 15.4245C19.443 15.6281 19.7894 15.8514 20.0023 16.0611C20.2125 16.2682 20.2501 16.416 20.2501 16.4999C20.2501 16.5839 20.2125 16.7317 20.0023 16.9388C19.7961 17.1419 19.4645 17.3579 18.9997 17.5563Z" fill="#fff"/>
+                        </svg>
+                      </i><span><%= lan.doctor %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/doctor/add"><%= lan.add_doctor %></a></li>
+                          <li><a class="lan-4" href="/doctor/list"><%= lan.doctor_list %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.doctor[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="10" cy="17.5" rx="7" ry="3.5" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                            <circle cx="10" cy="7" r="4" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                            <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M15.0448 10.2496C14.7228 10.7485 14.3287 11.1965 13.8774 11.5791C14.2319 11.6901 14.609 11.75 15.0001 11.75C17.0712 11.75 18.7501 10.0711 18.7501 8C18.7501 6.04423 17.2529 4.43814 15.3421 4.26539C15.6083 4.78435 15.8011 5.34718 15.9068 5.94016C16.6979 6.28887 17.2501 7.07995 17.2501 8C17.2501 9.22771 16.2668 10.2258 15.0448 10.2496Z" fill="#fff"/>
+                            <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M18.9997 17.5563C18.9896 18.1705 18.8148 18.7605 18.5009 19.3108C18.8693 19.2095 19.2144 19.092 19.5312 18.96C20.1284 18.7112 20.6606 18.3959 21.055 18.0073C21.452 17.6162 21.7501 17.1064 21.7501 16.4999C21.7501 15.8935 21.452 15.3836 21.055 14.9925C20.6606 14.604 20.1284 14.2887 19.5312 14.0399C18.5086 13.6138 17.1907 13.3394 15.7495 13.2683C16.7517 13.7774 17.5702 14.4169 18.1352 15.1442C18.4329 15.2274 18.7072 15.3215 18.9543 15.4245C19.443 15.6281 19.7894 15.8514 20.0023 16.0611C20.2125 16.2682 20.2501 16.416 20.2501 16.4999C20.2501 16.5839 20.2125 16.7317 20.0023 16.9388C19.7961 17.1419 19.4645 17.3579 18.9997 17.5563Z" fill="#fff"/>
+                          </svg>
+                        </i><span><%= lan.doctor %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.doctor[1] == "1") { %>
+                              <li><a class="lan-4" href="/doctor/add"><%= lan.add_doctor %></a></li>
+                            <% }; %>
+                            <% if (per.doctor[0] == "1") { %>
+                              <li><a class="lan-4" href="/doctor/list"><%= lan.doctor_list %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12.8887 6.1416L17.8583 11.1113L8.74728 20.2223C7.37494 21.5947 5.14995 21.5947 3.77761 20.2223V20.2223C2.40528 18.85 2.40527 16.625 3.77761 15.2527L12.8887 6.1416Z" stroke="#fff" stroke-width="1.5"/>
+                          <path d="M17.03 3.65656C17.9449 2.74167 19.4282 2.74167 20.3431 3.65656V3.65656C21.258 4.57145 21.258 6.05478 20.3431 6.96967L19.5148 7.79795L16.2017 4.48483L17.03 3.65656Z" stroke="#fff" stroke-width="1.5"/>
+                          <path d="M12.4744 3.24242C13.1605 2.55625 14.273 2.55625 14.9592 3.24242L20.7572 9.04036C21.4433 9.72653 21.4433 10.839 20.7572 11.5252V11.5252C20.071 12.2114 18.9585 12.2114 18.2723 11.5252L12.4744 5.72725C11.7882 5.04108 11.7882 3.92859 12.4744 3.24242V3.24242Z" stroke="#fff" stroke-width="1.5"/>
+                          <path d="M6 13L15 14" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </i><span><%= lan.lab %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/lab/list"><%= lan.lab_list %></a></li>
+                          <li><a class="lan-4" href="/lab/banner"><%= lan.banner %></a></li>
+                          <li><a class="lan-4" href="/lab/category"><%= lan.category_list %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.lab[0] == "1" || per.lab_banner[0] == "1" || per.lab_category[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.8887 6.1416L17.8583 11.1113L8.74728 20.2223C7.37494 21.5947 5.14995 21.5947 3.77761 20.2223V20.2223C2.40528 18.85 2.40527 16.625 3.77761 15.2527L12.8887 6.1416Z" stroke="#fff" stroke-width="1.5"/>
+                            <path d="M17.03 3.65656C17.9449 2.74167 19.4282 2.74167 20.3431 3.65656V3.65656C21.258 4.57145 21.258 6.05478 20.3431 6.96967L19.5148 7.79795L16.2017 4.48483L17.03 3.65656Z" stroke="#fff" stroke-width="1.5"/>
+                            <path d="M12.4744 3.24242C13.1605 2.55625 14.273 2.55625 14.9592 3.24242L20.7572 9.04036C21.4433 9.72653 21.4433 10.839 20.7572 11.5252V11.5252C20.071 12.2114 18.9585 12.2114 18.2723 11.5252L12.4744 5.72725C11.7882 5.04108 11.7882 3.92859 12.4744 3.24242V3.24242Z" stroke="#fff" stroke-width="1.5"/>
+                            <path d="M6 13L15 14" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </i><span><%= lan.lab %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.lab[0] == "1") { %>
+                              <li><a class="lan-4" href="/lab/list"><%= lan.lab_list %></a></li>
+                            <% }; %>
+                            <% if (per.lab_banner[0] == "1") { %>
+                              <li><a class="lan-4" href="/lab/banner"><%= lan.banner %></a></li>
+                            <% }; %>
+                            <% if (per.lab_category[0] == "1") { %>
+                              <li><a class="lan-4" href="/lab/category"><%= lan.category_list %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="6" cy="4" r="2" stroke="#fff" stroke-width="1.5"/>
+                          <ellipse cx="6" cy="8" rx="3" ry="2" stroke="#fff" stroke-width="1.5"/>
+                          <circle cx="18" cy="16" r="2" stroke="#fff" stroke-width="1.5"/>
+                          <path d="M22 12C22 6.47715 17.5228 2 12 2M12 22C6.47715 22 2 17.5228 2 12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          <ellipse cx="18" cy="20" rx="3" ry="2" stroke="#fff" stroke-width="1.5"/>
+                        </svg>                     
+                      <span><%= lan.family_member %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/category/view"><%= lan.blood_group %></a></li>
+                          <li><a class="lan-4" href="/category/relationship_list"><%= lan.relationship %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.blood_group[0] == "1" || per.relationship[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="6" cy="4" r="2" stroke="#fff" stroke-width="1.5"/>
+                            <ellipse cx="6" cy="8" rx="3" ry="2" stroke="#fff" stroke-width="1.5"/>
+                            <circle cx="18" cy="16" r="2" stroke="#fff" stroke-width="1.5"/>
+                            <path d="M22 12C22 6.47715 17.5228 2 12 2M12 22C6.47715 22 2 17.5228 2 12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            <ellipse cx="18" cy="20" rx="3" ry="2" stroke="#fff" stroke-width="1.5"/>
+                          </svg>                     
+                        <span><%= lan.family_member %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.blood_group[0] == "1") { %>
+                              <li><a class="lan-4" href="/category/view"><%= lan.blood_group %></a></li>
+                            <% }; %>
+                            <% if (per.relationship[0] == "1") { %>
+                              <li><a class="lan-4" href="/category/relationship_list"><%= lan.relationship %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 7H12M8 11H16M8 15H16M5 2H19C20.1046 2 21 2.89543 21 4V19.1543C21 20.5396 19.6259 21.5053 18.3226 21.0361L16.7608 20.4739C16.2728 20.2982 15.7356 20.319 15.2626 20.5318L12.8207 21.6307C12.2988 21.8655 11.7012 21.8655 11.1793 21.6307L8.73737 20.5318C8.26439 20.319 7.72721 20.2982 7.2392 20.4739L5.67744 21.0361C4.37412 21.5053 3 20.5396 3 19.1543V4C3 2.89543 3.89543 2 5 2Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      <span><%= lan.doctor %> <%=lan.Report%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/report/daily/1"><%=lan.Daily%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/book_service/1"><%=lan.Book%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/commission/1"><%=lan.Commission%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/payout/1"><%=lan.Payout%> <%=lan.Report%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.doctor_report[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 7H12M8 11H16M8 15H16M5 2H19C20.1046 2 21 2.89543 21 4V19.1543C21 20.5396 19.6259 21.5053 18.3226 21.0361L16.7608 20.4739C16.2728 20.2982 15.7356 20.319 15.2626 20.5318L12.8207 21.6307C12.2988 21.8655 11.7012 21.8655 11.1793 21.6307L8.73737 20.5318C8.26439 20.319 7.72721 20.2982 7.2392 20.4739L5.67744 21.0361C4.37412 21.5053 3 20.5396 3 19.1543V4C3 2.89543 3.89543 2 5 2Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        <span><%= lan.doctor %> <%=lan.Report%></span></a>
+                          <ul class="sidebar-submenu">
+                            <li><a class="lan-4" href="/report/daily/1"><%=lan.Daily%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/book_service/1"><%=lan.Book%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/commission/1"><%=lan.Commission%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/payout/1"><%=lan.Payout%> <%=lan.Report%></a></li>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 22C8.86748 22 10.4361 20.7202 10.8766 18.9899C11.0128 18.4547 11.4477 18 12 18H19M7 22C4.79086 22 3 20.2091 3 18V5C3 3.34315 4.34315 2 6 2H16C17.6569 2 19 3.34315 19 5V18M7 22H19C20.8675 22 22.4361 20.7202 22.8766 18.9899C23.0128 18.4547 22.5523 18 22 18H19M15 7H7M11 12H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      <span><%= lan.medicine %> <%=lan.Report%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/report/daily/2"><%=lan.Daily%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/book_service/2"><%=lan.Book%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/commission/2"><%=lan.Commission%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/payout/2"><%=lan.Payout%> <%=lan.Report%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.medi_report[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 22C8.86748 22 10.4361 20.7202 10.8766 18.9899C11.0128 18.4547 11.4477 18 12 18H19M7 22C4.79086 22 3 20.2091 3 18V5C3 3.34315 4.34315 2 6 2H16C17.6569 2 19 3.34315 19 5V18M7 22H19C20.8675 22 22.4361 20.7202 22.8766 18.9899C23.0128 18.4547 22.5523 18 22 18H19M15 7H7M11 12H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        <span><%= lan.medicine %> <%=lan.Report%></span></a>
+                          <ul class="sidebar-submenu">
+                            <li><a class="lan-4" href="/report/daily/2"><%=lan.Daily%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/book_service/2"><%=lan.Book%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/commission/2"><%=lan.Commission%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/payout/2"><%=lan.Payout%> <%=lan.Report%></a></li>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 22C7.86748 22 9.43606 20.7202 9.87657 18.9899C10.0128 18.4547 10.4477 18 11 18H18M6 22C3.79086 22 2 20.2091 2 18V5C2 3.34315 3.34315 2 5 2H15C16.6569 2 18 3.34315 18 5V18M6 22H18C19.8675 22 21.4361 20.7202 21.8766 18.9899C22.0128 18.4547 21.5523 18 21 18H18M7 13L8.5 11.5M13 9.5C13 10.8807 11.8807 12 10.5 12C9.11929 12 8 10.8807 8 9.5C8 8.11929 9.11929 7 10.5 7C11.8807 7 13 8.11929 13 9.5Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>             
+                      <span><%= lan.lab %> <%=lan.Report%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/report/daily/3"><%=lan.Daily%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/book_service/3"><%=lan.Book%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/commission/3"><%=lan.Commission%> <%=lan.Report%></a></li>
+                          <li><a class="lan-4" href="/report/payout/3"><%=lan.Payout%> <%=lan.Report%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.lab_report[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 22C7.86748 22 9.43606 20.7202 9.87657 18.9899C10.0128 18.4547 10.4477 18 11 18H18M6 22C3.79086 22 2 20.2091 2 18V5C2 3.34315 3.34315 2 5 2H15C16.6569 2 18 3.34315 18 5V18M6 22H18C19.8675 22 21.4361 20.7202 21.8766 18.9899C22.0128 18.4547 21.5523 18 21 18H18M7 13L8.5 11.5M13 9.5C13 10.8807 11.8807 12 10.5 12C9.11929 12 8 10.8807 8 9.5C8 8.11929 9.11929 7 10.5 7C11.8807 7 13 8.11929 13 9.5Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>             
+                        <span><%= lan.lab %> <%=lan.Report%></span></a>
+                          <ul class="sidebar-submenu">
+                            <li><a class="lan-4" href="/report/daily/3"><%=lan.Daily%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/book_service/3"><%=lan.Book%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/commission/3"><%=lan.Commission%> <%=lan.Report%></a></li>
+                            <li><a class="lan-4" href="/report/payout/3"><%=lan.Payout%> <%=lan.Report%></a></li>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <ellipse cx="12" cy="16.5" rx="6" ry="2.5" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          <circle cx="12" cy="8" r="3" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M6.44547 13.2615C5.20689 13.313 4.06913 13.5361 3.18592 13.8894C2.68122 14.0913 2.22245 14.3505 1.87759 14.6766C1.53115 15.0042 1.25 15.4512 1.25 16C1.25 16.5488 1.53115 16.9958 1.87759 17.3234C2.22245 17.6495 2.68122 17.9087 3.18592 18.1106C3.68571 18.3105 4.26701 18.4687 4.90197 18.5778C4.40834 18.0453 4.09852 17.4503 4.01985 16.8195C3.92341 16.787 3.83104 16.7531 3.74301 16.7179C3.34289 16.5578 3.06943 16.386 2.90826 16.2336C2.7498 16.0837 2.74999 16.0046 2.75 16.0001L2.75 16L2.75 15.9999C2.74999 15.9954 2.7498 15.9163 2.90826 15.7664C3.06943 15.614 3.34289 15.4422 3.74301 15.2821C3.94597 15.201 4.17201 15.1266 4.41787 15.0608C4.83157 14.371 5.53447 13.756 6.44547 13.2615Z" fill="#28303F"/>
+                          <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M19.9803 16.8195C19.9016 17.4503 19.5918 18.0453 19.0982 18.5778C19.7331 18.4687 20.3144 18.3105 20.8142 18.1106C21.3189 17.9087 21.7777 17.6495 22.1226 17.3234C22.469 16.9958 22.7502 16.5488 22.7502 16C22.7502 15.4512 22.469 15.0042 22.1226 14.6766C21.7777 14.3505 21.3189 14.0913 20.8142 13.8894C19.931 13.5361 18.7933 13.313 17.5547 13.2615C18.4657 13.756 19.1686 14.371 19.5823 15.0608C19.8281 15.1266 20.0542 15.201 20.2571 15.2821C20.6573 15.4422 20.9307 15.614 21.0919 15.7664C21.2503 15.9163 21.2502 15.9954 21.2502 15.9999V16V16.0001C21.2502 16.0046 21.2503 16.0837 21.0919 16.2336C20.9307 16.386 20.6573 16.5578 20.2571 16.7179C20.1691 16.7531 20.0767 16.787 19.9803 16.8195Z" fill="#28303F"/>
+                          <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M16.5142 10.1522C16.2943 10.6126 16.0061 11.0341 15.6626 11.4036C16.0584 11.6243 16.5144 11.75 16.9998 11.75C18.5186 11.75 19.7498 10.5188 19.7498 9C19.7498 7.48122 18.5186 6.25 16.9998 6.25C16.8955 6.25 16.7926 6.2558 16.6914 6.26711C16.8634 6.73272 16.9681 7.23096 16.9937 7.75001C16.9957 7.75 16.9978 7.75 16.9998 7.75C17.6902 7.75 18.2498 8.30964 18.2498 9C18.2498 9.69036 17.6902 10.25 16.9998 10.25C16.8276 10.25 16.6635 10.2152 16.5142 10.1522Z" fill="#28303F"/>
+                          <path fill-rule="evenodd" stroke="#fff" clip-rule="evenodd" d="M7.30845 6.26711C7.20719 6.2558 7.10427 6.25 7 6.25C5.48122 6.25 4.25 7.48122 4.25 9C4.25 10.5188 5.48122 11.75 7 11.75C7.48537 11.75 7.94138 11.6243 8.33721 11.4036C7.99374 11.0341 7.70549 10.6126 7.4856 10.1522C7.33631 10.2152 7.17222 10.25 7 10.25C6.30964 10.25 5.75 9.69036 5.75 9C5.75 8.30964 6.30964 7.75 7 7.75C7.00205 7.75 7.00409 7.75 7.00614 7.75001C7.0317 7.23096 7.13641 6.73272 7.30845 6.26711Z" fill="#28303F"/>
+                        </svg>                         
+                      <span><%=lan.Role%> <%= lan.management %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/role/add"><%= lan.add %> <%= lan.user %></a></li>
+                          <li><a class="lan-4" href="/role/list"><%= lan.user %> <%= lan.list %></a></li>
+                        </ul>
+                      </li>
+                    <% } %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M16 4H17C19.2091 4 21 5.79086 21 8V18C21 20.2091 19.2091 22 17 22H7C4.79086 22 3 20.2091 3 18V8C3 5.79086 4.79086 4 7 4H8M16 4C16 5.10457 15.1046 6 14 6H10C8.89543 6 8 5.10457 8 4M16 4C16 2.89543 15.1046 2 14 2H10C8.89543 2 8 2.89543 8 4M8 10H16M8 14H16M8 18H12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      <span><%= lan.dynamic_section %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/dynamic/section/add"><%=lan.Add%> <%= lan.section %></a></li>
+                          <li><a class="lan-4" href="/dynamic/section/list"><%= lan.section %> <%=lan.List%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.dyna_section[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 4H17C19.2091 4 21 5.79086 21 8V18C21 20.2091 19.2091 22 17 22H7C4.79086 22 3 20.2091 3 18V8C3 5.79086 4.79086 4 7 4H8M16 4C16 5.10457 15.1046 6 14 6H10C8.89543 6 8 5.10457 8 4M16 4C16 2.89543 15.1046 2 14 2H10C8.89543 2 8 2.89543 8 4M8 10H16M8 14H16M8 18H12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        <span><%= lan.dynamic_section %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.dyna_section[1] == "1") { %>
+                              <li><a class="lan-4" href="/dynamic/section/add"><%=lan.Add%> <%= lan.section %></a></li>
+                            <% }; %>
+                            <% if (per.dyna_section[0] == "1") { %>
+                              <li><a class="lan-4" href="/dynamic/section/list"><%= lan.section %> <%=lan.List%></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+                    
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 17.5858L20.7071 16.2929C20.3166 15.9024 19.6834 15.9024 19.2929 16.2929L18 17.5858M20 22V16.5858" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M22 13V6H6C3.79086 6 2 7.79086 2 10V18C2 20.2091 3.79086 22 6 22H15" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 6C22 3.79086 20.2091 2 18 2H12C9.79086 2 8 3.79086 8 6V6H22V6Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                            <path d="M2 12L2 16L6 16C7.10457 16 8 15.1046 8 14V14C8 12.8954 7.10457 12 6 12L2 12Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          </svg>
+                        <span><%= lan.payout %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/settings/doc_payout_list"><%= lan.doctor %> <%= lan.payout %></a></li>
+                          <li><a class="lan-4" href="/settings/medicine_payout_list"><%= lan.medicine %> <%= lan.payout %></a></li>
+                          <li><a class="lan-4" href="/settings/lab_payout_list"><%= lan.lab %> <%= lan.payout %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.doctor_payout[0] == "1" || per.medicine_payout[0] == "1" || per.lab_payout[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M22 17.5858L20.7071 16.2929C20.3166 15.9024 19.6834 15.9024 19.2929 16.2929L18 17.5858M20 22V16.5858" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                              <path d="M22 13V6H6C3.79086 6 2 7.79086 2 10V18C2 20.2091 3.79086 22 6 22H15" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M22 6C22 3.79086 20.2091 2 18 2H12C9.79086 2 8 3.79086 8 6V6H22V6Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                              <path d="M2 12L2 16L6 16C7.10457 16 8 15.1046 8 14V14C8 12.8954 7.10457 12 6 12L2 12Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                          <span><%= lan.payout %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.doctor_payout[0] == "1") { %>
+                              <li><a class="lan-4" href="/settings/doc_payout_list"><%= lan.doctor %> <%= lan.payout %></a></li>
+                            <% }; %>
+                            <% if (per.medicine_payout[0] == "1") { %>
+                              <li><a class="lan-4" href="/settings/medicine_payout_list"><%= lan.medicine %> <%= lan.payout %></a></li>
+                            <% }; %>
+                            <% if (per.lab_payout[0] == "1") { %>
+                              <li><a class="lan-4" href="/settings/lab_payout_list"><%= lan.lab %> <%= lan.payout %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 20H6C3.79086 20 2 18.2091 2 16V8C2 5.79086 3.79086 4 6 4H18C20.2091 4 22 5.79086 22 8V13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            <!-- <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 5 9)" fill="#28303F"/> -->
+                            <circle cx="2" cy="2" r="2" transform="matrix(1 0 0 -1 10 14)" stroke="#fff" stroke-width="1.5"/>
+                            <path d="M19 14V20" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 17L16 17" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        <span><%= lan.cash_management %></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a class="lan-4" href="/settings/doctor_cash_manage"><%= lan.doctor %> <%= lan.cash_manage %></a></li>
+                          <li><a class="lan-4" href="/settings/lab_cash_manage"><%= lan.lab %> <%= lan.cash_manage %></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if (per.doc_cash_man[0] == "1" || per.lab_cash_manage[0] == "1") { %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M13 20H6C3.79086 20 2 18.2091 2 16V8C2 5.79086 3.79086 4 6 4H18C20.2091 4 22 5.79086 22 8V13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                              <!-- <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 5 9)" fill="#28303F"/> -->
+                              <circle cx="2" cy="2" r="2" transform="matrix(1 0 0 -1 10 14)" stroke="#fff" stroke-width="1.5"/>
+                              <path d="M19 14V20" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M22 17L16 17" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          <span><%= lan.cash_management %></span></a>
+                          <ul class="sidebar-submenu">
+                            <% if (per.doc_cash_man[0] == "1") { %>
+                              <li><a class="lan-4" href="/settings/doctor_cash_manage"><%= lan.doctor %> <%= lan.cash_manage %></a></li>
+                            <% }; %>
+                            <% if (per.lab_cash_manage[0] == "1") { %>
+                              <li><a class="lan-4" href="/settings/lab_cash_manage"><%= lan.lab %> <%= lan.cash_manage %></a></li>
+                            <% }; %>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+                        
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/payment">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="22" y="3" width="18" height="20" rx="4" transform="rotate(90 22 3)" stroke="#fff" stroke-width="1.5"/>
+                          <!-- <circle cx="6" cy="17" r="1" fill="#28303F"/> -->
+                          <path d="M2 7L22 7L22 11L2 11L2 7Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      <span><%=lan.Payment%> <%=lan.List%></span></a></li>
+                    <% } else { %>
+                      <% if (per.payment[0] == "1") { %>
+                        <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/payment">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="22" y="3" width="18" height="20" rx="4" transform="rotate(90 22 3)" stroke="#fff" stroke-width="1.5"/>
+                            <!-- <circle cx="6" cy="17" r="1" fill="#28303F"/> -->
+                            <path d="M2 7L22 7L22 11L2 11L2 7Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        <span><%=lan.Payment%> <%=lan.List%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+                    
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/banner">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 7H17M7 12H12M16 17L19 22M8 17L5 22M12 17V20M19 2L5 2C3.34315 2 2 3.34315 2 5L2 14C2 15.6569 3.34315 17 5 17L19 17C20.6569 17 22 15.6569 22 14L22 5C22 3.34315 20.6569 2 19 2Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      <span><%=lan.Banner%></span></a></li>
+                    <% } else { %>
+                      <% if (per.banner[0] == "1") { %>
+                        <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/banner">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 7H17M7 12H12M16 17L19 22M8 17L5 22M12 17V20M19 2L5 2C3.34315 2 2 3.34315 2 5L2 14C2 15.6569 3.34315 17 5 17L19 17C20.6569 17 22 15.6569 22 14L22 5C22 3.34315 20.6569 2 19 2Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        <span><%=lan.Banner%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/zone/list">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 18.8343C6.58869 18.9923 4.94575 19.9152 3.73627 20.728C3.0279 21.204 2 20.7091 2 19.8557V10.1863C2 9.60107 2.25538 9.04435 2.72215 8.69142C3.73204 7.92782 5.63599 6.62242 7.35696 6.19238M8 18.8343C11.3183 18.4629 12.6817 22.3958 16 22.0244M8 18.8343V9.37839M16 22.0244C17.8673 21.8154 20.14 20.2673 21.2778 19.407C21.7446 19.054 22 18.4973 22 17.9121V8.24273C22 7.38927 20.9721 6.89437 20.2637 7.37039C19.2688 8.03897 17.9806 8.78208 16.7693 9.11264M16 22.0244V11.2113" stroke="#fff" stroke-width="1.5"/>
+                          <path d="M17.4619 6.86348C17.4619 9.51444 14.9619 14.0635 12.4619 14.0635C9.96191 14.0635 7.46191 9.51444 7.46191 6.86348C7.46191 4.21251 9.70049 2.06348 12.4619 2.06348C15.2233 2.06348 17.4619 4.21251 17.4619 6.86348Z" stroke="#fff" stroke-width="1.5"/>
+                          <path d="M13.9619 6.56348C13.9619 7.3919 13.2903 8.06348 12.4619 8.06348C11.6335 8.06348 10.9619 7.3919 10.9619 6.56348C10.9619 5.73505 11.6335 5.06348 12.4619 5.06348C13.2903 5.06348 13.9619 5.73505 13.9619 6.56348Z" stroke="#fff" stroke-width="1.5"/>
+                        </svg>
+                        <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 9H17M7 13H17M7 17H12M16 2V5M8 2V5M7 22H17C19.2091 22 21 20.2091 21 18V7.5C21 5.29086 19.2091 3.5 17 3.5H7C4.79086 3.5 3 5.29086 3 7.5V18C3 20.2091 4.79086 22 7 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg> -->
+                      <span><%= lan.city %></span></a></li>
+                    <% } else { %>
+                      <% if (per.city[0] == "1") { %>
+                        <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/zone/list">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18.8343C6.58869 18.9923 4.94575 19.9152 3.73627 20.728C3.0279 21.204 2 20.7091 2 19.8557V10.1863C2 9.60107 2.25538 9.04435 2.72215 8.69142C3.73204 7.92782 5.63599 6.62242 7.35696 6.19238M8 18.8343C11.3183 18.4629 12.6817 22.3958 16 22.0244M8 18.8343V9.37839M16 22.0244C17.8673 21.8154 20.14 20.2673 21.2778 19.407C21.7446 19.054 22 18.4973 22 17.9121V8.24273C22 7.38927 20.9721 6.89437 20.2637 7.37039C19.2688 8.03897 17.9806 8.78208 16.7693 9.11264M16 22.0244V11.2113" stroke="#fff" stroke-width="1.5"/>
+                            <path d="M17.4619 6.86348C17.4619 9.51444 14.9619 14.0635 12.4619 14.0635C9.96191 14.0635 7.46191 9.51444 7.46191 6.86348C7.46191 4.21251 9.70049 2.06348 12.4619 2.06348C15.2233 2.06348 17.4619 4.21251 17.4619 6.86348Z" stroke="#fff" stroke-width="1.5"/>
+                            <path d="M13.9619 6.56348C13.9619 7.3919 13.2903 8.06348 12.4619 8.06348C11.6335 8.06348 10.9619 7.3919 10.9619 6.56348C10.9619 5.73505 11.6335 5.06348 12.4619 5.06348C13.2903 5.06348 13.9619 5.73505 13.9619 6.56348Z" stroke="#fff" stroke-width="1.5"/>
+                          </svg>
+                          
+                        <span><%= lan.city %></span></a></li>
+                      <% }; %>
+                    <% }; %>
+                    
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list no-hover"><a class="link-nav sidebar-link sidebar-title" href="/settings/send_notification">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5.67964 8.79403C6.05382 5.49085 8.77095 3 12 3C15.2291 3 17.9462 5.49085 18.3204 8.79403L18.6652 11.8385C18.7509 12.595 19.0575 13.3069 19.5445 13.88C20.5779 15.0964 19.7392 17 18.1699 17H5.83014C4.26081 17 3.42209 15.0964 4.45549 13.88C4.94246 13.3069 5.24906 12.595 5.33476 11.8385L5.67964 8.79403Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          <path d="M15 19C14.5633 20.1652 13.385 21 12 21C10.615 21 9.43668 20.1652 9 19" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      <span><%=lan.Send%> <%=lan.Notification%></span></a></li>
+                    <% } else { %>
+                      <% if (per.send_notifi[0] == "1") { %>
+                        <li class="sidebar-list no-hover"><a class="link-nav sidebar-link sidebar-title" href="/settings/send_notification">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.67964 8.79403C6.05382 5.49085 8.77095 3 12 3C15.2291 3 17.9462 5.49085 18.3204 8.79403L18.6652 11.8385C18.7509 12.595 19.0575 13.3069 19.5445 13.88C20.5779 15.0964 19.7392 17 18.1699 17H5.83014C4.26081 17 3.42209 15.0964 4.45549 13.88C4.94246 13.3069 5.24906 12.595 5.33476 11.8385L5.67964 8.79403Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                            <path d="M15 19C14.5633 20.1652 13.385 21 12 21C10.615 21 9.43668 20.1652 9 19" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        <span><%=lan.Send%> <%=lan.Notification%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/faq">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M10 6H16M10 14H16M10 10H22M10 18H22M3 10H5C5.55228 10 6 9.55228 6 9V7C6 6.44772 5.55228 6 5 6H3C2.44772 6 2 6.44772 2 7V9C2 9.55228 2.44772 10 3 10ZM3 18H5C5.55228 18 6 17.5523 6 17V15C6 14.4477 5.55228 14 5 14H3C2.44772 14 2 14.4477 2 15V17C2 17.5523 2.44772 18 3 18Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      <span><%=lan.FAQ%></span></a></li>
+                    <% } else { %>
+                      <% if (per.faq[0] == "1") { %>
+                        <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/faq">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 6H16M10 14H16M10 10H22M10 18H22M3 10H5C5.55228 10 6 9.55228 6 9V7C6 6.44772 5.55228 6 5 6H3C2.44772 6 2 6.44772 2 7V9C2 9.55228 2.44772 10 3 10ZM3 18H5C5.55228 18 6 17.5523 6 17V15C6 14.4477 5.55228 14 5 14H3C2.44772 14 2 14.4477 2 15V17C2 17.5523 2.44772 18 3 18Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        <span><%=lan.FAQ%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/appointment_cancel_list">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M16.2426 7.75738L7.75732 16.2427M16.2426 16.2426L7.75732 7.75732" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      <span><%= lan.cancel_reason %></span></a></li>
+                    <% } else { %>
+                      <% if (per.can_reason[0] == "1") { %>
+                        <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/appointment_cancel_list">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.2426 7.75738L7.75732 16.2427M16.2426 16.2426L7.75732 7.75732" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        <span><%= lan.cancel_reason %></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/pages">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 22H5C3.34315 22 2 20.6569 2 19V5C2 3.34315 3.34315 2 5 2H15C16.6569 2 18 3.34315 18 5V8M20 22C18.8954 22 18 21.1046 18 20V8M20 22C21.1046 22 22 21.1046 22 20V10C22 8.89543 21.1046 8 20 8H18M6 7H14M6 12H14M6 17H10" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      <span><%= lan.pages %></span></a></li>
+                    <% } else { %>
+                      <% if (per.pages[0] == "1") { %>
+                        <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/pages">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 22H5C3.34315 22 2 20.6569 2 19V5C2 3.34315 3.34315 2 5 2H15C16.6569 2 18 3.34315 18 5V8M20 22C18.8954 22 18 21.1046 18 20V8M20 22C21.1046 22 22 21.1046 22 20V10C22 8.89543 21.1046 8 20 8H18M6 7H14M6 12H14M6 17H10" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        <span><%= lan.pages %></span></a></li>
+                      <% }; %>
+                    <% }; %>
+                    
+                    <% if(per == "1") { %>
+                      <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/general">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12.8485 4H11.1515C10.2143 4 9.45453 4.71634 9.45453 5.6C9.45453 6.61121 8.37258 7.25411 7.48444 6.77064L7.39423 6.72153C6.58258 6.27971 5.54472 6.54191 5.07612 7.30717L4.22763 8.69281C3.75902 9.45808 4.03711 10.4366 4.84877 10.8785C5.73734 11.3622 5.73733 12.6378 4.84876 13.1215C4.03711 13.5634 3.75902 14.5419 4.22763 15.3072L5.07612 16.6928C5.54472 17.4581 6.58258 17.7203 7.39423 17.2785L7.48444 17.2294C8.37258 16.7459 9.45453 17.3888 9.45453 18.4C9.45453 19.2837 10.2143 20 11.1515 20H12.8485C13.7857 20 14.5455 19.2837 14.5455 18.4C14.5455 17.3888 15.6274 16.7459 16.5156 17.2294L16.6058 17.2785C17.4174 17.7203 18.4553 17.4581 18.9239 16.6928L19.7724 15.3072C20.241 14.5419 19.9629 13.5634 19.1512 13.1215C18.2627 12.6378 18.2627 11.3622 19.1512 10.8785C19.9629 10.4366 20.241 9.45809 19.7724 8.69283L18.9239 7.30719C18.4553 6.54192 17.4174 6.27972 16.6058 6.72154L16.5156 6.77065C15.6274 7.25412 14.5455 6.61122 14.5455 5.6C14.5455 4.71634 13.7857 4 12.8485 4Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                          <circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.5"/>
+                        </svg>
+                      <span><%=lan.Setting%></span></a></li>
+                    <% } else { %>
+                      <% if (per.setting[0] == "1") { %>
+                        <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/settings/general">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.8485 4H11.1515C10.2143 4 9.45453 4.71634 9.45453 5.6C9.45453 6.61121 8.37258 7.25411 7.48444 6.77064L7.39423 6.72153C6.58258 6.27971 5.54472 6.54191 5.07612 7.30717L4.22763 8.69281C3.75902 9.45808 4.03711 10.4366 4.84877 10.8785C5.73734 11.3622 5.73733 12.6378 4.84876 13.1215C4.03711 13.5634 3.75902 14.5419 4.22763 15.3072L5.07612 16.6928C5.54472 17.4581 6.58258 17.7203 7.39423 17.2785L7.48444 17.2294C8.37258 16.7459 9.45453 17.3888 9.45453 18.4C9.45453 19.2837 10.2143 20 11.1515 20H12.8485C13.7857 20 14.5455 19.2837 14.5455 18.4C14.5455 17.3888 15.6274 16.7459 16.5156 17.2294L16.6058 17.2785C17.4174 17.7203 18.4553 17.4581 18.9239 16.6928L19.7724 15.3072C20.241 14.5419 19.9629 13.5634 19.1512 13.1215C18.2627 12.6378 18.2627 11.3622 19.1512 10.8785C19.9629 10.4366 20.241 9.45809 19.7724 8.69283L18.9239 7.30719C18.4553 6.54192 17.4174 6.27972 16.6058 6.72154L16.5156 6.77065C15.6274 7.25412 14.5455 6.61122 14.5455 5.6C14.5455 4.71634 13.7857 4 12.8485 4Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.5"/>
+                          </svg>
+                        <span><%=lan.Setting%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+
+                  <% }; %>
+
+                  <% if(auth.admin_role == "3"){ %>
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/index">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 22V18C16 15.7909 14.2091 14 12 14C9.79086 14 8 15.7909 8 18V22M21 10.1503V17.9668C21 20.1943 19.2091 22 17 22H7C4.79086 22 3 20.1943 3 17.9668V10.1503C3 8.93937 3.53964 7.7925 4.46986 7.02652L9.46986 2.90935C10.9423 1.69689 13.0577 1.69688 14.5301 2.90935L19.5301 7.02652C20.4604 7.7925 21 8.93937 21 10.1503Z" stroke="#fff" stroke-width="1.5"/>
+                      </svg>  
+                    <span><%=lan.Dashboard%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/booking/list">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 19V7M14 19H16M14 19H9M14 7C14 4.79086 12.2091 3 10 3H6C3.79086 3 2 4.79086 2 7V15C2 16.8652 3.27667 18.4323 5.00384 18.875M14 7H17.2091C17.7172 7 18.2063 7.1934 18.577 7.54093L21.3679 10.1574C21.7712 10.5355 22 11.0636 22 11.6165V17C22 18.1046 21.1046 19 20 19M20 19C20 20.1046 19.1046 21 18 21C16.8954 21 16 20.1046 16 19M20 19C20 17.8954 19.1046 17 18 17C16.8954 17 16 17.8954 16 19M9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 18.958 5.00129 18.9163 5.00384 18.875M9 19C9 17.8954 8.10457 17 7 17C5.93742 17 5.06838 17.8286 5.00384 18.875" stroke="#fff" stroke-width="1.5"/>
+                        <path d="M6 8V12" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 8V12" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 10L6 10" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    <span><%=lan.Book%> <%=lan.Services%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/order_list">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 22H6C3.79086 22 2 20.2091 2 18V6C2 3.79086 3.79086 2 6 2H18C20.2091 2 22 3.79086 22 6V14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M8 2H16V9.58579C16 10.4767 14.9229 10.9229 14.2929 10.2929L12.7071 8.70711C12.3166 8.31658 11.6834 8.31658 11.2929 8.70711L9.70711 10.2929C9.07714 10.9229 8 10.4767 8 9.58579V2Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M22 19L16 19" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19 22L19 16" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    <span><%= lan.medicine %> <%= lan.order %> <%= lan.list %></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/chat/list">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 10H16M8 14H12M11 3H13C17.9706 3 22 7.02944 22 12C22 16.9706 17.9706 21 13 21H6C3.79086 21 2 19.2091 2 17V12C2 7.02944 6.02944 3 11 3Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg> 
+                      <span><%=lan.Chat%></span></a>
+                    </li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/gallery">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 14L19.061 11.8839C17.5338 10.7843 15.4467 10.898 14.0479 12.1569L9.95209 15.8431C8.55331 17.102 6.4662 17.2157 4.93901 16.1161L2 14M6 22H18C20.2091 22 22 20.2091 22 18V6C22 3.79086 20.2091 2 18 2H6C3.79086 2 2 3.79086 2 6V18C2 20.2091 3.79086 22 6 22ZM11 8.5C11 9.88071 9.88071 11 8.5 11C7.11929 11 6 9.88071 6 8.5C6 7.11929 7.11929 6 8.5 6C9.88071 6 11 7.11929 11 8.5Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>                       
+                    </i><span><%=lan.Gallery%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/receptionist_list">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="6" cy="4" r="2" stroke="#fff" stroke-width="1.5"/>
+                        <ellipse cx="6" cy="8" rx="3" ry="2" stroke="#fff" stroke-width="1.5"/>
+                        <circle cx="18" cy="16" r="2" stroke="#fff" stroke-width="1.5"/>
+                        <path d="M22 12C22 6.47715 17.5228 2 12 2M12 22C6.47715 22 2 17.5228 2 12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <ellipse cx="18" cy="20" rx="3" ry="2" stroke="#fff" stroke-width="1.5"/>
+                      </svg>                        
+                    </i><span><%= lan.receptionist %> <%= lan.list %></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/services">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 9H17M7 13H17M7 17H12M16 2V5M8 2V5M7 22H17C19.2091 22 21 20.2091 21 18V7.5C21 5.29086 19.2091 3.5 17 3.5H7C4.79086 3.5 3 5.29086 3 7.5V18C3 20.2091 4.79086 22 7 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    <span><%=lan.Services%></span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 10H8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M5 13H8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M22 18V8.40312C22 7.49484 21.6909 6.6136 21.1235 5.90434L19.201 3.50122C18.4419 2.55236 17.2926 2 16.0775 2H7.9225C6.70736 2 5.55811 2.55236 4.79902 3.50122L2.87652 5.90434C2.30912 6.6136 2 7.49484 2 8.40312V18C2 20.2091 3.79086 22 6 22H18C20.2091 22 22 20.2091 22 18Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M3 7H21" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>                                      
+                    <span><%=lan.Product%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/user/store_setting"><%=lan.Store%> <%=lan.Setting%></a></li>
+                        <li><a class="lan-4" href="/user/banner"><%=lan.Subcategory%> <%=lan.Banner%></a></li>
+                        <li><a class="lan-4" href="/user/subcategory"><%=lan.Subcategory%> <%=lan.List%></a></li>
+                        <li><a class="lan-4" href="/user/product"><%=lan.Product%> <%=lan.List%></a></li>
+                      </ul>
+                    </li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/vitals_physical">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6C4 3.79086 5.79086 2 8 2H15.3431C16.404 2 17.4214 2.42143 18.1716 3.17157L20.8284 5.82843C21.5786 6.57857 22 7.59599 22 8.65685V18C22 20.2091 20.2091 22 18 22H8C5.79086 22 4 20.2091 4 18V6Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M9 7L17 7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M9 12H17" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M9 17H13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    <span><%= lan.vitals_and_physical %></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/medicine_list">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 11V17" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M11 14H5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M19 12H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M17 16H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M14 6H18C20.2091 6 22 7.79086 22 10V18C22 20.2091 20.2091 22 18 22H6C3.79086 22 2 20.2091 2 18V10C2 7.79086 3.79086 6 6 6H10M14 6V4C14 2.89543 13.1046 2 12 2C10.8954 2 10 2.89543 10 4V6M14 6C14 7.10457 13.1046 8 12 8C10.8954 8 10 7.10457 10 6" stroke="#fff" stroke-width="1.5"/>
+                      </svg> 
+                    <span><%= lan.medicine_list %></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/diagnosis_test">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 7H12M8 11H16M8 15H16M5 2H19C20.1046 2 21 2.89543 21 4V19.1543C21 20.5396 19.6259 21.5053 18.3226 21.0361L16.7608 20.4739C16.2728 20.2982 15.7356 20.319 15.2626 20.5318L12.8207 21.6307C12.2988 21.8655 11.7012 21.8655 11.1793 21.6307L8.73737 20.5318C8.26439 20.319 7.72721 20.2982 7.2392 20.4739L5.67744 21.0361C4.37412 21.5053 3 20.5396 3 19.1543V4C3 2.89543 3.89543 2 5 2Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    <span><%= lan.diagnosis_test_list %></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/doc_award">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 11H20M4 11C2.89543 11 2 10.1046 2 9V8C2 6.89543 2.89543 6 4 6H20C21.1046 6 22 6.89543 22 8V9C22 10.1046 21.1046 11 20 11M4 11L4 20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V11M12 6H16C17.1046 6 18 5.10457 18 4C18 2.89543 17.1046 2 16 2C13.7909 2 12 3.79086 12 6ZM12 6H8C6.89543 6 6 5.10457 6 4C6 2.89543 6.89543 2 8 2C10.2091 2 12 3.79086 12 6ZM12 6V22" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    <span><%= lan.awards %></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/coupon">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 9C10 9.55228 9.55228 10 9 10C8.44772 10 8 9.55228 8 9C8 8.44772 8.44772 8 9 8C9.55228 8 10 8.44772 10 9Z" fill="#fff"/>
+                        <path d="M16 15C16 15.5523 15.5523 16 15 16C14.4477 16 14 15.5523 14 15C14 14.4477 14.4477 14 15 14C15.5523 14 16 14.4477 16 15Z" fill="#fff"/>
+                        <path d="M10.0542 2.65818C11.1754 1.70264 12.8246 1.70264 13.9459 2.65818L14.6285 3.2399C15.109 3.64938 15.7064 3.89683 16.3357 3.94705L17.2297 4.0184C18.6982 4.13559 19.8644 5.30172 19.9815 6.77025L20.0529 7.66427C20.1031 8.29357 20.3506 8.89098 20.76 9.37148L21.3418 10.0541C22.2973 11.1754 22.2973 12.8245 21.3418 13.9458L20.76 14.6284C20.3506 15.1089 20.1031 15.7063 20.0529 16.3356L19.9815 17.2296C19.8644 18.6982 18.6982 19.8643 17.2297 19.9815L16.3357 20.0528C15.7064 20.103 15.109 20.3505 14.6285 20.76L13.9459 21.3417C12.8246 22.2972 11.1754 22.2972 10.0542 21.3417L9.37154 20.76C8.89105 20.3505 8.29363 20.103 7.66433 20.0528L6.77031 19.9815C5.30178 19.8643 4.13565 18.6982 4.01846 17.2296L3.94711 16.3356C3.8969 15.7063 3.64944 15.1089 3.23997 14.6284L2.65824 13.9458C1.7027 12.8245 1.7027 11.1754 2.65825 10.0541L3.23997 9.37148C3.64944 8.89098 3.8969 8.29357 3.94711 7.66427L4.01846 6.77025C4.13565 5.30172 5.30178 4.13559 6.77031 4.0184L7.66433 3.94705C8.29363 3.89683 8.89104 3.64938 9.37154 3.2399L10.0542 2.65818Z" stroke="#fff" stroke-width="1.5"/>
+                        <path d="M9 15L15 9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    <span><%=lan.Coupon%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/about">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 22C8.86748 22 10.4361 20.7202 10.8766 18.9899C11.0128 18.4547 11.4477 18 12 18H19M7 22C4.79086 22 3 20.2091 3 18V5C3 3.34315 4.34315 2 6 2H16C17.6569 2 19 3.34315 19 5V18M7 22H19C20.8675 22 22.4361 20.7202 22.8766 18.9899C23.0128 18.4547 22.5523 18 22 18H19M15 7H7M11 12H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>                      
+                    <span><%=lan.About%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/reviews">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17 16V20.523C17 21.2304 16.2855 21.7142 15.6286 21.4514L12.3714 20.1486C12.133 20.0532 11.867 20.0532 11.6286 20.1486L8.37139 21.4514C7.71453 21.7142 7 21.2304 7 20.523V16" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M10.5923 2.51845C11.4035 1.82718 12.5965 1.82718 13.4077 2.51845L14.123 3.12803C14.4706 3.42425 14.9028 3.60327 15.358 3.6396L16.2949 3.71436C17.3572 3.79914 18.2009 4.64275 18.2856 5.70513L18.3604 6.64196C18.3967 7.09722 18.5757 7.52941 18.872 7.87701L19.4815 8.59231C20.1728 9.40347 20.1728 10.5965 19.4815 11.4077L18.872 12.123C18.5757 12.4706 18.3967 12.9028 18.3604 13.358L18.2856 14.2949C18.2009 15.3572 17.3572 16.2009 16.2949 16.2856L15.358 16.3604C14.9028 16.3967 14.4706 16.5757 14.123 16.872L13.4077 17.4815C12.5965 18.1728 11.4035 18.1728 10.5923 17.4815L9.87701 16.872C9.52941 16.5757 9.09722 16.3967 8.64196 16.3604L7.70513 16.2856C6.64275 16.2009 5.79914 15.3572 5.71436 14.2949L5.6396 13.358C5.60327 12.9028 5.42425 12.4706 5.12803 12.123L4.51845 11.4077C3.82718 10.5965 3.82718 9.40347 4.51845 8.59231L5.12803 7.87701C5.42425 7.52941 5.60327 7.09722 5.6396 6.64196L5.71436 5.70513C5.79914 4.64275 6.64275 3.79914 7.70513 3.71436L8.64196 3.6396C9.09722 3.60327 9.52941 3.42425 9.87701 3.12803L10.5923 2.51845Z" stroke="#fff" stroke-width="1.5"/>
+                      </svg>
+                    <span><%=lan.Reviews%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/faq">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 6H16M10 14H16M10 10H22M10 18H22M3 10H5C5.55228 10 6 9.55228 6 9V7C6 6.44772 5.55228 6 5 6H3C2.44772 6 2 6.44772 2 7V9C2 9.55228 2.44772 10 3 10ZM3 18H5C5.55228 18 6 17.5523 6 17V15C6 14.4477 5.55228 14 5 14H3C2.44772 14 2 14.4477 2 15V17C2 17.5523 2.44772 18 3 18Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>                      
+                    <span><%=lan.FAQ%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/time">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 13L10.7528 14.4023C11.1707 14.7366 11.7777 14.6826 12.1301 14.2799L15 11" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="13" r="9" stroke="#fff" stroke-width="1.5"/>
+                        <path d="M16.8034 2C18.927 2.92861 20.7299 4.45412 22 6.36441M7.19658 2C5.07303 2.92861 3.27013 4.45412 2 6.36441" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M21 22L18.7571 19M3 22L5.24272 19" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg> 
+                    <span><%=lan.Time%> <%=lan.Management%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/user/setting">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.8485 4H11.1515C10.2143 4 9.45453 4.71634 9.45453 5.6C9.45453 6.61121 8.37258 7.25411 7.48444 6.77064L7.39423 6.72153C6.58258 6.27971 5.54472 6.54191 5.07612 7.30717L4.22763 8.69281C3.75902 9.45808 4.03711 10.4366 4.84877 10.8785C5.73734 11.3622 5.73733 12.6378 4.84876 13.1215C4.03711 13.5634 3.75902 14.5419 4.22763 15.3072L5.07612 16.6928C5.54472 17.4581 6.58258 17.7203 7.39423 17.2785L7.48444 17.2294C8.37258 16.7459 9.45453 17.3888 9.45453 18.4C9.45453 19.2837 10.2143 20 11.1515 20H12.8485C13.7857 20 14.5455 19.2837 14.5455 18.4C14.5455 17.3888 15.6274 16.7459 16.5156 17.2294L16.6058 17.2785C17.4174 17.7203 18.4553 17.4581 18.9239 16.6928L19.7724 15.3072C20.241 14.5419 19.9629 13.5634 19.1512 13.1215C18.2627 12.6378 18.2627 11.3622 19.1512 10.8785C19.9629 10.4366 20.241 9.45809 19.7724 8.69283L18.9239 7.30719C18.4553 6.54192 17.4174 6.27972 16.6058 6.72154L16.5156 6.77065C15.6274 7.25412 14.5455 6.61122 14.5455 5.6C14.5455 4.71634 13.7857 4 12.8485 4Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.5"/>
+                      </svg>                     
+                    <span><%=lan.Setting%></span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 6H6C3.79086 6 2 7.79086 2 10V18C2 20.2091 3.79086 22 6 22H18C20.2091 22 22 20.2091 22 18V6Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M22 6C22 3.79086 20.2091 2 18 2H12C9.79086 2 8 3.79086 8 6V6H22V6Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M2 12L2 16L6 16C7.10457 16 8 15.1046 8 14V14C8 12.8954 7.10457 12 6 12L2 12Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                      </svg>                                       
+                    <span><%=lan.Wallet%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/user/wallet"><%= lan.appointment %> <%=lan.Wallet%></a></li>
+                        <li><a class="lan-4" href="/user/medicine_wallet"><%= lan.medicine %> <%=lan.Wallet%></a></li>
+                      </ul>
+                    </li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 7H12M8 11H16M8 15H16M5 2H19C20.1046 2 21 2.89543 21 4V19.1543C21 20.5396 19.6259 21.5053 18.3226 21.0361L16.7608 20.4739C16.2728 20.2982 15.7356 20.319 15.2626 20.5318L12.8207 21.6307C12.2988 21.8655 11.7012 21.8655 11.1793 21.6307L8.73737 20.5318C8.26439 20.319 7.72721 20.2982 7.2392 20.4739L5.67744 21.0361C4.37412 21.5053 3 20.5396 3 19.1543V4C3 2.89543 3.89543 2 5 2Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>                                             
+                    <span><%= lan.doctor %> <%=lan.Report%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/report/daily/1"><%=lan.Daily%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/book_service/1"><%=lan.Book%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/commission/1"><%=lan.Commission%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/payout/1"><%=lan.Payout%> <%=lan.Report%></a></li>
+                      </ul>
+                    </li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 22C8.86748 22 10.4361 20.7202 10.8766 18.9899C11.0128 18.4547 11.4477 18 12 18H19M7 22C4.79086 22 3 20.2091 3 18V5C3 3.34315 4.34315 2 6 2H16C17.6569 2 19 3.34315 19 5V18M7 22H19C20.8675 22 22.4361 20.7202 22.8766 18.9899C23.0128 18.4547 22.5523 18 22 18H19M15 7H7M11 12H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    <span><%= lan.medicine %> <%=lan.Report%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/report/daily/2"><%=lan.Daily%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/book_service/2"><%=lan.Book%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/commission/2"><%=lan.Commission%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/payout/2"><%=lan.Payout%> <%=lan.Report%></a></li>
+                      </ul>
+                    </li>
+
+                  <% }; %>
+
+                  <% if(auth.admin_role == "4"){ %>
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/index">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 22V18C16 15.7909 14.2091 14 12 14C9.79086 14 8 15.7909 8 18V22M21 10.1503V17.9668C21 20.1943 19.2091 22 17 22H7C4.79086 22 3 20.1943 3 17.9668V10.1503C3 8.93937 3.53964 7.7925 4.46986 7.02652L9.46986 2.90935C10.9423 1.69689 13.0577 1.69688 14.5301 2.90935L19.5301 7.02652C20.4604 7.7925 21 8.93937 21 10.1503Z" stroke="#fff" stroke-width="1.5"/>
+                      </svg> 
+                    <span><%=lan.Dashboard%></span></a></li>
+
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/lab/appoint/list">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 11V17" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M11 14H5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M19 12H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M17 16H14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M14 6H18C20.2091 6 22 7.79086 22 10V18C22 20.2091 20.2091 22 18 22H6C3.79086 22 2 20.2091 2 18V10C2 7.79086 3.79086 6 6 6H10M14 6V4C14 2.89543 13.1046 2 12 2C10.8954 2 10 2.89543 10 4V6M14 6C14 7.10457 13.1046 8 12 8C10.8954 8 10 7.10457 10 6" stroke="#fff" stroke-width="1.5"/>
+                      </svg>
+                    <span><%= lan.booking_list %></span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 4H17C19.2091 4 21 5.79086 21 8V18C21 20.2091 19.2091 22 17 22H7C4.79086 22 3 20.2091 3 18V8C3 5.79086 4.79086 4 7 4H8M16 4C16 5.10457 15.1046 6 14 6H10C8.89543 6 8 5.10457 8 4M16 4C16 2.89543 15.1046 2 14 2H10C8.89543 2 8 2.89543 8 4M8 10H16M8 14H16M8 18H12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>                  
+                    <span><%= lan.package %></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/lab/add_package"><%= lan.add %> <%= lan.package %></a></li>
+                        <li><a class="lan-4" href="/lab/package_list"><%= lan.package %> <%= lan.List %></a></li>
+                      </ul>
+                    </li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="10" cy="17.5" rx="7" ry="3.5" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <circle cx="10" cy="7" r="4" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path fill-rule="evenodd" stroke="#28303F" clip-rule="evenodd" d="M15.0448 10.2496C14.7228 10.7485 14.3287 11.1965 13.8774 11.5791C14.2319 11.6901 14.609 11.75 15.0001 11.75C17.0712 11.75 18.7501 10.0711 18.7501 8C18.7501 6.04423 17.2529 4.43814 15.3421 4.26539C15.6083 4.78435 15.8011 5.34718 15.9068 5.94016C16.6979 6.28887 17.2501 7.07995 17.2501 8C17.2501 9.22771 16.2668 10.2258 15.0448 10.2496Z" fill="#fff"/>
+                        <path fill-rule="evenodd" stroke="#28303F" clip-rule="evenodd" d="M18.9997 17.5563C18.9896 18.1705 18.8148 18.7605 18.5009 19.3108C18.8693 19.2095 19.2144 19.092 19.5312 18.96C20.1284 18.7112 20.6606 18.3959 21.055 18.0073C21.452 17.6162 21.7501 17.1064 21.7501 16.4999C21.7501 15.8935 21.452 15.3836 21.055 14.9925C20.6606 14.604 20.1284 14.2887 19.5312 14.0399C18.5086 13.6138 17.1907 13.3394 15.7495 13.2683C16.7517 13.7774 17.5702 14.4169 18.1352 15.1442C18.4329 15.2274 18.7072 15.3215 18.9543 15.4245C19.443 15.6281 19.7894 15.8514 20.0023 16.0611C20.2125 16.2682 20.2501 16.416 20.2501 16.4999C20.2501 16.5839 20.2125 16.7317 20.0023 16.9388C19.7961 17.1419 19.4645 17.3579 18.9997 17.5563Z" fill="#fff"/>
+                      </svg>                    
+                    <span><%= lan.home_collect_user %></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/lab/add_user"><%= lan.add %> <%= lan.user %></a></li>
+                        <li><a class="lan-4" href="/lab/user_list"><%= lan.user %> <%= lan.List %></a></li>
+                      </ul>
+                    </li>
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/lab/coupon">
+                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 9C10 9.55228 9.55228 10 9 10C8.44772 10 8 9.55228 8 9C8 8.44772 8.44772 8 9 8C9.55228 8 10 8.44772 10 9Z" fill="#fff"/>
+                        <path d="M16 15C16 15.5523 15.5523 16 15 16C14.4477 16 14 15.5523 14 15C14 14.4477 14.4477 14 15 14C15.5523 14 16 14.4477 16 15Z" fill="#fff"/>
+                        <path d="M10.0542 2.65818C11.1754 1.70264 12.8246 1.70264 13.9459 2.65818L14.6285 3.2399C15.109 3.64938 15.7064 3.89683 16.3357 3.94705L17.2297 4.0184C18.6982 4.13559 19.8644 5.30172 19.9815 6.77025L20.0529 7.66427C20.1031 8.29357 20.3506 8.89098 20.76 9.37148L21.3418 10.0541C22.2973 11.1754 22.2973 12.8245 21.3418 13.9458L20.76 14.6284C20.3506 15.1089 20.1031 15.7063 20.0529 16.3356L19.9815 17.2296C19.8644 18.6982 18.6982 19.8643 17.2297 19.9815L16.3357 20.0528C15.7064 20.103 15.109 20.3505 14.6285 20.76L13.9459 21.3417C12.8246 22.2972 11.1754 22.2972 10.0542 21.3417L9.37154 20.76C8.89105 20.3505 8.29363 20.103 7.66433 20.0528L6.77031 19.9815C5.30178 19.8643 4.13565 18.6982 4.01846 17.2296L3.94711 16.3356C3.8969 15.7063 3.64944 15.1089 3.23997 14.6284L2.65824 13.9458C1.7027 12.8245 1.7027 11.1754 2.65825 10.0541L3.23997 9.37148C3.64944 8.89098 3.8969 8.29357 3.94711 7.66427L4.01846 6.77025C4.13565 5.30172 5.30178 4.13559 6.77031 4.0184L7.66433 3.94705C8.29363 3.89683 8.89104 3.64938 9.37154 3.2399L10.0542 2.65818Z" stroke="#fff" stroke-width="1.5"/>
+                        <path d="M9 15L15 9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>                       
+                    <span><%=lan.Coupon%></span></a></li>
+                    <li class="sidebar-list"><a class="link-nav sidebar-link sidebar-title" href="/lab/wallet">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 6H6C3.79086 6 2 7.79086 2 10V18C2 20.2091 3.79086 22 6 22H18C20.2091 22 22 20.2091 22 18V6Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M22 6C22 3.79086 20.2091 2 18 2H12C9.79086 2 8 3.79086 8 6V6H22V6Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M2 12L2 16L6 16C7.10457 16 8 15.1046 8 14V14C8 12.8954 7.10457 12 6 12L2 12Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                      </svg>                         
+                    <span><%=lan.Wallet%></span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 22C7.86748 22 9.43606 20.7202 9.87657 18.9899C10.0128 18.4547 10.4477 18 11 18H18M6 22C3.79086 22 2 20.2091 2 18V5C2 3.34315 3.34315 2 5 2H15C16.6569 2 18 3.34315 18 5V18M6 22H18C19.8675 22 21.4361 20.7202 21.8766 18.9899C22.0128 18.4547 21.5523 18 21 18H18M7 13L8.5 11.5M13 9.5C13 10.8807 11.8807 12 10.5 12C9.11929 12 8 10.8807 8 9.5C8 8.11929 9.11929 7 10.5 7C11.8807 7 13 8.11929 13 9.5Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>                                              
+                    <span><%= lan.lab %> <%=lan.Report%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/report/daily/3"><%=lan.Daily%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/book_service/3"><%=lan.Book%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/commission/3"><%=lan.Commission%> <%=lan.Report%></a></li>
+                        <li><a class="lan-4" href="/report/payout/3"><%=lan.Payout%> <%=lan.Report%></a></li>
+                      </ul>
+                    </li>
+
+                  <% }; %>
+
+                 </ul>
+               </li>
+             </ul>
+           </div>
+           <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+         </nav>
+       </div>
+      </div>
+
+      <input type="hidden" id="rate_sym" value="<%=general.site_currency%>">
+      <input type="hidden" id="rate_pla" value="<%=general.currency_placement%>">
+      <input type="hidden" id="thousand_replace" value="<%=general.thousands_separator%>">

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Vitals_Physical_Information %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Vitals_Physical_Information %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal"><%= lan.Add %> <%= lan.Information_Title %></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=lan.Title%></th>
+                                            <th><%=lan.Status%></th>
+                                            <th><%=lan.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% vit_phy_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.title %></td>
+                                                <td>
+                                                    <% if (data.status == '1') { %>
+                                                      <span class="badge badge-success"><%=lan.Active%></span>
+                                                    <% } else { %>
+                                                      <span class="badge badge-danger"><%=lan.Deactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_vit_phy" id="edit_vit_phy_scr" data-id="<%= data.id %>"
+                                                            data-title="<%= data.title %>" data-status="<%= data.status %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/user/delete_vit_phy/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Add%> <%= lan.Vitals_Physical_Information %></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="needs-validation" novalidate="" action="/user/add_vit_phy" method="post">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Title%></label>
+                                    <input class="form-control" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex mb-2 mt-3">
+                                        <div class="icon-state switch-outline">
+                                          <label class="switch">
+                                            <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                          </label>
+                                        </div>
+                                        <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="edit_vit_phy" tabindex="-1" role="dialog" aria-labelledby="edit_vit_phy" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Edit%> <%= lan.Vitals_Physical_Information %></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="needs-validation" id="vit_phy_edit_form" novalidate="" action="" method="post">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Title%></label>
+                                    <input class="form-control" id="vit_phy_title" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex mb-2 mt-3">
+                                        <div class="icon-state switch-outline">
+                                          <label class="switch">
+                                            <input type="checkbox" id="vit_phy_status" name="status"><span class="switch-state bg-success"></span>
+                                          </label>
+                                        </div>
+                                        <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

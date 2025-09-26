@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .hand-hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%=lan.Send%> <%=lan.Notification%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%=lan.Send%> <%=lan.Notification%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="sendnform" class="needs-validation" novalidate="" action="/settings/editsend/<%= ndata.id%>" method="post" enctype="multipart/form-data">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <% if(ndata.image == '') { %>
+                                                <img id="file-preview" width="180" height="180" src="../../images/dashboard/default/profile.png" alt="image">
+                                            <% } else { %>
+                                                <img id="file-preview" width="180" height="180" src="../../<%= ndata.image%>" alt="image" onerror="this.src='../../images/dashboard/default/profile.png'">
+                                            <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Image%> (<%=lan.Ratio%> 1:1)</label>
+                                        <input class="form-control" style="height: 47px;" type="file" name="image" onchange="showPreview(event)">
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+                                        <label class="col-form-label"><%=lan.Title%></label>
+                                        <input class="form-control ncheckd" type="text" name="title" value="<%= ndata.title %>" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="col-form-label"><%=lan.Description%> (Optional)</label>
+                                        <textarea class="form-control ncheckd" name="description" rows="5"><%= ndata.description %></textarea>
+                                    </div>
+
+                                    <div class="col-12 mt-2 d-flex">
+                                        <div>
+                                            <input class="selecttype" id="selecttype1" type="radio" name="selecttype" value="1" <%- ndata.customer == 'All' && ndata.doctor == 'All' && ndata.lab == 'All' ? 'checked' : '' %>>
+                                            <label class="col-form-label selecttype m-r-15" for="selecttype1"><%=lan.Send%> <%=lan.All%></label>
+                                        </div>
+                                        <div>
+                                            <input class="selecttype" id="selecttype2" type="radio" name="selecttype" value="2" <%- ndata.customer == 'All' && ndata.doctor == 'All' && ndata.lab == 'All' ? '' : 'checked' %>>
+                                            <label class="col-form-label selecttype" for="selecttype2"><%=lan.Selected%> <%=lan.User%></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-12 mt-3 <%= ndata.customer == 'All' && ndata.doctor == 'All' && ndata.lab == 'All' ? 'd-none' : '' %>" id="notiuser">
+                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                            <label class="col-form-label"><%= lan.Customer %> <%=lan.List%></label>
+                                            <% if (ndata.customer == 'All' && ndata.customer == '') { %>
+                                            <select class="js-example-basic-single cselect cnofids" id="ancus" name="customer" required>
+                                                <option value selected disabled><%=lan.Select%> <%=lan.Customer%></option>
+                                                <% customer.forEach(function(cus){ %>
+                                                <option value="<%=cus.id%>"><%=cus.name%></option>
+                                                <% }) %>
+                                            </select>
+                                            <% } else { %>
+                                            <select class="js-example-basic-single cselect cnofids" id="ancus" name="customer" required>
+                                                <option value selected disabled><%=lan.Select%> <%=lan.Customer%></option>
+                                                <% customer.forEach(function(cus){ %>
+                                                <option value="<%=cus.id%>" <%= ndata.customer == cus.id ? 'selected' : '' %>><%=cus.name%></option>
+                                                <% }) %>
+                                            </select>
+                                            <% } %>
+                                            <div>
+                                                <input class="cnofid" id="ancusall" type="checkbox" name="allcustomer" <%= ndata.customer == 'All' ? 'checked' : '' %>>
+                                                <label class="col-form-label hand-hover" id="ancusallcus"><%=lan.All%> <%=lan.Customer%></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                            <label class="col-form-label"><%= lan.Doctor %> <%=lan.List%></label>
+                                            <% if (ndata.doctor == 'All' && ndata.doctor == '') { %>
+                                            <select class="js-example-basic-single cnofids" id="andoc" name="doctor" required>
+                                                <option value selected disabled><%=lan.Select%> <%= lan.Doctor %></option>
+                                                <% doctor.forEach(function(sitt){ %>
+                                                <option value="<%=sitt.id%>"><%=sitt.name%></option>
+                                                <% }) %>
+                                            </select>
+                                            <% } else { %>
+                                            <select class="js-example-basic-single cnofids" id="andoc" name="doctor" required>
+                                                <option value selected disabled><%=lan.Select%> <%= lan.Doctor %></option>
+                                                <% doctor.forEach(function(sitt){ %>
+                                                <option value="<%=sitt.id%>" <%= ndata.doctor == sitt.id ? 'selected' : '' %>><%=sitt.name%></option>
+                                                <% }) %>
+                                            </select>
+                                            <% } %>
+                                            <input class="cnofid" id="andocall" type="checkbox" name="alldoctor" <%= ndata.doctor == 'All' ? 'checked' : '' %>>
+                                            <label class="col-form-label hand-hover" id="ancusalldoc"><%=lan.All%> Doctor</label>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                            <label class="col-form-label"><%= lan.Lab %> <%=lan.List%></label>
+                                            <% if (ndata.lab == 'All' && ndata.lab == '') { %>
+                                            <select class="js-example-basic-single cnofids" id="anlab" name="lab" required>
+                                                <option value selected disabled><%=lan.Select%> <%= lan.Lab %></option>
+                                                <% lab.forEach(function(lab){ %>
+                                                <option value="<%=lab.id%>"><%=lab.name%></option>
+                                                <% }) %>
+                                            </select>
+                                            <% } else { %>
+                                            <select class="js-example-basic-single cnofids" id="anlab" name="lab" required>
+                                                <option value selected disabled><%=lan.Select%> <%= lan.Lab %></option>
+                                                <% lab.forEach(function(lab){ %>
+                                                <option value="<%=lab.id%>" <%= ndata.lab == lab.id ? 'selected' : '' %>><%=lab.name%></option>
+                                                <% }) %>
+                                            </select>
+                                            <% } %>
+
+                                            <input class="cnofid" id="anlaball" type="checkbox" name="alllab" <%= ndata.lab == 'All' ? 'checked' : '' %>>
+                                            <label class="col-form-label hand-hover" id="ancusalllab"><%=lan.All%> <%= lan.Lab %></label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <div class="d-flex">
+                                            <div class="icon-state switch-outline">
+                                                <label class="switch">
+                                                    <input type="checkbox" name="status" <%= ndata.status == '1' ? 'checked' : '' %>><span class="switch-state bg-success"></span>
+                                                </label>
+                                            </div>
+                                            <label class="form-label m-l-10"><%=lan.Status%></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="send_all"><%=lan.Please_Enter_All_Detail%>.</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="text-end mt-3">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="notificatio_btn" type="submit"><%=lan.Edit%> <%=lan.Send%> <%=lan.Notification%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

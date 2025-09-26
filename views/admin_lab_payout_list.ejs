@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+      .hand-hover {
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Lab %> <%=lan.Payout%> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Lab %> <%=lan.Payout%> <%=lan.List%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=lan.Image%></th>
+                                            <th><%=lan.Date%></th>
+                                            <th><%= lan.Lab %> <%=lan.Name%></th>
+                                            <th><%=lan.Email%></th>
+                                            <th><%=lan.Amount%></th>
+                                            <th><%=lan.Payout%> <%=lan.Type%></th>
+                                            <% let permiss = per != "1" ? per.lab_payout[1] : "1" %>
+                                            <% if(permiss == "1"){ %>
+                                            <th><%=lan.Status%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      <% var i = 1 %>
+                                        <% pay_list.forEach((data) => { %>
+                                            <tr class="alampaytr<%= data.id %>">
+                                                <td><%= i %></td>
+                                                <td class="p-1">
+                                                  <% if (data.p_status == '1') { %>
+                                                    <a class="alampaya" href="../../<%= data.image %>" target="_blank"><img class="alampayimg" width="50px" height="50px" 
+                                                      src="../../<%= data.image %>" alt="image" onerror="this.src='../../images/dashboard/default/profile.png'"></a>
+                                                  <% } else { %>
+                                                    -
+                                                  <% }; %>  
+                                                </td>
+                                                <td><%= data.date %></td>
+                                                <td><%= data.lab_name %></td>
+                                                <td><%= data.lab_email %></td>
+                                                <td class="invosymbol"><%= data.amount %></td>
+                                                <td>
+                                                  <% if(data.p_type == "1"){ %>
+                                                    <span><%=lan.UPI%></span>
+                                                  <% } else if (data.p_type == "2") { %>
+                                                    <span><%=lan.Paypal%></span>
+                                                  <% } else if (data.p_type == "3") { %>
+                                                    <span><%=lan.Bank_Transfer%></span>
+                                                  <% }; %>
+                                                </td>
+                                                <% if(permiss == "1"){ %>
+                                                <td class="alampaytd">
+                                                  <% if(data.p_status == "0"){ %>
+                                                    <span class="badge badge-secondary hand-hover" id="amlabpaybtn" data-id="<%= data.id %>"><%=lan.Pending%></span>
+                                                  <% } else { %>
+                                                    <span class="badge badge-success hand-hover"><%=lan.Paid%></span>
+                                                  <% }; %>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal fade" id="adm_payo_mod" tabindex="-1" role="dialog" aria-labelledby="adm_payo_mod" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Payment%> <%=lan.Detail%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                  <div class="modal-body">
+                      <div class="row g-3">
+
+                          <div class="col-12 mt-2">
+                            <span class="f-w-500 f-14"><%= lan.Name %> :- <span class="f-w-400 pay_uname"></span></span>
+                          </div>
+                        
+                          <div class="col-12 mt-1">
+                            <span class="f-w-500 f-14"><%= lan.Email %> :- <span class="f-w-400 pay_uemail"></span></span>
+                          </div>
+                        
+                          <div class="col-12 mt-1 pb-2 border-bottom">
+                            <span class="f-w-500 f-14"><%= lan.Amount %> :- <span class="f-w-400 invosymbol pay_amount"></span></span>
+                          </div>
+
+                          <div class="col-12 mt-2 d-none" id="pay_urp">
+                            <span class="f-w-500 f-14"><%=lan.UPI%> <%=lan.Id%> :- <span class="f-w-400 pupi_data"></span></span>
+                          </div>
+                          
+                          <div class="col-12 mt-2 d-none" id="pay_paypal">
+                            <span class="f-w-500 f-14"><%=lan.Paypal%> <%=lan.Id%> :- <span class="f-w-400 ppaypal_data"></span></span>
+                          </div>
+
+                          <div class="col-12 mt-2 d-none" id="pay_account">
+                            <div>
+                              <span class="f-w-500 f-14"><%=lan.Bank%> <%=lan.Account%> <%=lan.No%> :- <span class="f-w-400 pbankac_data"></span></span>
+                            </div>
+                            <div class="mt-1">
+                              <span class="f-w-500 f-14"><%=lan.IFSC%> <%=lan.Code%> :- <span class="f-w-400 pifsc_data"></span></span>
+                            </div>
+                            <div class="mt-1">
+                              <span class="f-w-500 f-14"><%=lan.Bank%> <%=lan.Account%> <%=lan.Type%> :- <span class="f-w-400 pactype_data"></span></span>
+                            </div>
+                          </div>
+
+                          <div class="col-12 text-center mb-0 mt-2 form-group border-top pt-3">
+                              <img class="pay_img" id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                          </div>
+                          <div class="col-12 mt-0 mb-1 form-group">
+                              <label class="col-form-label"><%=lan.Upload%> <%=lan.img%></label>
+                              <input class="form-control" id="admpayfile" style="height: 47px;" type="file" name="image" onchange="showPreview(event)" required>
+                          </div>
+                          <input type="hidden" id="payment_sid" name="payment_sid" value="">
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                      <button class="btn btn-primary" type="submit" id="sbt_aw_pay_lab"><%=lan.Save%></button>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

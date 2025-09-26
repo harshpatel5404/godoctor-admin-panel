@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Commission%> <%=lan.Report%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Commission%> <%=lan.Report%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row col-12">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Start%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rcomstart" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.End%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rcomkend" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group m-0 <%= auth.admin_role != 1 ? 'd-none' : '' %>">
+                                    <label class="col-form-label"><%= lan.Service_User_List %></label>
+                                    <select class="js-example-basic-single" id="rcomsitter">
+                                        <option value selected disabled><%= lan.Select_User %></option>
+                                        <% user_list.forEach((data) => { %>
+                                            <option value="<%=data.id%>"><%=data.name%></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row col-12 role" data-role="<%= role%>">
+
+                                <div class="table-responsive theme-scrollbar" id="printcontent">
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none"></th>
+                                                <th><%=lan.Id%></th>
+                                                <% if (auth.admin_role == "1"){ %>
+                                                <th><%=lan.Site%> <%= lan.Commission %></th>
+                                                <% }; %>
+                                                <th><%=lan.User_Commission %></th>
+                                                <th><%=lan.Price%></th>
+                                                <th><%=lan.Date%></th>
+                                                <th><%=lan.Customer%> <%=lan.Name%></th>
+                                                <th><%=lan.User_Name %></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="commission_report">
+                                            <% allservices.forEach((data) => { %>
+                                                <tr>
+                                                    <td class="d-none"></td>
+                                                    <td>#<%= data.id %></td>
+                                                    <% if (auth.admin_role == "1"){ %>
+                                                    <td class="invosymbol"><%= data.site_comi %></td>
+                                                    <% }; %>
+                                                    <td class="invosymbol"><%= data.doc_comi %></td>
+                                                    <td class="invosymbol"><%= data.tot_price %></td>
+                                                    <td><%= data.date %></td>
+                                                    <td><%= data.cus_name %></td>
+                                                    <td><%= data.doc_name %></td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mt-4">
+                                <div class="">
+                                    <div>
+                                        <span class="f-w-500 f-14"><%=lan.total%> <%=lan.Book%> <%=lan.Service%> :- <span id="rctotal"><%=totservice%></span></span>
+                                    </div>
+                                    <% if (auth.admin_role == "1"){ %>
+                                        <div>
+                                            <span class="f-w-500 f-14"><%=lan.Site%> <%=lan.Commission%> :- <span class="invosymbol" id="rcsite"><%= parseFloat(sitecom).toFixed(2) %></span></span>
+                                        </div>
+                                    <% }; %>
+                                    <div>
+                                        <span class="f-w-500 f-14"><%= lan.User_Commission %> :- <span class="invosymbol" id="rcsitter"><%= parseFloat(usercom).toFixed(2) %></span></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-block" id="printdata"><%=lan.Print%> <%=lan.Report%></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

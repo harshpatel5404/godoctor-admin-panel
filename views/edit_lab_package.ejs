@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%= lan.Package %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%= lan.Package %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="lab_signup_form" novalidate="" action="/lab/edit_lab_package_data/<%= labp.id %>" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                  <div class="col-12 form-group text-center">
+                                    <% if(labp.logo == null){ %>
+                                        <img class="p-0" id="file-preview" width="150px" height="150px" src="../images/dashboard/default/profile.png" alt="image">
+                                    <% } else { %>
+                                        <a href="../../<%= labp.logo %>" target="_blank"><img class="p-0" id="file-preview" width="150px" height="150px" src="../../<%= labp.logo %>" alt="image"></a>
+                                    <% }; %>
+                                  </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <label class="col-form-label"><%= lan.Package_Logo %></label>
+                                      <input class="form-control docin" style="height: 47px;" type="file" name="logo" accept="image/*" onchange="showPreview(event)">
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Package %> <%=lan.Title%></label>
+                                        <input class="form-control docin" type="text" name="title" value="<%= labp.title %>" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%= lan.Package %> <%=lan.Subtitle%></label>
+                                        <input class="form-control docin" type="text" name="subtitle" value="<%= labp.subtitle %>" placeholder="<%=lan.Enter%> <%= lan.Package %> <%=lan.Subtitle%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%= lan.Description %></label>
+                                        <textarea class="form-control docin" name="description" style="width: 100%; height: 150px;" required><%= labp.description %></textarea>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Home_Collect_Extra_Price %></label>
+                                        <input class="form-control docin" type="number" name="home_extra_price" value="<%= labp.home_extra_price %>" placeholder="<%=lan.Enter%> <%= lan.Home_Collect_Extra_Price %>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Fasting_Required %></label>
+                                        <input class="form-control docin" type="text" name="fasting_require" value="<%= labp.fasting_require %>" placeholder="<%=lan.Enter%> <%= lan.Fasting_Required %>" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Test_Report_Time %></label>
+                                        <input class="form-control docin" type="text" name="test_report_time" value="<%= labp.test_report_time %>" placeholder="<%=lan.Enter%> <%= lan.Test_Report_Time %>" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Sample_Type %></label>
+                                        <select class="custome_select_create form-control docin" multiple="multiple" name="sample_type" required>
+                                            <% labp.sample_type.forEach((data) => { %>
+                                                <option value="<%= data %>" selected> <%= data %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+
+                                    <!-- <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label">Sample Type</label>
+                                        <select class="custome_multiple_select col-sm-12 docin" id="aadd_hos" name="hospital_list" multiple="multiple" required>
+                                            <% category.forEach((data) => { %>
+                                                <option value="<%= data.id %>"> <%= data.name %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div> -->
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Category%> <%=lan.List%></label>
+                                        <select class="custome_multiple_select col-sm-12 docin" id="aadd_hos" name="category_list" multiple="multiple" required>
+                                            <% category.forEach((data) => { %>
+                                                <option value="<%= data.id %>" <%= labp.category_list.includes(data.id) == true ? "selected" : '' %>> <%= data.name %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Package_Type %></label>
+                                        <select class="js-example-basic-single docin" id="lab_pack_type" name="package_type" data-add="Add" data-package="Package" data-name="Name" data-price="Price" data-enter="Enter" required>
+                                            <option value selected disabled><%=lan.Select%> <%= lan.Package_Type %></option>
+                                            <option value="Individual" <%= labp.package_type == "Individual" ? "selected" : '' %>>Individual</option>
+                                            <option value="Package" <%= labp.package_type == "Package" ? "selected" : '' %>>Package</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 mt-3" id="addmorep">
+
+                                        <% if (labp.package_type == "Individual") { %>
+
+                                            <div class="row" id="delmorep">
+                                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                                    <label class="col-form-label"><%= lan.Package %> <%= lan.Name %></label>
+                                                    <input class="form-control" type="text" name="package_name" value="<%= labp.package_name[0] %>" placeholder="<%= lan.Enter %> <%= lan.Package %> <%= lan.Name %>" required>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                                    <label class="col-form-label"><%= lan.Package %> <%= lan.Price %></label>
+                                                    <input class="form-control" type="number" name="package_price" value="<%= labp.package_price[0] %>" placeholder="<%= lan.Enter %> <%= lan.Package %> <%= lan.Price %>" required>
+                                                </div>
+                                            </div>
+
+                                        <% } %>
+
+                                        <% if (labp.package_type == "Package") { %>
+
+                                            <div class="row">
+                                                <div class="text-end mt-2">
+                                                    <a class="btn btn-primary btn-square b-r-10" id="addpackpnp" data-package="Package" data-name="Name" data-price="Price" data-enter="Enter"><%=lan.Add%> <%= lan.Package %></a>
+                                                </div>
+                                            </div>
+
+                                            <% for (let i = 0; i < labp.package_name.length;) { %>
+                                                <% if (i < '2') { %>
+                                                    <div class="row" id="delmorep">
+                                                        <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5 form-group">
+                                                            <label class="col-form-label"><%= lan.Package %> <%= lan.Name %></label>
+                                                            <input class="form-control" type="text" name="package_name" value="<%= labp.package_name[i] %>" placeholder="<%= lan.Enter %> <%= lan.Package %> <%= lan.Name %>" required>
+                                                        </div>
+                                                        <div class="col-sm-11 col-md-5 col-lg-5 col-xl-5 form-group">
+                                                            <label class="col-form-label"><%= lan.Package %> <%= lan.Price %></label>
+                                                            <input class="form-control" type="number" name="package_price" value="<%= labp.package_price[i] %>" placeholder="<%= lan.Enter %> <%= lan.Package %> <%= lan.Price %>" required>
+                                                        </div>
+                                                        <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 form-group" style="margin-top: 43px;">
+                                                        </div>
+                                                    </div>
+                                                <% } else { %>
+                                                    <div class="row" id="delmorep">
+                                                        <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5 form-group">
+                                                            <label class="col-form-label"><%= lan.Package %> <%= lan.Name %></label>
+                                                            <input class="form-control" type="text" name="package_name" value="<%= labp.package_name[i] %>" placeholder="<%= lan.Enter %> <%= lan.Package %> <%= lan.Name %>" required>
+                                                        </div>
+                                                        <div class="col-sm-11 col-md-5 col-lg-5 col-xl-5 form-group">
+                                                            <label class="col-form-label"><%= lan.Package %> <%= lan.Price %></label>
+                                                            <input class="form-control" type="number" name="package_price" value="<%= labp.package_price[i] %>" placeholder="<%= lan.Enter %> <%= lan.Package %> <%= lan.Price %>" required>
+                                                        </div>
+                                                        <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 form-group" style="margin-top: 43px;">
+                                                            <a type="button" class="mx-4 text-danger delpackdbtn"><i class="fa fa-trash-o f-24"></i></a>
+                                                        </div>
+                                                    </div>
+                                                <% }; %>
+                                                <% i++; %>
+                                            <% } %>
+
+                                        <% } %>
+
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <div class="d-flex mb-2 mt-4">
+                                            <div class="icon-state switch-outline">
+                                              <label class="switch">
+                                                <input type="checkbox" name="status" <%= labp.status == "1" ? "checked" : '' %>><span class="switch-state bg-success"></span>
+                                              </label>
+                                            </div>
+                                            <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_email_error"><%=lan.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_phone_error"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_zone_error">Your location is not in the zone.</p>
+                                    </div>
+                                </div>
+                                <div class="text-end mt-5">
+                                    <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <script src="https://maps.googleapis.com/maps/api/js?key=<%= general.google_map_key %>&callback=initMap&v=weekly" defer></script>
+        <script src="../../js/map_address.js"></script>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

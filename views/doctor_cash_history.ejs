@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .hand-hover {
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                    <h3><%= lan.Cash_History %> <%= lan.List %></h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                        <li class="breadcrumb-item active"><%= lan.Cash_History %> <%= lan.List %></li>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="container-fluid dashboard-2">
+            <div class="row">
+
+              <div class="col-lg-3 col-md-6 box-col-3">
+                <div class="card profit-card hand-hover">
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <p class="square-after f-w-600 header-text-primary"><%= lan.Total_Cash_Add_Amount %><i class="fa fa-circle"> </i></p>
+                        <h4 class="invosymbol"><%= tot_with_amount %></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pb-3">
+                    <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                      <div class="shap-block">
+                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 box-col-3">
+                <div class="card visitor-card hand-hover">
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <p class="square-after f-w-600 header-text-info"><%= lan.Total_Cash_Withdrawal_Amount %><i class="fa fa-circle"> </i></p>
+                        <h4 class="invosymbol"><%= doctor[0].success_cash %></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pb-3">
+                    <div class="right-side icon-right-info"><i class="fa fa-money"></i>
+                      <div class="shap-block">
+                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+
+
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none">#</th>
+                                            <th><%= lan.Appointment_Id %></th>
+                                            <th><%= lan.Cash_Amount %></th>
+                                            <th><%= lan.Admin_Amount %></th>
+                                            <th><%= lan.Earning_Amount %></th>
+                                            <th><%= lan.Date %></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% all_data.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"><%= i %></td>
+                                                <td>#<%= data.id %></td>
+                                                <td class="invosymbol"><%= data.cash_amount %></td>
+                                                <td class="invosymbol"><%= data.site_commisiion %></td>
+                                                <td class="invosymbol"><%= data.tot_earning %></td>
+                                                <td><%= data.date %></td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    </body>
+</html>

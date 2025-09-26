@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/frontend_head'); -%>
+</head>
+<body onload="offdarkmode()">
+  <!-- Loader starts-->
+  <div class="loader-wrapper">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"> </div>
+    <div class="dot"></div>
+  </div>
+  <!-- Loader ends-->
+  <!-- login page start-->
+  <div class="container-fluid p-0">
+    <div class="row m-0">
+      <div class="col-12 p-0">    
+        <div class="login-card">
+          <div>
+            <div class="login-main" style="width: 650px;"> 
+              <form class="needs-validation" action="/signup" method="post">
+                <h4 class="text-center">Create Your Account</h4>
+                <div class="form-group mt-3">
+                  <label class="col-form-label">Name</label>
+                  <input class="form-control" type="text" name="Name" required="" placeholder="Enter Name" required>
+                </div>
+                <div class="form-group mt-3">
+                  <label class="col-form-label">Email</label>
+                  <input class="form-control" type="text" name="Email" required="" placeholder="Enter Email" required>
+                </div>
+                <div class="row form-group mt-3">
+                    <label class="col-form-label">Mobile No.</label>
+                    <div class="col-4">
+                        <select class="js-example-basic-single" name="country_code" id="country_code" required>
+                            <option value selected disabled>Country</option>
+                            <% CountryCode.forEach((data, x) => { %>
+                              <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control" type="number" name="phone" required="" placeholder="Enter Mobile No." required>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Password</label>
+                  <div class="form-input position-relative">
+                    <input class="form-control" type="password" name="password" required="" placeholder="*********" required>
+                  </div>
+                </div>
+                <div class="form-group mt-5">
+                  <div class="text-end mt-3">
+                    <button class="btn btn-primary btn-block w-100" type="submit">Create Account</button>
+                  </div>
+                </div>
+            </form>
+            <p class="mt-4 mb-0 text-center">Already have an account?<a class="ms-2" href="/">Log in</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('./partials/script'); -%>
+  </body>
+</html>

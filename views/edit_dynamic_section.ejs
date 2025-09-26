@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Edit %> <%= lan.Dynamic_Section %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Edit %> <%= lan.Dynamic_Section %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" novalidate="" action="/dynamic/edit_data/<%=dynamic.id%>" method="post">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Title%></label>
+                                        <input class="form-control" id="customet_name" type="text" name="name" value="<%=dynamic.title%>" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Status %></label>
+                                        <select class="js-example-basic-single" name="status" required>
+                                            <option value selected disabled><%=lan.Select%> <%= lan.Status %></option>
+                                            <option value="1" <%= dynamic.status == "1" ? 'selected' : '' %> ><%= lan.Active %></option>
+                                            <option value="0" <%= dynamic.status == "0" ? 'selected' : '' %> ><%= lan.Deactive %></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Module%> <%=lan.List%></label>
+                                        <select class="js-example-basic-single" id="updymod" name="module" data-select="<%=lan.Select%>" data-location="<%=lan.Location%>" 
+                                            data-nearest="<%=lan.Nearest%>" data-all="<%=lan.All%>" data-hospital="<%=lan.Hospital%>" data-department="<%=lan.Department%>" 
+                                            data-list="<%=lan.List%>" data-type="<%=lan.Type%>" data-category="<%=lan.Category%>" required>
+                                            <option value selected disabled><%=lan.Select%> <%=lan.Module%> <%=lan.List%> <%=lan.Type%></option>
+                                            <option value="Hospital" <%= dynamic.module == "Hospital" ? 'selected' : '' %> ><%=lan.Hospital%></option>
+                                            <option value="Doctor" <%= dynamic.module == "Doctor" ? 'selected' : '' %> ><%=lan.Doctor%></option>
+                                            <option value="Lab" <%= dynamic.module == "Lab" ? 'selected' : '' %> ><%=lan.Lab%></option>
+                                        </select>
+                                    </div>
+                                    <% let st = ''; %>
+                                    <% if (dynamic.module == "Hospital") st = lan.Hospital; %>
+                                    <% if (dynamic.module == "Doctor") st = lan.Department; %>
+                                    <% if (dynamic.module == "Lab") st = lan.Category; %>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group" id="updynsec">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="col-form-label"><%= st%> <%=lan.List%></label>
+                                                    <select class="js-example-basic-single" id="customet_code" name="category" required>
+                                                        <option value selected disabled><%=lan.Select%> <%= st%> <%=lan.List%></option>
+                                                        <% cl.forEach((data) => { %>
+                                                            <option value="<%=data.id%>" <%= dynamic.category == data.id ? 'selected' : '' %>><%=data.name%></option>
+                                                        <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="text-end mt-5">
+                                    <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

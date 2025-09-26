@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%= lan.Doctor %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%= lan.Doctor %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form class="needs-validation" id="edit_doc_form_click" novalidate="" action="/doctor/edit_doctor_data/<%= dec.id %>" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3 form-group text-center">
+                                <% if(dec.logo == null || dec.logo == ''){ %>
+                                  <img class="p-0" id="file-preview" width="150px" height="150px" src="../../images/dashboard/default/profile.png" alt="image">
+                                <% } else { %>
+                                  <a href="../../<%= dec.logo %>" target="_blank"><img class="p-0" id="file-preview" width="150px" height="150px" src="../../<%= dec.logo %>" alt="image"></a>
+                                <% }; %>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3 form-group text-center">
+                                <% if(dec.cover_logo == null || dec.cover_logo == ''){ %>
+                                  <img class="p-0" id="second-file-preview" width="150px" height="150px" src="../../images/dashboard/default/profile.png" alt="image">
+                                <% } else { %>
+                                  <a href="../../<%= dec.cover_logo %>" target="_blank"><img class="p-0" id="second-file-preview" width="150px" height="150px" src="../../<%= dec.cover_logo %>" alt="image"></a>
+                                <% }; %>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%=lan.Name%></label>
+                                <input class="form-control docin" id="customet_name" type="text" name="name" value="<%= dec.name %>" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%=lan.LOGO%></label>
+                                <input class="form-control" style="height: 47px;" type="file" name="logo" accept="image/*" onchange="showPreview(event)" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%=lan.Cover%> <%=lan.LOGO%></label>
+                                <input class="form-control" style="height: 47px;" type="file" name="cover_logo" accept="image/*" onchange="secondshowPreview(event)" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%=lan.Email%></label>
+                                <input class="form-control docin" id="doc_email" type="email" name="email" value="<%= dec.email %>" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                            </div>
+                            <input id="old_email" value="<%=dec.email%>" hidden>
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%=lan.Active%> <%=lan.Status%></label>
+                                <select class="js-example-basic-single docin" name="status" required>
+                                    <option value selected disabled><%=lan.Status%> <%=lan.List%></option>
+                                    <option value="1" <%= dec.status == '1' ? 'selected' : '' %>><%=lan.Active%></option>
+                                    <option value="0" <%= dec.status == '0' ? 'selected' : '' %>><%=lan.Deactive%></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%=lan.Verified%> <%=lan.Status%></label>
+                                <select class="js-example-basic-single docin" name="v_status" required>
+                                    <option value selected disabled><%=lan.Verified%> <%=lan.Status%> <%=lan.List%></option>
+                                    <option value="1" <%= dec.verification_status == '1' ? 'selected' : '' %>><%=lan.Verified%></option>
+                                    <option value="0" <%= dec.verification_status == '0' ? 'selected' : '' %>><%=lan.Unverified%></option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="col-form-label"><%=lan.Title%></label>
+                                <input class="form-control docin" type="text" name="title" value="<%= dec.title %>" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="col-form-label"><%= lan.Year_of_Experience %></label>
+                                <input class="form-control docin" type="number" name="year_of_experience" value="<%= dec.year_of_experience %>" placeholder="<%=lan.Enter%> <%= lan.Year_of_Experience %>" required>
+                            </div>
+
+                            <div class="col-12 form-group">
+                                <label class="col-form-label"><%=lan.Subtitle%></label>
+                                <input class="form-control docin" type="text" name="subtitle" value="<%= dec.subtitle %>" placeholder="<%=lan.Enter%> <%=lan.Subtitle%>" required>
+                            </div>
+
+                            <div class="col-sm-12 form-group">
+                                <label class="col-form-label"><%=lan.Short%> <%=lan.Description%></label>
+                                <textarea class="form-control docin" name="description" style="width: 100%; height: 150px;" required><%= dec.description %></textarea>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label class="col-form-label"><%=lan.Cancel%> <%=lan.Policy%></label>
+                                <textarea class="form-control docin" name="cancel_policy" style="width: 100%; height: 90px;" required><%= dec.cancel_policy %></textarea>
+                            </div>
+
+                            <div class="col-12 border-bottom border-bottom-dark mt-3 mb-3">
+                                <h5><%= lan.Login %> <%= lan.Information %></h5>
+                            </div>
+
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <select class="js-example-basic-single docin" id="doc_country_code" name="country_code" required>
+                                            <option value selected disabled><%=lan.Country%></option>
+                                            <% CountryCode.forEach((data, x) => { %>
+                                                <option value="<%= data %>" <%= dec.country_code == data ? 'selected' : '' %>> <%= nameCode[x] %> <%= data %> </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                    <div class="col-8">
+                                        <input class="form-control docin" id="doc_phone" type="number" name="phone" value="<%= dec.phone %>" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                    </div>
+                                </div>
+                                <input id="old_ccode" name="old_ccode" value="<%=dec.country_code%>"  hidden>
+                                <input id="old_phone" name="old_phone" value="<%=dec.phone%>"  hidden>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="col-form-label"><%=lan.Password%></label>
+                                <input class="form-control" type="password" name="password"  required>
+                            </div>
+
+                            <div class="col-12 border-bottom border-bottom-dark mt-3 mb-3">
+                                <h5><%=lan.Address%> <%=lan.Information%></h5>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Full%> <%=lan.Address%></label>
+                                        <input class="form-control docin" type="text" name="address" value="<%= dec.address %>" placeholder="<%=lan.Enter%> <%=lan.Full%> <%=lan.Address%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Pincode%></label>
+                                        <input class="form-control docin" type="number" name="pincode" value="<%= dec.pincode %>" placeholder="<%=lan.Enter%> <%=lan.Pincode%>" required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Landmark%></label>
+                                        <input class="form-control docin" type="text" name="landmark" value="<%= dec.landmark %>" placeholder="<%=lan.Enter%> <%=lan.Landmark%>" required>
+                                    </div>
+                                    <input type="text" id="lod_latitude" value="<%=dec.latitude%>" hidden>
+                                    <input type="text" id="lod_longitude" value="<%=dec.longitude%>" hidden>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Latitude%></label>
+                                        <input class="form-control docin" id="edit_location_latitude" type="number" value="<%= dec.latitude %>" name="latitude"  required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Longitude%></label>
+                                        <input class="form-control docin" id="edit_location_longitude" type="number" value="<%= dec.longitude %>" name="longitude"  required>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Commission%> <%=lan.Rate%> %</label>
+                                        <input class="form-control docin" type="number" name="commisiion" value="<%= dec.commission %>" placeholder="<%=lan.Enter%> <%=lan.Commission%> <%=lan.Rate%> %" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-4 text-center">
+                                    <div id="address-map" style="height: 70vh; width: 100%;"></div>
+                                    <p class="mt-2 f-w-600"><%=lan.Click_anywhere_on_the_map_to_get_your_location%></p>
+                                </div>
+                                
+                            </div>
+
+                            <div class="col-12 border-bottom border-bottom-dark mt-3 mb-3">
+                                <h5><%=lan.Work%> <%=lan.Information%></h5>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="col-form-label"><%= lan.Hospital %> <%=lan.List%></label>
+                                <select class="custome_multiple_select col-sm-12 docin" id="edit_doc_hos" data-id="<%=dec.id%>" name="hospital_list" multiple="multiple" required>
+                                    <% hospital_list.forEach((data) => { %>
+                                        <option value="<%= data.id %>" <%= hospital_id_list.includes(data.id) == true ? 'selected' : '' %>> <%= data.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                <label class="col-form-label"><%= lan.Department %> <%=lan.List%></label>
+                                <select class="custome_multiple_select col-sm-12 docin" id="edit_doc_dep" data-id="<%=dec.id%>" name="department_list" multiple="multiple" required>
+                                    <% department_list.forEach((data) => { %>
+                                        <option value="<%= data.id %>" <%= dids.includes(data.id) == true ? 'selected' : '' %>> <%= data.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+
+
+
+
+
+                            <% let check_one = 0; %>
+                            <% for (let i = 0; i < hospital_id_list.length;){ %>
+                            <div class="row col-12" id="add_doc_hd">
+                            <% for (let a = 0; a < serd.length;){ %>
+                                <% if (hospital_id_list[i] == serd[a].hospital_id){ %>
+                                    <% if (check_one == 0){ %>
+                                        <% check_one = 1; %>
+
+                                            <div class="col-12 mb-3 <%- i != '0' ? 'mt-5' : '' %>">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                                        <label class="col-form-label"><%= lan.Hospital_Name %></label>
+                                                        <input class="form-control" type="text" value="<%= serd[a].hospital_name%>" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+            
+                                            <div class="col-12">
+                                                <div class="row mt-2">
+                                                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2">
+                                                        <label class="col-form-label"><%= lan.Department_Name %></label>
+                                                        <input class="form-control" type="text" value="<%= serd[a].depart_name%>" readonly>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                        <label class="col-form-label"><%= lan.Subservice %></label>
+                                                        <input class="form-control" type="text" value="<%= serd[a].sub_title%>" readonly>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-1 col-xl-1 d-flex align-items-end justify-content-center">
+                                                        <% if (serd[a].image == '') { %>
+                                                            <img id="file-preview" width="80" height="80" src="../../images/dashboard/default/profile.png" alt="image">
+                                                        <% } else { %>
+                                                            <img id="file-preview" width="80" height="80" src="../../<%= serd[a].image%>" alt="image">
+                                                        <% } %>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                        <label class="col-form-label"><%= lan.Clinic_Visit %> <%=lan.Price%></label>
+                                                        <input class="form-control" type="number" value="<%= serd[a].client_visit_price%>" readonly>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                        <label class="col-form-label"><%= lan.Video_Consult %> <%=lan.Price%></label>
+                                                        <input class="form-control" type="text" value="<%= serd[a].video_consult_price%>" readonly>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                        <label class="col-form-label"><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></label>
+                                                        <% if (serd[a].show_type == '1') { %>
+                                                            <input class="form-control" type="text" value="<%= lan.Clinic_Visit %>" readonly>
+                                                        <% } else if (serd[a].show_type == '2') { %>
+                                                            <input class="form-control" type="text" value="<%= lan.Video_Consult %>" readonly>
+                                                        <% } else if (serd[a].show_type == '3') { %>
+                                                            <input class="form-control" type="text" value="<%= lan.Both %>" readonly>
+                                                        <% } else { %>
+                                                            <input class="form-control" type="text" value="" readonly>
+                                                        <% } %>
+                                                        
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-1 col-xl-1">
+                                                        <label class="col-form-label"><%=lan.Status%></label>
+                                                        <% if (serd[a].status == '1') { %>
+                                                            <input class="form-control" type="text" value="<%= lan.Active %>" readonly>
+                                                        <% } else { %>
+                                                            <input class="form-control" type="text" value="<%= lan.Deactive %>" readonly>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    <% } else { %>
+
+                                        <div class="col-12">
+                                            <div class="row mt-2">
+                                                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2">
+                                                    <label class="col-form-label"><%= lan.Department_Name %></label>
+                                                    <input class="form-control" type="text" value="<%= serd[a].depart_name%>" readonly>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                    <label class="col-form-label"><%= lan.Subservice %></label>
+                                                    <input class="form-control" type="text" value="<%= serd[a].sub_title%>" readonly>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-1 col-xl-1 d-flex align-items-center justify-content-center">
+                                                    <% if (serd[a].image == '') { %>
+                                                        <img id="file-preview" width="80" height="80" src="../../images/dashboard/default/profile.png" alt="image">
+                                                    <% } else { %>
+                                                        <img id="file-preview" width="80" height="80" src="../../<%= serd[a].image%>" alt="image">
+                                                    <% } %>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                    <label class="col-form-label"><%= lan.Clinic_Visit %> <%=lan.Price%></label>
+                                                    <input class="form-control" type="number" value="<%= serd[a].client_visit_price%>" readonly>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                    <label class="col-form-label"><%= lan.Video_Consult %> <%=lan.Price%></label>
+                                                    <input class="form-control" type="text" value="<%= serd[a].video_consult_price%>" readonly>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                                    <label class="col-form-label"><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></label>
+                                                    <% if (serd[a].show_type == '1') { %>
+                                                        <input class="form-control" type="text" value="<%= lan.Clinic_Visit %>" readonly>
+                                                    <% } else if (serd[a].show_type == '2') { %>
+                                                        <input class="form-control" type="text" value="<%= lan.Video_Consult %>" readonly>
+                                                    <% } else if (serd[a].show_type == '3') { %>
+                                                        <input class="form-control" type="text" value="<%= lan.Both %>" readonly>
+                                                    <% } else { %>
+                                                        <input class="form-control" type="text" value="" readonly>
+                                                    <% } %>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-1 col-xl-1">
+                                                    <label class="col-form-label"><%=lan.Status%></label>
+                                                    <% if (serd[a].status == '1') { %>
+                                                        <input class="form-control" type="text" value="<%= lan.Active %>" readonly>
+                                                    <% } else { %>
+                                                        <input class="form-control" type="text" value="<%= lan.Deactive %>" readonly>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <% }; %>
+                                    <% }; %>
+
+                                    <% a++; %>
+                                <% }; %>
+                            </div>
+                            <% check_one = 0; %>
+                            <% i++; %>
+                        <% }; %>
+
+
+
+                            <!-- <div>
+                                <div class="mt-5" id="row_sitter_services">
+                                    <div class="col-12">
+                                        <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                            <h5 class="f-18">Hospital Name</h5>
+                                        </div>  
+                                    </div>
+                                    <div class="mt-3" id="first_sitter">
+                                        
+                                        <div class="row col-12" id="add_sitter_service">
+                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                <span class="badge badge-light text-dark adjust_text">Mental Health & Behavioral Medicine Behavioral Medicine</span>
+                                                <input class="add_services_id" type="number" name="service_id" value="'+res.services[0].id+'" hidden>
+                                                <input class="add_services_id" type="number" name="services_data_id" value="0" hidden>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                <span class="badge badge-light text-dark second_adjust_text">Mental Health & Behavioral Medicine Behavioral Medicine</span>  
+                                                <input class="add_services_id" type="number" name="service_id" value="'+res.services[0].id+'" hidden>
+                                                <input class="add_services_id" type="number" name="services_data_id" value="0" hidden>
+                                            </div>
+                                            <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
+                                                <img id="file-preview" width="100" height="100" src="../images/dashboard/default/profile.png" alt="image">
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" placeholder="Enter Price"><span class="input-group-text">Clinic Visit</span>
+                                                </div>
+                                                <div class="input-group mt-2">
+                                                    <input class="form-control" type="text" placeholder="Enter Price"><span class="input-group-text">Video Consult</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                <select class="js-example-basic-single shitter_input" name="zone" required>
+                                                    <option value selected disabled><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></option>
+                                                    <option value="">Clinic Visit</option>
+                                                    <option value="">Video Consult</option>
+                                                    <option value="">Both</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row col-12 mt-4" id="add_sitter_service">
+                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                <span class="badge badge-light text-dark adjust_text">Mental Health & Behavioral Medicine Behavioral Medicine</span> 
+                                                <input class="add_services_id" type="number" name="service_id" value="'+res.services[0].id+'" hidden>
+                                                <input class="add_services_id" type="number" name="services_data_id" value="0" hidden>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                <span class="badge badge-light text-dark second_adjust_text">Mental Health & Behavioral Medicine</span>
+                                                <input class="add_services_id" type="number" name="service_id" value="'+res.services[0].id+'" hidden>
+                                                <input class="add_services_id" type="number" name="services_data_id" value="0" hidden>
+                                            </div>
+                                            <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
+                                                <img id="file-preview" width="100" height="100" src="../images/dashboard/default/profile.png" alt="image">
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" placeholder="Enter Price"><span class="input-group-text">Clinic Visit</span>
+                                                </div>
+                                                <div class="input-group mt-2">
+                                                    <input class="form-control" type="text" placeholder="Enter Price"><span class="input-group-text">Video Consult</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                <select class="js-example-basic-single shitter_input" name="zone" required>
+                                                    <option value selected disabled><%=lan.Select%> <%=lan.Show%> <%=lan.Type%></option>
+                                                    <option value="">Clinic Visit</option>
+                                                    <option value="">Video Consult</option>
+                                                    <option value="">Both</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            
+
+                            <div class="text-center">
+                                <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                <p class="text-danger d-none mt-1" id="detail_email_error"><%=lan.This_Email_Alread_Registered%>.</p>
+                                <p class="text-danger d-none mt-1" id="detail_phone_error"><%=lan.This_Mobile_No_Alread_Registered%>.</p>
+                                <p class="text-danger d-none mt-1" id="detail_zone_error"><%= lan.Your_Location_Not_in_Zone %>.</p>
+                            </div>
+                            
+                        </div>
+                        </form>
+                        <div class="text-end mt-5">
+                            <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="edit_doctor_btn" type="submit"><%=lan.Submit%></button> 
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2v7oamtvcDZ7IOCc3ZKZcew4fDlGBgBU&callback=initMap&v=weekly" defer></script>
+        <script src="../../js/map_address_edit.js"></script>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

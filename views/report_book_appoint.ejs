@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Book %> <%= lan.Service %> <%= lan.Report %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Book %> <%= lan.Service %> <%= lan.Report %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-end pb-0 m-r-20 <%= auth.admin_role != 1 ? 'd-none' : '' %>">
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%= lan.Service_User_List %></label>
+                                <select class="js-example-basic-single" id="rsbooksitter">
+                                    <option value selected disabled><%= lan.Select_User %></option>
+                                    <% user_list.forEach((data) => { %>
+                                        <option value="<%=data.id%>"><%=data.name%></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row col-12">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Start%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rsbookstart" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.End%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rsbookend" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Status%> <%=lan.List%></label>
+                                    <select class="js-example-basic-single" id="rsbookstatus">
+                                        <option value selected disabled><%=lan.Select%> <%=lan.Status%></option>
+                                        <% if (role == 1) { %>
+                                            <option value="1"><%=lan.Pending%></option>
+                                            <option value="2"><%=lan.Start%></option>
+                                            <option value="3"><%=lan.End%></option>
+                                            <option value="4"><%=lan.Complete%></option>
+                                            <option value="5"><%=lan.Cancel%></option>
+                                        <% } else if (role == 2) { %>
+                                            <option value="0"><%=lan.Pending%></option>
+                                            <option value="1"><%=lan.Processing%></option>
+                                            <option value="2"><%=lan.Ready_to_deliver%></option>
+                                            <option value="3"><%=lan.Deliver%></option>
+                                            <option value="4"><%=lan.Canceled%></option>
+                                        <% } else if (role == 3) { %>
+                                            <option value="1"><%=lan.Pending%></option>
+                                            <option value="2"><%=lan.Accepted%></option>
+                                            <option value="3"><%=lan.Collector_Assigned%></option>
+                                            <option value="4"><%=lan.Ongoing%></option>
+                                            <option value="5"><%=lan.In_Progress%></option>
+                                            <option value="6"><%=lan.Completed%></option>
+                                            <option value="7"><%=lan.Cancelled%></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row col-12 role" data-role="<%= role%>">
+
+                                <div class="table-responsive theme-scrollbar" id="printcontent">
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none"></th>
+                                                <% if (role == 1) { %>
+                                                    <th><%=lan.Id%></th>
+                                                    <th><%=lan.Customer%></th>
+                                                    <th><%=lan.Doctor%></th>
+                                                    <th><%=lan.Service%></th>
+                                                    <th><%=lan.Price%></th>
+                                                    <th><%=lan.Date%></th>
+                                                    <th><%=lan.Status%></th>
+                                                <% } else if (role == 2) { %>
+                                                    <th><%=lan.Id%></th>
+                                                    <th><%=lan.Customer%></th>
+                                                    <th><%=lan.Doctor%></th>
+                                                    <th><%=lan.Price%></th>
+                                                    <th><%=lan.Date%></th>
+                                                    <th><%=lan.Status%></th>
+                                                <% } else if (role == 3) { %>
+                                                    <th><%=lan.Id%></th>
+                                                    <th><%=lan.Customer%></th>
+                                                    <th><%=lan.Lab%></th>
+                                                    <th><%=lan.Category%></th>
+                                                    <th><%=lan.Price%></th>
+                                                    <th><%=lan.Date%></th>
+                                                    <th><%=lan.Status%></th>
+                                                <% } %>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="service_report">
+                                            <% if (role == 1) { %>
+                                                <% allservices.forEach((data) => { %>
+                                                <tr>
+                                                    <td class="d-none"></td>
+                                                    <td>#<%= data.Id %></td>
+                                                    <td><%= data.cus_name %></td>
+                                                    <td><%= data.doctor_name %></td>
+                                                    <td><%= data.service_name %></td>
+                                                    <td class="invosymbol"><%= data.tot_price %></td>
+                                                    <td><%= data.date %></td>
+                                                    <td>
+                                                        <span class="<%=data.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400"><%=data.status_type.s%></span>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                            <% } else if (role == 2) { %>
+                                                <% allservices.forEach((data) => { %>
+                                                    <tr>
+                                                        <td class="d-none"></td>
+                                                        <td>#<%= data.Id %></td>
+                                                        <td><%= data.cus_name %></td>
+                                                        <td><%= data.doctor_name %></td>
+                                                        <td class="invosymbol"><%= data.tot_price %></td>
+                                                        <td><%= data.date %></td>
+                                                        <td>
+                                                            <span class="<%=data.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400"><%=data.status_type.s%></span>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            <% } else if (role == 3) { %>
+                                                <% allservices.forEach((data) => { %>
+                                                    <tr>
+                                                        <td class="d-none"></td>
+                                                        <td>#<%= data.Id %></td>
+                                                        <td><%= data.cus_name %></td>
+                                                        <td><%= data.lab_name %></td>
+                                                        <td><%= data.category_name %></td>
+                                                        <td class="invosymbol"><%= data.tot_price %></td>
+                                                        <td><%= data.date %></td>
+                                                        <td>
+                                                            <span class="<%=data.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400"><%=data.status_type.s%></span>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="row col-12 mt-4">
+                               <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
+                                    <span class="f-w-500 f-14"><%= lan.total %> <%= lan.Book %> <%= lan.Service %> :- <span id="dbookr"><%= torder %></span></span>
+                                    <div>
+                                        <button class="btn btn-primary" id="printdata"><%= lan.Print %> <%= lan.Report %></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

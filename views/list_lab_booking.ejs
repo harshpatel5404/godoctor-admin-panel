@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+
+    <style>
+        .hand-hover {
+            cursor: pointer;
+        }
+    </style>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                    <h3><%= lan.Lab_Booking %> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                        <li class="breadcrumb-item active"><%= lan.Lab_Booking %> <%=lan.List%></li>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none">#</th>
+                                            <th>#<%= lan.Id %></th>
+                                            <th><%= lan.Date_Time %></th>
+                                            <th><%= lan.Customer_Name %></th>
+                                            <th><%= lan.Collector %></th>
+                                            <th><%= lan.Total_Price %></th>
+                                            <th><%= lan.Payment_Method %></th>
+                                            <th><%= lan.Payment_Status %></th>
+                                            <th><%= lan.Status %></th>
+                                            <th><%= lan.Action %></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% bl.forEach((data) => { %>
+                                            <tr class="lomaintr<%= data.id%>">
+                                                <td class="d-none"><%= i %></td>
+                                                <td>#<%= data.id %></td>
+                                                <td><%= data.book_date %> <%= data.book_time %></td>
+                                                <td><%= data.cus_name %></td>
+                                                <td class="p-1" id="collectrd<%= data.id %>">
+                                                    <% if(data.home_extra_price > 0 && data.status == 2 && data.home_col_status == '1' && auth.admin_role != 1) { %>
+                                                        <select class="js-example-basic-single" id="labcollist" style="height: 10px !important; " required>
+                                                            <option value selected disabled><%=lan.User%> <%=lan.List%></option>
+                                                            <% user_list.forEach((ul) => { %>
+                                                                <option value="<%=ul.id%>"><%=ul.name%></option>
+                                                            <% }); %>   
+                                                        </select>
+                                                    <% } else { %>
+                                                        <%= data.home_c_user != '' ? data.home_c_user : '-' %>
+                                                    <% } %>
+                                                </td>
+                                                <td class="invosymbol"><%= data.tot_price %></td>
+                                                <td>
+                                                    <%= data.payment_name %>
+                                                    <%= data.payment_name != '' && data.wallet_amount > 0 ? ' & ' : '' %>
+                                                    <%= data.wallet_amount > 0 > 0 ? lan.Wallet : '' %>
+                                                </td>
+                                                <td id="lcashtd<%= data.id %>">
+                                                    <% if (data.tot_price == data.paid_amount) { %>
+                                                        <span class="btn-success px-3 b-r-5 f-14 f-w-400" style="padding: .25rem;"><%=lan.Paid%></span>
+                                                    <% } else { %>
+                                                        <span class="btn-warning px-3 b-r-5 f-14 f-w-400" style="padding: .25rem;"><%=lan.Unpaid%></span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <span class="<%=data.status_title.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="lbstatusid<%= data.id %>"><%=data.status_title.s%></span>
+                                                </td>
+                                                <td>
+                                                    <% if (auth.admin_role != 1) { %>
+                                                        <div class="dropdown">
+                                                            <span class="dropbtn btn-primary px-3 py-1 b-r-5 f-14 f-w-400" id="mains"><%=lan.Action%></span>
+                                                            <div class="dropdown-content myDropdown" id="moa<%= data.id %>" data-id="<%= data.id %>" data-details="<%=lan.Details%>" 
+                                                                data-assign="<%=lan.Assign%>" data-user="<%=lan.User%>" data-ongoing="<%=lan.Ongoing%>" data-cname="<%= data.cus_name %>"
+                                                                data-inprogress="<%=lan.In_Progress%>" data-completed="<%=lan.Completed%>" data-list="<%=lan.List%>"
+                                                                data-bdate="<%= data.book_date %> <%= data.book_time %>" data-upload="<%=lan.Upload%>" data-report="<%=lan.Report%>"
+                                                                data-tot_price="<%=data.tot_price%>" data-paid_amount="<%=data.paid_amount%>"> 
+        
+                                                                <% if (data.status == "1") { %>
+        
+                                                                    <a class="dropdown-item" data-mid="<%= data.id%>" id="lbapprove"><i class="fa fa-check f-16 m-r-10"></i><%=lan.Accept%></a>
+                                                                    <a class="dropdown-item" data-mid="<%= data.id%>" data-bs-toggle="modal" data-bs-target="#appcancel"  id="lbacancel"><i class="fa fa-times f-16 m-r-10"></i><%=lan.Cancel%></a>
+        
+                                                                <% } else if (data.status == "2" && data.home_extra_price > 0 && data.home_col_status == '1') { %>
+                                                                    
+                                                                    <a class="dropdown-item" data-mid="<%= data.id%>" id="lbassigncol"><i class="fa fa-search f-16 m-r-10"></i><%=lan.Assign%> <%=lan.User%></a>
+        
+                                                                <% } else if (data.status == "3" || ( data.status == "2" && data.home_extra_price == 0 && data.home_col_status == '0' )) { %>
+                                                                    
+                                                                    <a class="dropdown-item" data-mid="<%= data.id%>" id="lbongoing"><i class="fa fa-taxi f-16 m-r-10"></i><%=lan.Ongoing%></a>
+        
+                                                                <% } else if (data.status == "4") { %>
+                                                                    
+                                                                    <a class="dropdown-item" data-mid="<%= data.id%>" data-bs-toggle="modal" data-bs-target="#otpverift" id="lbinperson"><i class="fa fa-spin fa-spinner f-16 m-r-10"></i><%=lan.In_Progress%></a>
+        
+                                                                <% } else if (data.status == "5") { %>
+                                                                    
+                                                                    <a class="dropdown-item" data-mid="<%= data.id%>" data-bs-toggle="modal" data-bs-target="#uploadreport" id="lbuplreport"><i class="fa fa-upload f-16 m-r-10"></i><%=lan.Upload%> <%=lan.Report%></a>
+                                                                    <a class="dropdown-item" data-mid="<%= data.id%>" id="lbcomplete"><i class="fa fa-thumbs-o-up f-16 m-r-10"></i><%=lan.Completed%></a>
+        
+                                                                <% } %>
+                                                                
+                                                                <a class="dropdown-item" href="/lab/booking_details/<%= data.id %>"><i class="fa fa-list-alt f-16 m-r-10"></i><%=lan.Details%></a>
+                                                            </div>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <a class="dropbtn btn-primary px-3 py-1 b-r-5 f-14 f-w-400" href="/lab/booking_details/<%= data.id %>"><%=lan.Details%></a>
+                                                    <% } %>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>  
+
+
+
+
+        <div class="modal fade" id="paymentsucc" tabindex="-1" role="dialog" aria-labelledby="paymentsucc" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Cancel%> <%= lan.Appointment %></h5>
+                        <button class="btn-close" id="lbreportcashcan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12" id="lbreportp">
+                                <div class="text-primary mt-0 text-center f-18 f-w-500"><%= lan.Collect_Before_Complete %></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                        <button class="btn btn-primary" type="submit" data-id="" data-paid="<%=lan.Paid%>" id="lalistccbtn"><%= lan.Cash_Collected %></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" id="appcancel" tabindex="-1" role="dialog" aria-labelledby="appcancel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Cancel%> <%= lan.Appointment %></h5>
+                        <button class="btn-close" id="lbreportclose" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12" id="lbreportp">
+                                <label class="col-form-label pt-0"><%=lan.Cancel%> <%=lan.Reason%></label>
+                                <select class="js-example-basic-single docin" id="lrcrasons" required>
+                                    <option value selected disabled><%=lan.Verified%> <%=lan.Status%> <%=lan.List%></option>
+                                    <% cr.forEach((data) => { %>
+                                        <option value="<%=data.id%>" data-title="<%=data.title%>"><%=data.title%></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                            <div class="text-danger mt-0 text-center d-none" id="clapcanreas"><%= lan.Select_Cancel_Reason %></div>
+
+                            <div class="col-12 d-none" id="inpothreason">
+                                <label class="form-label"><%=lan.Cancel%> <%=lan.Reason%></label>
+                                <input class="form-control" id="lbfileupload" type="text" data-c="0" placeholder="<%=lan.Enter%> <%=lan.Cancel%> <%=lan.Reason%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                        <button class="btn btn-primary" type="submit" data-id="" id="uplbcancelbtn"><%=lan.Submit%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" id="uploadreport" tabindex="-1" role="dialog" aria-labelledby="uploadreport" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Upload %> <%= lan.Report %></h5>
+                        <button class="btn-close" id="lbreportclose" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12" id="lbreportp">
+                            </div>
+                            <div class="text-danger mt-0 text-center d-none" id="checkfselval"><%= lan.Select_Patient %></div>
+
+                            <div class="col-12">
+                                <label class="form-label"><%= lan.Upload %> <%= lan.Report %></label>
+                                <input class="form-control" id="lbfileupload" type="file" name="title" style="height: 46px;" multiple placeholder="<%=lan.Enter%> <%= lan.Otp %>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%= lan.Description %></label>
+                                <textarea class="form-control" id="lrbdescription" rows="4"></textarea>
+                                <!-- <input class="form-control is-invalid" id="otpinp" type="text" name="title" placeholder="<%=lan.Enter%> <%= lan.Description %>" required> -->
+                            </div>
+                            <input type="hidden" id="laompid" value="">
+                            <input type="hidden" id="laomfid" value="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                        <button class="btn btn-primary" type="submit" data-id="" data-s="1" id="uplbreport"><%=lan.Submit%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" id="otpverift" tabindex="-1" role="dialog" aria-labelledby="otpverift" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.OTP_Approve %></h5>
+                        <button class="btn-close" id="lbotpclose" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label"><%= lan.Appointment %> <%= lan.Otp %></label>
+                                <input class="form-control" id="otpinp" type="number" name="title" placeholder="<%=lan.Enter%> Otp" required>
+                                <div class="invalid-feedback d-none" id="otpvalidate"><%= lan.Enter_Valid_Otp %></div>
+                                <div class="invalid-feedback d-none" id="otpinpvalidate"><%= lan.Enter_Otp %></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="lalotplaid" value="0">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dis miss="modal"><%=lan.Close%></button>
+                        <button class="btn btn-primary" type="submit" data-id="" id="otpcheckid"><%=lan.Submit%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    </body>
+</html>

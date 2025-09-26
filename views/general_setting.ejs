@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.General%> <%=lan.Setting%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Close%></li>
+                    <li class="active breadcrumb-item"><%=lan.General%> <%=lan.Setting%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <% let permiss = per != "1" ? per.setting[1] : "1" %>
+                    <% if(permiss == "1"){ %>
+                    <form  class="needs-validation" novalidate="" action="/settings/add_setting" method="post" enctype="multipart/form-data">
+                      <% } %>
+                      <div class="row">
+
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6">
+                                <div class="form-group text-center">
+                                    <% if(general.dark_image == "null") { %>
+    
+                                        <img id="file-preview" width="150" src="../images/dashboard/default/profile.png" alt="image">
+                                    <% } else { %>
+    
+                                        <img id="file-preview" width="150" src="../../<%=general.dark_image%>" alt="image">
+                                    <% } %>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label"><%=lan.Dark%> <%=lan.image%></label>
+                                    <input class="form-control" style="height: 47px;" type="file" name="dark_image" >
+                                  </div>
+                            </div>
+    
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6">
+                                <div class="form-group text-center">
+                                    <% if(general.light_image == "null") { %>
+                                        <img id="file-preview" width="150" src="../images/dashboard/default/profile.png" alt="image">
+                                    <% } else { %>
+                                        <img id="file-preview" width="150" src="../../<%=general.light_image%>" style="background-color: black;" alt="image">
+                                    <% } %>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label"><%=lan.Light%> <%=lan.image%></label>
+                                    <input class="form-control" style="height: 47px;" type="file" name="light_image" >
+                                </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Site%> <%=lan.Title%></label>
+                          <input class="form-control" type="text" name="title" value="<%=general.title%>" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Google%> <%=lan.Map%> <%=lan.Key%></label>
+                          <input class="form-control" type="text" name="google_map_key" value="<%=general.google_map_key%>" placeholder="<%=lan.Enter%> <%=lan.Google%> <%=lan.Map%> <%=lan.Key%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%= lan.Total_Book_Appointment_Date %></label>
+                          <input class="form-control" type="number" name="tot_book_appo_date" value="<%=general.tot_book_appo_date%>" placeholder="<%=lan.Enter%> <%= lan.Total_Book_Appointment_Date %>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%= lan.Footer_Content %></label>
+                          <input class="form-control" type="text" name="footer_content" value="<%=general.footer_content%>" placeholder="<%=lan.Enter%> <%= lan.Footer_Content %>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-4 form-group">
+                          <label class="col-form-label"><%=lan.Currency%></label>
+                          <input class="form-control" type="text" name="site_currency" value="<%=general.site_currency%>" placeholder="<%=lan.Enter%> <%=lan.Currency%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-4 form-group">
+                            <label class="col-form-label" for="Thousands_Separator" class="form-label"><%=lan.Thousands_Separator%> (<%= lan.Admin_Only %>)</label>
+                            <select class="form-control wide" name="thousands_separator" required>  
+                              <option value="1" <%= general.thousands_separator == 1 ? 'selected' : '' %> >, (<%=lan.Comma%>)</option>
+                              <option value="2" <%= general.thousands_separator == 2 ? 'selected' : '' %> >. (<%=lan.Full%> <%=lan.Stop%>)</option>
+                              <option value="3" <%= general.thousands_separator == 3 ? 'selected' : '' %> >` (<%=lan.Apostrophe%>)</option>
+                              <option value="4" <%= general.thousands_separator == 4 ? 'selected' : '' %> ><%=lan.None%></option>
+                              <option value="5" <%= general.thousands_separator == 5 ? 'selected' : '' %> ><%=lan.Space%></option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-4 mt-1 form-group">
+                          <div class="d-flex mt-3">
+                              <div class="icon-state switch-outline mt-3">
+                                <label class="switch">
+                                  <input type="checkbox" name="currency_status" <%= general.currency_placement == 1 ? 'checked' : '' %>><span class="bg-success switch-state"></span>
+                                </label>
+                              </div>
+                              <div>
+                                <p class="col-form-label m-l-10"><%=lan.Currency_Symbol_Placement_Right_side%> </p>
+                                <p class="m-l-10">(<%= lan.Default_Left_Side %> & <%= lan.Admin_Only %>)</p>
+                              </div>
+                          </div>
+                        </div>
+
+                        <hr class="mt-2">
+                        <h5 class="pb-2"><%= lan.Patient %> <%=lan.SignUp%></h5>
+
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Signup%> <%=lan.Credit%></label>
+                          <input class="form-control" type="number" name="signup_credit" value="<%=general.signup_credit%>" placeholder="<%=lan.Enter%> <%=lan.Signup%> <%=lan.Credit%>" required>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Refer%> <%=lan.Credit%></label>
+                          <input class="form-control" type="number" name="refer_credit" value="<%=general.refer_credit%>" placeholder="<%=lan.Enter%> <%=lan.Refer%> <%=lan.Credit%>" required>
+                        </div>
+
+                        <div class="col-lg-12 col-md-6 col-sm-12 col-xl-6  form-group">
+                          <div class="row">
+                            <label class="col-form-label"><%=lan.Commission%> <%=lan.Rate%></label>
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xl-8">
+                              <input class="form-control" type="number" name="commission_rate" value="<%=general.commission_rate%>" placeholder="<%=lan.Enter%> <%=lan.Commission%> <%=lan.Rate%>" required>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xl-4 d-flex">
+                              <div class="col-4">
+                                <input class="form-control" type="text" placeholder="<%=lan.FIX%>" readonly>
+                              </div>
+                              <div class="col-4 text-center">
+                                <div class="icon-state switch-outline" style="padding-top: 6px;">
+                                  <label class="switch">
+                                    <input type="checkbox" name="commisiion_type" <%= general.commisiion_type == '%' ? 'checked' : '' %>><span class="bg-success switch-state"></span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-4">
+                                <input class="form-control" type="text" placeholder="%" readonly>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xl-6 form-group">
+                          <label class="col-form-label"><%= lan.Web_After_Payment_Success_Url %></label>
+                          <input class="form-control" type="text" name="web_pay_success_url" value="<%=general.web_pay_success_url%>" placeholder="<%=lan.Enter%> <%= lan.Web_After_Payment_Success_Url %>" required>
+                        </div>
+                        
+
+                        <hr class="mt-2">
+                        <h5 class="pb-2"><%= lan.Doctor %> <%=lan.Detail%></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <div class="d-flex">
+                            <label class="col-form-label"><%=lan.Wallet_Min_Balance_For_Withdraw%> (<label class="invosymbol"></label>)</label>
+                          </div>
+                          <input class="form-control" type="number" name="d_min_withdraw" value="<%=general.d_min_withdraw%>" placeholder="<%=lan.Enter%> <%=lan.Wallet_Min_Balance_For_Withdraw%>" required>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xl-2 form-group mt-4">
+                          <div class="d-flex mb-2 mt-4">
+                              <div class="icon-state switch-outline">
+                                <label class="switch">
+                                  <input type="checkbox" name="doctor_auto_approve" <%= general.doctor_auto_approve == 1 ? 'checked' : '' %>><span class="bg-success switch-state"></span>
+                                </label>
+                              </div>
+                              <label class="col-form-label m-l-10"><%= lan.Doctor_Auto_Approve %></label>
+                          </div>
+                        </div>
+
+                        <hr class="mt-2">
+                        <h5 class="pb-2"><%= lan.Lab %> <%=lan.Detail%></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <div class="d-flex">
+                            <label class="col-form-label"><%=lan.Wallet_Min_Balance_For_Withdraw %> (<label class="invosymbol"></label>)</label>
+                          </div>
+                          <input class="form-control" type="number" name="lab_min_withdraw" value="<%=general.lab_min_withdraw%>" placeholder="<%=lan.Enter%> <%=lan.Wallet_Min_Balance_For_Withdraw %>" required>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xl-2 form-group mt-4">
+                          <div class="d-flex mb-2 mt-4">
+                              <div class="icon-state switch-outline">
+                                <label class="switch">
+                                  <input type="checkbox" name="lab_active_status" <%= general.lab_active_status == 1 ? 'checked' : '' %>><span class="bg-success switch-state"></span>
+                                </label>
+                              </div>
+                              <label class="col-form-label m-l-10"><%= lan.Lab_Active_Status %></label>
+                          </div>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xl-2 form-group mt-4">
+                          <div class="d-flex mb-2 mt-4">
+                              <div class="icon-state switch-outline">
+                                <label class="switch">
+                                  <input type="checkbox" name="lab_auto_approve" <%= general.lab_auto_approve == 1 ? 'checked' : '' %>><span class="bg-success switch-state"></span>
+                                </label>
+                              </div>
+                              <label class="col-form-label m-l-10"><%= lan.Lab_Auto_Approve %></label>
+                          </div>
+                        </div>
+
+                        <hr class="mt-2">
+                        <h5 class="pb-2"><%=lan.One%> <%=lan.Signal%> <%=lan.Detail%></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.App%> <%=lan.Id%></label>
+                          <input class="form-control" type="text" name="one_app_id" value="<%=general.one_app_id%>" placeholder="<%=lan.Enter%> <%=lan.App%> <%=lan.Id%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Api%> <%=lan.Id%></label>
+                          <input class="form-control" type="text" name="one_api_key" value="<%=general.one_api_key%>" placeholder="<%=lan.Enter%> <%=lan.Api%> <%=lan.Id%>" required>
+                        </div>
+
+                        <h5 class="pb-1"><%= lan.OneSignal_React_Detail %></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.App%> <%=lan.Id%></label>
+                          <input class="form-control" type="text" name="one_app_id_react" value="<%=general.one_app_id_react%>" placeholder="<%=lan.Enter%> <%=lan.App%> <%=lan.Id%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Api%> <%=lan.Id%></label>
+                          <input class="form-control" type="text" name="one_api_key_react" value="<%=general.one_api_key_react%>" placeholder="<%=lan.Enter%> <%=lan.Api%> <%=lan.Id%>" required>
+                        </div>
+
+                        <hr class="mt-2">
+                        <h5 class="pb-2"><%= lan.Agora %> <%=lan.Detail%></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.App%> <%=lan.Id%></label>
+                          <input class="form-control" type="text" name="agora_app_id" value="<%=general.agora_app_id%>" placeholder="<%=lan.Enter%> <%=lan.App%> <%=lan.Id%>" required>
+                        </div>
+
+                        <hr class="mt-5">
+                        <h5 class="pb-2"><%=lan.Select%> <%=lan.SMS%> <%=lan.Type%></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label for="Thousands_Separator" class="form-label"><%=lan.SMS%> <%=lan.Type%></label>
+                          <select class="form-control wide" name="smstype" required> 
+                            <option value selected disabled><%=lan.Select%> <%=lan.SMS%> <%=lan.Type%></option>
+                            <option value="1" <%= general.sms_type == 1 ? 'selected' : '' %> ><%=lan.MSG91%></option>
+                            <option value="2" <%= general.sms_type == 2 ? 'selected' : '' %> ><%=lan.Twilio%></option>
+                            <option value="4" <%= general.sms_type == 3 ? 'selected' : '' %> ><%=lan.No_Auth %></option>
+                            <!-- <option value="3" <%= general.sms_type == 3 ? 'selected' : '' %> ><%=lan.Firebase%></option> -->
+                          </select>
+                        </div>
+
+                        <hr class="mt-2">
+                        <h5 class="pb-2"><%=lan.MSG91%> <%=lan.SMS%> <%=lan.Verification%></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.MSG91%> <%=lan.Auth%> <%=lan.Key%></label>
+                          <input class="form-control" type="text" name="msgkey" value="<%=general.msg_key%>" placeholder="<%=lan.Enter%> <%=lan.Auth%> <%=lan.Key%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.MSG91%> <%=lan.OTP%> <%=lan.Template%> <%=lan.Id%></label>
+                          <input class="form-control" type="text" name="msgid" value="<%=general.msg_token%>" placeholder="<%=lan.Enter%> <%=lan.OTP%> <%=lan.Template%> <%=lan.Id%>" required>
+                        </div>
+
+                        <hr class="mt-2">
+                        <h5 class="pb-2"><%=lan.Twilio%> <%=lan.SMS%> <%=lan.Verification%></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Twilio%> <%=lan.Account%> <%=lan.SID%></label>
+                          <input class="form-control" type="text" name="twisid" value="<%=general.twilio_sid%>" placeholder="<%=lan.Enter%> <%=lan.Account%> <%=lan.SID%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Twilio%> <%=lan.Auth%> <%=lan.Token%></label>
+                          <input class="form-control" type="text" name="twitoken" value="<%=general.twilio_token%>" placeholder="<%=lan.Enter%> <%=lan.Auth%> <%=lan.Token%>" required>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6 form-group">
+                          <label class="col-form-label"><%=lan.Twilio%> <%=lan.Phone%> <%=lan.Number%></label>
+                          <input class="form-control" type="text" name="twipnumber" value="<%=general.twilio_phoneno%>" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>" required>
+                        </div>
+
+
+                      </div>
+                      <% if(permiss == "1"){ %>
+                      <div class="text-end mt-5">
+                        <button class="btn btn-air-primary btn-primary btn-square add_detail_btn b-r-10" type="submit"><%=lan.Submit%></button> 
+                      </div>
+                    </form>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

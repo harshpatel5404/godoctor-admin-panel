@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+        .hand-hover {
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                    <h3><%= lan.Lab_Cash_Manage %></h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                        <li class="breadcrumb-item active"><%= lan.Lab_Cash_Manage %></li>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12" id="acashgen" data-approve="<%=lan.Approve%>" data-pending="<%=lan.Pending%>" data-reject="<%=lan.Reject%>">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%= lan.Lab_Name %></th>
+                                            <th><%= lan.Payment_Proof %></th>
+                                            <th><%= lan.Amount %></th>
+                                            <th><%= lan.Payment_Type %></th>
+                                            <th><%= lan.Date %></th>
+                                            <th><%= lan.Status %></th>
+                                            <% let permiss = per != "1" ? per.lab_cash_manage[1] : "1" %>
+                                            <% if(permiss == "1"){ %>
+                                            <th><%= lan.Action %></th>
+                                            <% }; %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% pay_his.forEach((data) => { %>
+                                            <tr class="acashmtr">
+                                                <td><%= i %></td>
+                                                <td><%= data.labname %></td>
+                                                <td class="p-1">
+                                                    <a href="../../<%= data.proof_image %>" target="_blank"><img class="p-0" width="50px" height="50px" src="../../<%= data.proof_image %>" alt="image" onerror="this.src='../../images/dashboard/default/profile.png'"></a>
+                                                </td>
+                                                <td class="invosymbol"><%= data.amount %></td>
+                                                <td><%= data.payment_type %></td>
+                                                <td><%= data.date %></td>
+                                                <td class="acasstatus">
+                                                    <% if (data.c_status == '1') { %>
+                                                        <span class="badge badge-secondary"><%=lan.Pending%></span>
+                                                    <% } else if (data.c_status == '2') { %>
+                                                        <span class="badge badge-success"><%=lan.Approve%></span>
+                                                    <% } else if (data.c_status == '3') { %>
+                                                        <span class="badge badge-danger"><%=lan.Reject%></span>
+                                                    <% } else { %>
+                                                        -
+                                                    <% }; %>
+                                                </td>
+                                                <% if(permiss == "1"){ %>
+                                                <td class="acasmain">
+                                                    <% if (data.c_status == '1') { %>
+                                                        <span class="badge badge-success hand-hover" id="alcasappro" data-id="<%= data.id %>"><%=lan.Approve%></span>
+                                                        <span class="badge badge-danger hand-hover" id="alcasateject" data-id="<%= data.id %>"><%=lan.Reject%></span>
+                                                    <% } else { %>
+                                                        -
+                                                    <% }; %>
+                                                </td>
+                                                <% }; %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    </body>
+</html>

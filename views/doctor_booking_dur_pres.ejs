@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Drugs_Prescription_Details %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Drugs_Prescription_Details %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% if (auth.admin_role != 1) { %>
+                        <div class="card-header d-flex justify-content-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#drugprescrimodel"><%=lan.Add%> <%= lan.Drugs_Prescription %></button>
+                        </div>
+                        <% } %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none">#</th>
+                                            <th><%= lan.Medicine %></th>
+                                            <th><%= lan.Type %></th>
+                                            <th><%= lan.Dosage %></th>
+                                            <th><%= lan.Days %></th>
+                                            <th><%= lan.Time %></th>
+                                            <th><%= lan.Frequency %></th>
+                                            <th><%= lan.Action %></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="mdadrpredata">
+                                        <% var i = 1 %>
+                                        <% drlist.forEach((data) => { %>
+                                            <tr id="edupr<%= data.id%>">
+                                                <td class="d-none"><%= data.id %></td>
+                                                <td><%= data.medicine_name %></td>
+                                                <td><%= data.type %></td>
+                                                <td><%= data.Dosage %></td>
+                                                <td><%= data.Days %></td>
+                                                <td><%= data.Time %></td>
+                                                <td><%= data.Frequency %></td>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a id="edit_dru_pre" data-id="<%= data.id %>" data-mid="<%= data.mid %>" data-type="<%= data.type %>" 
+                                                            data-dosage="<%= data.Dosage %>" data-days="<%= data.Days %>" data-time="<%= data.Time %>" data-frequency="<%= data.Frequency %>" 
+                                                            data-instructions="<%= data.Instructions %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <% if (auth.admin_role != 1) { %>
+                                                        <li class="delete"><a id="dadpdelete" data-id="<%=appoint.id%>" data-fid="<%=fid%>" data-d_id="<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                        <% } %>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal fade bd-example-modal-lg" id="drugprescrimodel" tabindex="-1" role="dialog" aria-labelledby="drugprescrimodel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Drugs_Prescription_Info %></h5>
+                        <button class="btn-close" id="drpremodelclose" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-2">
+                        <% if (auth.admin_role != 1) { %>
+                        <form class="needs-validation" id="drugs_pres_form" action="" method="post">
+                        <% } %>
+                            <div class="row g-2">
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <label class="col-form-label"><%= lan.Medicine %> <%=lan.List%></label>
+                                    <select class="js-example-basic-single druprec" name="medicine" required>
+                                        <option value selected disabled><%=lan.Select%> <%= lan.Medicine %></option>
+                                        <% medicine.forEach(function(sdata){ %>
+                                            <option value="<%= sdata.id%>"><%= sdata.name%></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <label class="col-form-label"><%= lan.Type %></label>
+                                    <input class="form-control druprec" type="text" name="types" placeholder="<%= lan.Types_Example %>" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label"><%= lan.Frequency %></label>
+                                    <input class="form-control druprec" id="dafreqsetup" type="text" name="frequency" placeholder="<%= lan.Frequency_Example %>" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label"><%= lan.Dosage %></label>
+                                    <input class="form-control druprec" type="text" name="dosage" placeholder="<%= lan.Dosage_Example %>" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label"><%= lan.Days %></label>
+                                    <input class="form-control druprec" type="text" name="days" placeholder="<%= lan.Days_Example %>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="col-form-label"><%= lan.Time_Example_Label %></label>
+                                    <input class="form-control druprec" type="text" name="time" placeholder="<%= lan.Time_Example_Placeholder %>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="col-form-label"><%= lan.Instructions %></label>
+                                    <input class="form-control" type="text" name="instructions" placeholder="<%= lan.Enter %> <%= lan.Instructions %>" required>
+                                </div>
+                            </div>
+                        <% if (auth.admin_role != 1) { %>
+                        </form>
+                        <% } %>
+                        <div class="text-center">
+                            <p class="text-danger d-none mt-3" id="edit_detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                        <% if (auth.admin_role != 1) { %>
+                        <button class="btn btn-primary" type="submit" data-id="<%=appoint.id%>" data-fid="<%=fid%>" data-s="<%=appoint.status%>" id="addurpreadmo"><%=lan.Submit%></button>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade bd-example-modal-lg" id="edit_dpmodal" tabindex="-1" role="dialog" aria-labelledby="edit_dpmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%= lan.Drugs_Prescription_Info %></h5>
+                        <button class="btn-close" id="drpremodelclose" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-2">
+                        <% if (auth.admin_role != 1) { %>
+                        <form class="needs-validation" id="edtdrugs_pres_form" action="" method="post">
+                        <% } %>
+                            <div class="row g-2">
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <label class="col-form-label"><%= lan.Medicine %> <%=lan.List%></label>
+                                    <select class="js-example-basic-single edruprec" id="eddadsel" name="medicine" required>
+                                        <option value selected disabled><%=lan.Select%> <%= lan.Medicine %></option>
+                                        <% medicine.forEach(function(sdata){ %>
+                                            <option value="<%= sdata.id%>"><%= sdata.name%></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                    <label class="col-form-label"><%= lan.Type %></label>
+                                    <input class="form-control edruprec" id="edtype" type="text" name="types" placeholder="<%= lan.Types_Example %>" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label"><%= lan.Frequency %></label>
+                                    <input class="form-control edruprec" id="edafreqsetup" type="text" name="frequency" placeholder="<%= lan.Frequency_Example %>" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label"><%= lan.Dosage %></label>
+                                    <input class="form-control edruprec" id="eddosage" type="text" name="dosage" placeholder="<%= lan.Dosage_Example %>" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="col-form-label"><%= lan.Days %></label>
+                                    <input class="form-control edruprec" id="eddays" type="text" name="days" placeholder="<%= lan.Days_Example %>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="col-form-label"><%= lan.Time_Example_Label %></label>
+                                    <input class="form-control edruprec" id="edtime" type="text" name="time" placeholder="<%= lan.Time_Example_Placeholder %>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="col-form-label"><%= lan.Instructions %></label>
+                                    <input class="form-control" id="edinstruction" type="text" name="instructions" placeholder="<%= lan.Enter %> <%= lan.Instructions %>" required>
+                                </div>
+                                <input type="hidden" id="edadpdpid" name="dpid" value="">
+                            </div>
+                        <% if (auth.admin_role != 1) { %>
+                        </form>
+                        <% } %>
+                        <div class="text-center">
+                            <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                        <% if (auth.admin_role != 1) { %>
+                        <button class="btn btn-primary" type="submit" data-id="<%=appoint.id%>" data-fid="<%=fid%>" data-s="<%=appoint.status%>" id="editurpreadmo"><%=lan.Submit%></button>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

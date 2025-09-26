@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    <style>
+        .price-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            vertical-align: middle;
+            opacity: 0.6;
+        }
+
+        .discount-pri-col {
+            background-color: orange;
+            color: white;
+        }
+        .hand-hover {
+            cursor: pointer;
+        }
+        
+
+
+        .product-img {
+            /* width: 100%; */
+            /* aspect-ratio: 1 / 1; */
+            overflow: hidden;
+            /* border-radius: 10px; */
+        }       
+
+        .product-img img.product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+    </style>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+            <div class="container-fluid">
+              <div class="page-title">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h3><%=lan.Product%> <%=lan.Order%> <%=lan.Detail%></h3>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                      <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                      <li class="breadcrumb-item active"><%=lan.Product%> <%=lan.Order%> <%=lan.Detail%></li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Container-fluid starts-->
+            <div class="container-fluid product-wrapper">
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex align-items-center">
+                                                <span class="f-w-500 f-16"><%= lan.Status %> :- <span class="<%=appoint.status_type.b%> px-3 py-1 b-r-5 f-14 f-w-400" id="dpostatus"><%=appoint.status_type.s%></span></span>
+                                            </div>
+
+                                            <% if (auth.admin_role != 1) { %>
+                                            <% if (appoint.status != '3' && appoint.status != '4') { %>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" id="dobmd">
+                                                <div class="row d-flex justify-content-end">
+                                                    <div class="col-6">
+                                                        <select class="js-example-basic-single" id="dpostachan" data-id="<%=appoint.id%>">
+                                                            <option value selected disabled><%=lan.Status%> <%=lan.List%></option>
+                                                            <% if (appoint.status == 0) { %>
+                                                            <option value="0" <%= appoint.status == "0" ? 'selected' : '' %>><%=lan.Pending%></option>
+                                                            <% }; %>
+                                                            <option value="1" <%= appoint.status == "1" ? 'selected' : '' %>><%= lan.Processing %></option>
+                                                            <option value="2" <%= appoint.status == "2" ? 'selected' : '' %>><%= lan.Ready_To_Deliver %></option>
+                                                            <option value="3" <%= appoint.status == "3" ? 'selected' : '' %>><%= lan.Delivered %></option>
+                                                            <% if (appoint.status == 0) { %>
+                                                            <option value="4" <%= appoint.status == "4" ? 'selected' : '' %>><%= lan.Canceled %></option>
+                                                            <% }; %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }; %>
+
+                                           <% if (appoint.status == 0) { %>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-none" id="larfcanceld">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-9 col-xl-9">
+                                                        <select class="js-example-basic-single" id="dpocansel">
+                                                            <option value selected disabled><%= lan.Cancel_Reason %> <%=lan.List%></option>
+                                                            <% cr.forEach((data, i) => { %>
+                                                                <option value="<%=data.id%>" data-title="<%=data.title%>"><%=data.title%></option>
+                                                            <% }); %>
+                                                        </select>
+                                                        <div class="text-danger mt-0 text-center d-none" id="clapcanreas"><%= lan.Select_Cancel_Reason %></div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                                        <span class="btn btn-primary b-r-5 f-14 f-w-400" data-id="<%=appoint.id%>" id="dpocanbtn"><%=lan.Submit%></span>
+                                                    </div>
+                                                    <div class="col-12 d-none" id="docaninp">
+                                                       <input class="form-control mt-2" id="canothreason" type="text" placeholder="<%= lan.Enter %> <%= lan.Other_Reason %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }; %>
+                                            <% }; %>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 <%= appoint.status != 4 ? 'd-none' : '' %>" id="dpocancelreas">
+                                                <div class="text-danger mt-0 text-center" id="dpocanreasn"><%= appoint.cancel_reason == "" ? appoint.cancel_title : appoint.cancel_reason %></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <hr style="height: 3px;">
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                                        <div>
+                                            <span class="f-w-500 f-14">#<%= lan.ID %> :- <span class="f-w-400"><%=appoint.id%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Date %> :- <span class="f-w-400"><%=appoint.date%></span></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Total_Item %> :- <span class="f-w-400"><%=appoint.ids.length%></span></span>
+                                        </div>
+                                        <% if (appoint.transactionId != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Transaction_ID %> :- <span class="f-w-400"><%=appoint.transactionId%></span></span>
+                                        </div>
+                                        <% } %>
+
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                                        <% if (tot_price > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Total_Unit_Price %> :- <span class="invosymbol f-w-400"><%=tot_price%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.coupon_amount > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Coupon_Amount %> :- <span class="invosymbol f-w-400">-<%=appoint.coupon_amount%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.doctor_commission > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Doctor_Commission %> :- <span class="invosymbol f-w-400"><%=appoint.doctor_commission%></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.site_commission > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Service_Fee_Tax %> :- <span class="invosymbol f-w-400"><%= appoint.site_commission %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.online_amount != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Payment %> (<%=appoint.payment_name%>) :- <span class="invosymbol f-w-400"><%= appoint.online_amount %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.wallet > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Wallet_Payment %> :- <span class="invosymbol f-w-400"><%= appoint.wallet %></span></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (appoint.tot_price > 0) { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Total_Price %> :- <span class="invosymbol f-w-400"><%= appoint.tot_price %></span></span>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-wrapper-grid">
+                            <div class="row">
+                            
+                                <% product_list.forEach((pdata, index) => { %>
+                                    <div class="col-xl-4 col-lg-4 col-sm-12">
+                                        <div class="card">
+                                            <div class="product-box">
+                                                <div class="text-center mt-4">
+                                                    <img class="" width="250" height="250" src="../../<%=pdata.product_image%>" alt="">
+                                                </div>
+                                                <div class="product-details pt-4">
+                                                    <h5 class="mb-1"><%=pdata.product_name%></h5>
+                                                    <p class="mb-0"><%=pdata.pro_type%></p>
+                                                    <p><%=pdata.price_detail.title%></p>
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="product-price invosymbol"><%=pdata.price_detail.price%>
+                                                            <del class="invosymbol m-0"><%=pdata.price_detail.bprice%></del>
+                                                            <span class="btn-warning px-2 b-r-5 f-12 f-w-400" style="color: white;"><%=pdata.price_detail.discount%>% <%= lan.OFF %></span>
+                                                        </div>
+                                                        <span class="f-w-500 f-14"><%= lan.Qty %> : <%=pdata.price_detail.qty%></span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }); %>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <h6><%= lan.Customer_Details %></h6>
+                                    <div class="col-12">
+                                        <hr class="mb-0" style="height: 3px;">
+                                    </div>
+
+                                    <div class="col-12 text-center mt-2">
+                                        <% if (appoint.image == '' || appoint.image == null) { %>
+                                            <img class="b-r-5" height="150" width="150" src="../../uploads/doctor/1747312240774pexels-eliasdecarvalho-1375849.jpg" alt="Image">
+                                        <% } else { %>
+                                            <img class="b-r-5" height="150" width="150" src="../../<%= appoint.image%>" alt="Image">
+                                        <% } %>
+                                    </div>
+                                    <div class="mt-2 text-center">
+                                        <span class="f-w-500 f-14"><%=appoint.name%></span>
+                                    </div>
+                                    <div class="mt-1 text-center">
+                                        <span class="f-w-500 f-14"><%=appoint.email%></span>
+                                    </div>
+                                    <div class="mt-1 text-center">
+                                        <span class="f-w-500 f-14"><%=appoint.country_code%> <%=appoint.phone%></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <% if ( Object.entries(address) != '' ) { %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h6><%= lan.Customer_Details %></h6>
+                                        <div class="col-12">
+                                            <hr class="mb-0" style="height: 3px;">
+                                        </div>
+                                        <div class="mt-3">
+                                            <span class="f-w-500 f-14"><%=address.house_no%>, <%=address.address%></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%=address.landmark%>, <%=address.address_as%></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%=address.country_code%> <%=address.phone%></span>
+                                        </div>
+                                        <div class="col-12">
+                                            <hr class="mt-2 mb-0">
+                                        </div>
+                                        <% if (address.instruction != '') { %>
+                                        <div class="mt-1">
+                                            <span class="f-w-500 f-14"><%= lan.Instruction %> :- <span class="f-w-400"><%= address.instruction %></span></span>
+                                        </div>
+                                        <% }; %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }; %>
+
+                        <% if ( appoint.medi_pres.length > 0 ) { %>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <h6><%= lan.Prescriptions %></h6>
+                                    <div class="col-12">
+                                        <hr class="mb-0" style="height: 3px;">
+                                    </div>
+
+                                    <% appoint.medi_pres.forEach((pdata, index) => { %>
+                                        <% const isImage = /\.(jpg|jpeg|png|gif|bmp)$/i.test(pdata);%>
+                                        <% if (isImage) { %>
+                                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3 px-3 text-center">
+                                                <div class="p-2 border border-gray-10 b-r-5">
+                                                    <a class="hand-hover" href="../../<%=pdata%>"><img class="b-r-5" height="120" width="120" src="../../<%=pdata%>" alt="<%= lan.Prescriptions %>"></a>
+                                                </div>
+                                            </div>
+                                        <% } else { %>
+                                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3 px-3 text-center">
+                                                <div class="p-2 border border-gray-10 b-r-5">
+                                                    <a class="hand-hover" href="../../<%=pdata%>"><img class="b-r-5" height="120" width="120" src="../../images/Group.png" alt="<%= lan.Prescriptions %>"></i></a>
+                                                </div>
+                                            </div>
+                                        <% }; %>
+                                    <% }); %>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <% }; %>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+        </div>
+
+
+
+    <%- include('./partials/footer'); -%>
+
+
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

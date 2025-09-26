@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%=lan.Customer%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%=lan.Customer%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <% if (auth.admin_role == 1 || auth.admin_role == 2) { %>
+                            <form id="ewebuf" class="needs-validation" novalidate="" method="post">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control cain"value="<%=admin_data.name %>" type="text" name="name" placeholder="<%=lan.Enter%> Name" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control cain" id="edit_email" value="<%=admin_data.email %>" type="text" name="email" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="js-example-basic-single cain" id="edit_code" name="country_code" required>
+                                                    <option value selected disabled><%=lan.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>" <%= admin_data.country_code == data ? 'selected' : "" %>> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                                <input class="form-control cain" id="edit_phone" value="<%=admin_data.phone %>" type="number" name="phone" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Password %></label>
+                                        <input class="form-control" type="password" name="password">
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="email_error"><%=lan.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="phone_error"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="details_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="allwueb" type="submit"><%=lan.Submit%></button>
+                            </div>
+
+                            <% } else if (auth.admin_role == 3) { %>
+
+                            <form id="wefddoc" class="needs-validation" novalidate="" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3 form-group text-center">
+                                        <% if(admin_data.logo == null || admin_data.logo == ''){ %>
+                                          <img class="p-0" id="file-preview" width="150px" height="150px" src="../../images/dashboard/default/profile.png" alt="image">
+                                        <% } else { %>
+                                          <a href="../../<%= admin_data.logo %>" target="_blank"><img class="p-0" id="file-preview" width="150px" height="150px" src="../../<%= admin_data.logo %>" alt="image"></a>
+                                        <% }; %>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3 form-group text-center">
+                                        <% if(admin_data.cover_logo == null || admin_data.cover_logo == ''){ %>
+                                          <img class="p-0" id="second-file-preview" width="150px" height="150px" src="../../images/dashboard/default/profile.png" alt="image">
+                                        <% } else { %>
+                                          <a href="../../<%= admin_data.cover_logo %>" target="_blank"><img class="p-0" id="second-file-preview" width="150px" height="150px" src="../../<%= admin_data.cover_logo %>" alt="image"></a>
+                                        <% }; %>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control docin" id="customet_name" type="text" name="name" value="<%= admin_data.name %>" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.LOGO%></label>
+                                        <input class="form-control" style="height: 47px;" type="file" name="logo" accept="image/*" onchange="showPreview(event)" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Cover%> <%=lan.LOGO%></label>
+                                        <input class="form-control" style="height: 47px;" type="file" name="cover_logo" accept="image/*" onchange="secondshowPreview(event)" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control docin" id="doc_email" type="email" name="email" value="<%= admin_data.email %>" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%= lan.Year_of_Experience %></label>
+                                        <input class="form-control docin" type="number" name="year_of_experience" value="<%= admin_data.year_of_experience %>" placeholder="<%=lan.Enter%> <%= lan.Year_of_Experience %>" required>
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%= lan.Password %></label>
+                                        <input class="form-control" type="password" name="password">
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Title%></label>
+                                        <input class="form-control docin" type="text" name="title" value="<%= admin_data.title %>" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Subtitle%></label>
+                                        <input class="form-control docin" type="text" name="subtitle" value="<%= admin_data.subtitle %>" placeholder="<%=lan.Enter%> <%=lan.Subtitle%>" required>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group">
+                                        <label class="col-form-label"><%=lan.Short%> <%=lan.Description%></label>
+                                        <textarea class="form-control docin" name="description" style="width: 100%; height: 150px;" required><%= admin_data.description %></textarea>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="col-form-label"><%=lan.Cancel%> <%=lan.Policy%></label>
+                                        <textarea class="form-control docin" name="cancel_policy" style="width: 100%; height: 90px;" required><%= admin_data.cancel_policy %></textarea>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="email_error"><%=lan.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="details_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="allwuedoc" type="submit"><%=lan.Submit%></button> 
+                            </div>
+
+                            <% } else if (auth.admin_role == 4) { %>
+
+                             <form id="wefdlab" class="needs-validation" novalidate="" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-12 form-group text-center">
+                                    <% if(admin_data.logo == null){ %>
+                                        <img class="p-0" id="file-preview" width="150px" height="150px" src="../images/dashboard/default/profile.png" alt="image">
+                                    <% } else { %>
+                                        <a href="../../<%= admin_data.logo %>" target="_blank"><img class="p-0" id="file-preview" width="150px" height="150px" src="../../<%= admin_data.logo %>" alt="image"></a>
+                                    <% }; %>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                                <label class="col-form-label"><%= lan.Lab %> <%= lan.LOGO %></label>
+                                                <input class="form-control" style="height: 47px;" type="file" name="logo" accept="image/*" onchange="showPreview(event)" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%= lan.Lab %> <%=lan.Name%></label>
+                                        <input class="form-control labinname" type="text" name="name" value="<%=admin_data.name%>" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control labinemail" id="lab_email" type="email" name="email" value="<%=admin_data.email%>" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="email_error"><%=lan.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="details_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="allwuelab" type="submit"><%=lan.Submit%></button> 
+                            </div>
+
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+    <!-- https://milkyway.cscodetech.cloud/add_store.php#! -->
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Add%> <%= lan.Role_Management %></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Add%> <%= lan.Role_Management %></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="erole_form" novalidate="" action="/role/edit_role/<%= role.id %>" method="post">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control checkin" type="text" name="name" value="<%= role.name %>" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control checkin" id="erole_email" type="text" name="email" value="<%= role.email %>" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="js-example-basic-single checkin" id="erole_countrycode" name="country_code" required>
+                                                    <option value selected disabled><%=lan.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>" <%= role.country_code == data ? 'selected' : ''  %>> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                                <input class="form-control checkin" id="erole_phone" type="number" name="phone" value="<%= role.phone %>" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Active%> <%=lan.Status%></label>
+                                        <select class="js-example-basic-single checkin" name="status" required>
+                                            <option value selected disabled><%=lan.Status%> <%=lan.List%></option>
+                                            <option value="1" <%= role.status == 1 ? 'selected' : ''  %>><%=lan.Active%></option>
+                                            <option value="0" <%= role.status == 0 ? 'selected' : ''  %>><%=lan.Inactive%></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Password%></label>
+                                        <input class="form-control" type="password" name="password" required>
+                                    </div>
+
+                                    <div>
+                                        <div class="p-3 mt-3" style="background-color: rgb(235, 232, 232);">
+                                            <h6 class="m-0"><%=lan.Accessibility%></h6>
+                                            <input type="hidden" id="orole_email" value="<%= role.email %>">
+                                            <input type="hidden" id="orole_ccode" value="<%= role.country_code %>">
+                                            <input type="hidden" id="orole_phone" value="<%= role.phone %>">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <div class="table-responsive theme-scrollbar">
+                                            <table class="table">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th><%=lan.Permission%></th>
+                                                        <th><%=lan.View%></th>
+                                                        <th><%=lan.Add%></th>
+                                                        <th><%=lan.Edit%></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td><%= lan.Doctor_Booking %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="docbookview" type="checkbox" <%= role.doc_booking[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td><%= lan.Lab_Booking %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labbookview" type="checkbox" <%= role.lab_booking[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td><%= lan.Medicine_Booking %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="medibookview" type="checkbox" <%= role.medi_booking[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td><%= lan.Patient %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="patiview" type="checkbox" <%= role.patient[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="patiadd" type="checkbox" <%= role.patient[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="patiedit" type="checkbox" <%= role.patient[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td><%= lan.Department %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="depaview" type="checkbox" <%= role.department[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="depaadd" type="checkbox" <%= role.department[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="depaedit" type="checkbox" <%= role.department[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td><%= lan.Store_Category %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="scateview" type="checkbox" <%= role.store_category[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="scateadd" type="checkbox" <%= role.store_category[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="scateedit" type="checkbox" <%= role.store_category[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>7</td>
+                                                        <td><%= lan.Hospital %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="hosview" type="checkbox" <%= role.hospital[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="hosadd" type="checkbox" <%= role.hospital[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="hosedit" type="checkbox" <%= role.hospital[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>8</td>
+                                                        <td><%= lan.Doctor %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="docview" type="checkbox" <%= role.doctor[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="docadd" type="checkbox" <%= role.doctor[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="docedit" type="checkbox" <%= role.doctor[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>9</td>
+                                                        <td><%= lan.Lab %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labview" type="checkbox" <%= role.lab[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labadd" type="checkbox" <%= role.lab[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labedit" type="checkbox" <%= role.lab[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>10</td>
+                                                        <td><%= lan.Lab_Banner %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labbanview" type="checkbox" <%= role.lab_banner[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labbanadd" type="checkbox" <%= role.lab_banner[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labbanedit" type="checkbox" <%= role.lab_banner[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>11</td>
+                                                        <td><%= lan.Lab_Category %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labcateview" type="checkbox" <%= role.lab_category[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labcateadd" type="checkbox" <%= role.lab_category[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labcateedit" type="checkbox" <%= role.lab_category[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>12</td>
+                                                        <td><%= lan.Blood_Group_List %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="bloodview" type="checkbox" <%= role.blood_group[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="bloodadd" type="checkbox" <%= role.blood_group[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="bloodedit" type="checkbox" <%= role.blood_group[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>12</td>
+                                                        <td><%= lan.Relationship_List %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="relaview" type="checkbox" <%= role.relationship[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="relaadd" type="checkbox" <%= role.relationship[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="relaedit" type="checkbox" <%= role.relationship[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>13</td>
+                                                        <td><%= lan.Doctor %> <%= lan.Report %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="docrepview" type="checkbox" <%= role.doctor_report[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>14</td>
+                                                        <td><%= lan.Medicine %> <%=lan.Report%></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="medirepview" type="checkbox" <%= role.medi_report[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>15</td>
+                                                        <td><%= lan.Lab %> <%=lan.Report%></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labrepview" type="checkbox" <%= role.lab_report[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>16</td>
+                                                        <td><%= lan.Dynamic_Section %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="dynsview" type="checkbox" <%= role.dyna_section[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="dynsadd" type="checkbox" <%= role.dyna_section[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="dynsedit" type="checkbox" <%= role.dyna_section[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>17</td>
+                                                        <td><%= lan.Doctor_Payout %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="docpayview" type="checkbox" <%= role.doctor_payout[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="docpayedit" type="checkbox" <%= role.doctor_payout[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>18</td>
+                                                        <td><%= lan.Medicine_Payout %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="medipview" type="checkbox" <%= role.medicine_payout[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="medipedit" type="checkbox" <%= role.medicine_payout[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>19</td>
+                                                        <td><%= lan.Lab_Payout %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labpayview" type="checkbox" <%= role.lab_payout[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labpayedit" type="checkbox" <%= role.lab_payout[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>20</td>
+                                                        <td><%= lan.Doctor_Cash_Management %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="doccmanview" type="checkbox" <%= role.doc_cash_man[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="doccmanedit" type="checkbox" <%= role.doc_cash_man[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>21</td>
+                                                        <td><%= lan.Lab_Cash_Management %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labcmanview" type="checkbox" <%= role.lab_cash_manage[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="labcmanedit" type="checkbox" <%= role.lab_cash_manage[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>22</td>
+                                                        <td><%=lan.Payment%> <%=lan.List%></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="paylview" type="checkbox" <%= role.payment[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="payledit" type="checkbox" <%= role.payment[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>23</td>
+                                                        <td><%=lan.Banner%></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="bannerview" type="checkbox" <%= role.banner[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="banneradd" type="checkbox" <%= role.banner[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="banneredit" type="checkbox" <%= role.banner[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>24</td>
+                                                        <td><%= lan.City %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="cityview" type="checkbox" <%= role.city[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="cityadd" type="checkbox" <%= role.city[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="cityedit" type="checkbox" <%= role.city[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>25</td>
+                                                        <td><%=lan.Send%> <%=lan.Notification%></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="senotiview" type="checkbox" <%= role.send_notifi[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="senotiadd" type="checkbox" <%= role.send_notifi[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="senotiedit" type="checkbox" <%= role.send_notifi[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>26</td>
+                                                        <td><%=lan.FAQ%></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="faqview" type="checkbox" <%= role.faq[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="faqadd" type="checkbox" <%= role.faq[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="faqedit" type="checkbox" <%= role.faq[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>27</td>
+                                                        <td><%= lan.Cancel_Reason %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="canreasview" type="checkbox" <%= role.can_reason[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="canreasadd" type="checkbox" <%= role.can_reason[1] == 1 ? 'checked' : '' %>></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="canreasedit" type="checkbox" <%= role.can_reason[2] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>28</td>
+                                                        <td><%= lan.Pages %></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="pageview" type="checkbox" <%= role.pages[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="pageedit" type="checkbox" <%= role.pages[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>29</td>
+                                                        <td><%=lan.Setting%></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="settingview" type="checkbox" <%= role.setting[0] == 1 ? 'checked' : '' %>></td>
+                                                        <td></td>
+                                                        <td><input class="checkbox_animated checkinc" id="chk-ani" name="settingedit" type="checkbox" <%= role.setting[1] == 1 ? 'checked' : '' %>></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_email_error"><%=lan.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="detail_phone_error"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="edit_role_fbtn" type="submit"><%=lan.Submit%></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

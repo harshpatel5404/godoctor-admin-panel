@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%= lan.Lab %> <%=lan.Banner%> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%= lan.Lab %> <%=lan.Banner%> <%=lan.List%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = per != "1" ? per.lab_banner[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header pb-0">
+                            <div class="col-12 form-group mb-1 p-0" id="file-preview-container">
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                <label class="col-form-label"><%=lan.Upload%> <%=lan.Image%></label>
+                                <form class="needs-validation addlbif" enctype="multipart/form-data">
+                                    <div class="d-flex">
+                                        <input class="form-control addlbimginp" style="height: 48px;" type="file" name="image" accept="image/*" onchange="showListPreview(event)" multiple required>
+                                        <button class="btn btn-square btn-primary b-r-10 m-l-15" style="padding-top: 11px;" type="submit"><%=lan.Add%></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr class="mt-4 mb-0">
+                        <% } %>
+                        <% let permissions = per != "1" ? per.lab_banner[2] : "1" %>
+                        <div class="card-body" id="lbanad" data-adrol="<%=permissions%>">
+                            <div class="col-12">
+                                <% if(bannerd != '') { %>
+                                    <div class="row" id="allbdata">
+                                        <% bannerd[0].images.forEach(function(bd, i){ %>
+                                            <div class="col-2 mt-3 text-center align-content-center mainslbimg">
+                                                <div class="sbanner">
+                                                    <img class="showlbimg" src="../../<%=bd%>" height="190" width="190" alt="<%=lan.Banner%> <%=lan.Image%>">
+                                                    <% if(permissions == "1"){ %>
+                                                    <div class="action d-flex justify-content-end mt-1 edlbanner"> 
+                                                        <div class="edit"><a id="elabbanner" data-biuid="<%=bd%>" data-edit="<%=lan.Edit%>"><i class="icon-pencil-alt f-18"></i></a></div>
+                                                        <div class="delete"><a id="dlbimage" data-biuid="<%=bd%>" data-edit="<%=lan.Edit%>"><i class="icon-trash f-18"></i></a></div>
+                                                    </div>
+                                                    <% } else { %>
+                                                    <div class="action d-flex justify-content-end mt-3"></div>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                <% } else { %>
+                                    <div class="row" id="allbdata">
+                                        <h5><%=lan.Banner_not_found%>!</h5>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

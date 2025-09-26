@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Receptionist%> <%=lan.List%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="active breadcrumb-item"><%=lan.Receptionist%> <%=lan.List%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <div class="row">
+
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-0 form-group">
+                                    <div class="row">
+                                        <label class="form-label"><%=lan.Receptionist%> <%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="col-4">
+                                            <select class="js-example-basic-single docin" id="rece_ccode" name="country_code" required>
+                                                <option value selected disabled><%=lan.Country%></option>
+                                                <% CountryCode.forEach((data, x) => { %>
+                                                    <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                        <div class="col-8">
+                                            <input class="form-control" type="number" id="rece_phone" name="phone" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-0 form-group">
+                                    <label class="form-label"><%=lan.Receptionist%> <%=lan.Password%></label>
+                                    <input class="form-control" type="text" id="rece_password" name="password" placeholder="<%=lan.Enter%> <%=lan.Receptionist%> <%=lan.Password%>" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-2" style="margin-top: 33px;">
+                                    <div class="d-flex">
+                                        <div class="icon-state switch-outline">
+                                            <label class="switch">
+                                                <input type="checkbox" id="rece_status" name="status"><span class="bg-success switch-state"></span>
+                                            </label>
+                                        </div>
+                                        <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-2" style="margin-top: 25px;">
+                                    <button class="btn btn-primary btn-square b-r-10" id="add_rece_btn" data-s="1" data-id="0" type="button"><%=lan.Add%> <%=lan.Receptionist%></button>
+                                    <!-- <button class="btn btn-primary btn-square b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal"><%=lan.Add%> Receptionist</button> -->
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-2">
+                                <p class="text-danger mt-1 mb-2 d-none" id="detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <p class="text-danger mb-0 d-none" id="detail_phone_error"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <p class="text-danger mb-0 d-none" id="detail_not_error"><%=lan.Data_Not_Found%>.</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=lan.Mobile%> <%=lan.No%></th>
+                                            <th><%=lan.Status%></th>
+                                            <th><%=lan.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% recep_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.country_code %> <%= data.phone %></td>
+                                                <td>
+                                                    <% if (data.status == '1') { %>
+                                                      <span class="badge badge-success"><%=lan.Active%></span>
+                                                    <% } else { %>
+                                                      <span class="badge badge-danger"><%=lan.Deactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <!-- <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_receptionist" id="edit_reception_src" data-id="<%= data.id %>"
+                                                            data-email="<%= data.email %>" data-status="<%= data.status %>"><i class="icon-pencil-alt"></i></a></li> -->
+                                                        <li class="edit"><a id="edit_reception" data-id="<%= data.id %>" data-country_code="<%= data.country_code %>"
+                                                            data-phone="<%= data.phone %>" data-status="<%= data.status %>" data-edit="<%=lan.Edit%>" data-receptionist="<%=lan.Receptionist%>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/user/delete_receptionist/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Add%> <%=lan.Receptionist%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="needs-validation" novalidate="" action="/user/add_receptionist" method="post">
+                        <div class="modal-body">
+                            <div class="g-3 row">
+                                <div class="col-12 form-group">
+                                    <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <select class="js-example-basic-single docin" id="doc_country_code" name="country_code" required>
+                                                <option value selected disabled><%=lan.Country%></option>
+                                                <% CountryCode.forEach((data, x) => { %>
+                                                    <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                        <div class="col-8">
+                                            <input class="form-control" type="number" name="phone" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 form-group">
+                                    <label class="form-label"><%=lan.Receptionist%> <%=lan.Password%></label>
+                                    <input class="form-control" type="text" name="password" placeholder="<%=lan.Enter%> <%=lan.Receptionist%> <%=lan.Password%>" required>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex mb-2 mt-3">
+                                        <div class="icon-state switch-outline">
+                                            <label class="switch">
+                                                <input type="checkbox" name="status"><span class="bg-success switch-state"></span>
+                                            </label>
+                                        </div>
+                                        <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="edit_receptionist" tabindex="-1" role="dialog" aria-labelledby="edit_receptionist" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Edit%> <%=lan.Receptionist%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="needs-validation" id="rece_edit_form" novalidate="" action="" method="post">
+                        <div class="modal-body">
+                            <div class="g-3 row">
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Receptionist%> <%=lan.Email%></label>
+                                    <input class="form-control" id="rece_email" type="email" name="email" placeholder="<%=lan.Enter%> <%=lan.Receptionist%> <%=lan.Email%>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label"><%=lan.Receptionist%> <%=lan.Password%></label>
+                                    <input class="form-control" type="text" name="password" placeholder="<%=lan.Enter%> <%=lan.Receptionist%> <%=lan.Password%>">
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex mb-2 mt-3">
+                                        <div class="icon-state switch-outline">
+                                          <label class="switch">
+                                            <input type="checkbox" id="rece_status" name="status"><span class="bg-success switch-state"></span>
+                                          </label>
+                                        </div>
+                                        <label class="col-form-label m-l-10"><%=lan.Status%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>
