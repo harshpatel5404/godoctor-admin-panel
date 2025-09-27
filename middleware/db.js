@@ -1,7 +1,7 @@
 let mysql = require('mysql2');
 
 var connection = mysql.createPool({
-    host     : 'hostname',
+    host     : 'localhost',
     user     : 'u486454746_dcou',
     password : '$Harshad9898H',
     database : 'u486454746_doc',
